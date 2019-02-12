@@ -1,9 +1,8 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import HelloWorld from '@/components/HelloWorld'
-import IndexPage from '@/components/IndexPage'
 import LoginPage from '@/components/LoginPage'
-import Home from '@/components/Home'
+import MomentHome from '@/components/Home'
 
 Vue.use(Router)
 
@@ -16,11 +15,6 @@ export default new Router({
       component: HelloWorld
     },
     {
-      path: '/',
-      name: 'IndexPage',
-      component: IndexPage
-    },
-    {
       path: '/loginPage',
       name: 'LoginPage',
       component: LoginPage
@@ -28,7 +22,7 @@ export default new Router({
     {
       path: '/home',
       name: 'Home',
-      component: Home
+      component: MomentHome
     }
   ]
 })
