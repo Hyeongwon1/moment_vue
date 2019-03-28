@@ -87,6 +87,7 @@ module.exports = {
     fs: 'empty',
     net: 'empty',
     tls: 'empty',
+    readline: 'empty',
     child_process: 'empty'
   }
 }

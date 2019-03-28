@@ -27,7 +27,7 @@ router.post('/imgup', upload.single('file'), function(req, res){
 
 router.get('/', function(req, res, next) {
   res.send('respond with a resource');
-});
+	});
 
 router.get('/uploads', function(req, res, next) {
 	console.log("asdasdasdasdasdadasds")

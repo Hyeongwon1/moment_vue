@@ -17,6 +17,19 @@ const devWebpackConfig = merge(baseWebpackConfig, {
   module: {
     rules: utils.styleLoaders({ sourceMap: config.dev.cssSourceMap, usePostCSS: true })
   },
+  node: {
+    // prevent webpack from injecting useless setImmediate polyfill because Vue
+    // source contains it (although only uses it if it's native).
+    setImmediate: false,
+    // prevent webpack from injecting mocks to Node native modules
+    // that does not make sense for the client
+    dgram: 'empty',
+    fs: 'empty',
+    net: 'empty',
+    tls: 'empty',
+    readline: 'empty',
+    child_process: 'empty'
+  },
   // cheap-module-eval-source-map is faster for development
   devtool: config.dev.devtool,
 
@@ -65,7 +78,13 @@ const devWebpackConfig = merge(baseWebpackConfig, {
         to: config.dev.assetsSubDirectory,
         ignore: ['.*']
       }
-    ])
+    ]),
+    new webpack.ProvidePlugin({
+      $: 'jquery',
+      jquery: 'jquery',
+      'window.jQuery': 'jquery',
+      jQuery: 'jquery'
+    })
   ]
 })
 
@@ -91,4 +110,5 @@ module.exports = new Promise((resolve, reject) => {
       resolve(devWebpackConfig)
     }
   })
-})
+}
+)
