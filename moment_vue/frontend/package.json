@@ -21,7 +21,9 @@
     "nodemon": "^1.18.10",
     "popper.js": "^1.14.7",
     "vue": "^2.6.6",
-    "vue-router": "^3.0.1"
+    "vue-daum-postcode": "^0.4.0",
+    "vue-router": "^3.0.1",
+    "vuejs-daum-postcode": "^1.0.4"
   },
   "devDependencies": {
     "autoprefixer": "^7.1.2",

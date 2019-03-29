@@ -1,8 +1,8 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import HelloWorld from '@/components/HelloWorld'
-import LoginPage from '@/components/LoginPage'
 import MomentHome from '@/components/Home'
+import MomentUpload from '@/components/Upload'
 
 Vue.use(Router)
 
@@ -15,14 +15,14 @@ export default new Router({
       component: HelloWorld
     },
     {
-      path: '/loginPage',
-      name: 'LoginPage',
-      component: LoginPage
-    },
-    {
       path: '/home',
       name: 'Home',
       component: MomentHome
+    },
+    {
+      path: '/upload',
+      name: 'Upload',
+      component: MomentUpload
     }
   ]
 })

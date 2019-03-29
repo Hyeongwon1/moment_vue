@@ -1,0 +1,64 @@
+@font-face {
+	font-family: "Am";
+	src: url("/font/AmaticSC-Regular.ttf");
+}
+
+@font-face {
+	font-family: "설렘";
+	src: url("/font/210 설렘주의B.ttf")
+}
+
+@font-face {
+	font-family: "나눔고딕";
+	src: url("/font/NANUMBARUNGOTHIC.TTF")
+}
+
+div {
+	font-family: "나눔고딕";
+	text-shadow: #999999 1px 1px 1px;
+}
+
+#mainimg {
+	
+}
+
+.box {
+	box-shadow: 5px 5px 20px #ccc;
+	background-color: white;
+}
+
+.hbtn {
+	background-color: black;
+	font-family: "Am";
+	color: white;
+	font-size: 14pt;
+}
+
+#odbtn {
+	color: white;
+	font-size: 12pt;
+	font-family: "Am";
+	background-color: black;
+	margin: auto;
+	height: 40px; 
+}
+
+#bottom_nav {
+	background-color: black;
+}
+
+.fbtn:active {
+	background-color: #A9A9F5;
+}
+
+.fbtn:hover {
+	background-color: #A9A9F5;
+}
+
+.hbtn:active {
+	background-color: #A9A9F5;
+}
+
+.hbtn:hover {
+	background-color: #A9A9F5;
+}

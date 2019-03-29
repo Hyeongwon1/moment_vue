@@ -37,21 +37,6 @@ router.get('/uploads', function(req, res, next) {
 router.get('/header', function(req,res,next){
 	res.render('./moment/header');
 	});
-
-router.get('/home', function(req,res,next){
-	  pool.getConnection(function (err, connection) {
-	      var sql = "SELECT * FROM data_tbl as data LEFT OUTER JOIN member_tbl as mem ON data.m_no = mem.m_no order by d_regdate desc;";
-
-	      connection.query(sql, function (err, rows) {
-	    	  console.log(rows)
-	          if (err) console.error("err : " + err);
-	    	  
-	          res.send({data: rows});
-	          connection.release();
-	      });
-	  }); 
-	});
-
 router.get('/view_detail2', function(req, res, next) {
 	var dnum =req.param('dnum');
 	console.log("dnuddddm")
@@ -87,9 +72,9 @@ router.get('/list', function(req,res,next){
       var sql = "SELECT * FROM data_tbl as data LEFT OUTER JOIN member_tbl as mem ON data.m_no = mem.m_no order by d_regdate desc;";
 
       connection.query(sql, function (err, rows) {
-//    	  console.log(rows)
-          if (err) console.error("err : " + err);
+				if (err) console.error("err : " + err);
     	  
+					// console.log(rows)
           res.render('./moment/home', {data: rows});
           connection.release();
       });
@@ -103,27 +88,90 @@ router.get('/listinit', function(req,res,next){
 	     if (d_kind == 0) {
 	    	 var sql = "SELECT * FROM data_tbl as data LEFT OUTER JOIN member_tbl as mem ON data.m_no = mem.m_no order by d_regdate desc;";
 	    	 connection.query(sql, function (err, rows) {
-	    	  console.log(sql)
-	    		 if (err) console.error("err : " + err);
-	    		 
-	    		 res.send(rows);
-	    		 connection.release();
-	    	 });
+					// console.log(rows)
+					var date = new Date()
+					var ttoday = date.getFullYear()
+					var m_age ;
+					rows.forEach(rdata => {
+						console.log(rdata.m_birth)
+						var rbirth = rdata.m_birth.toString()
+												console.log(rbirth)
+						var mybirth =	rbirth.slice(11, 15)
+												console.log(mybirth)
+								m_age = eval(ttoday - mybirth + 1 + "");
+								m_age = m_age.toString().slice(0,1)
+							  rdata.m_age = m_age
+						console.log(rows)
+						});
+						
+						// console.log(rows)
+	          if (err) console.error("err : " + err);
+	    	  
+	          res.send({data: rows});
+	          connection.release();
+	      });
 		}else{
 		  var sql = "SELECT * FROM data_tbl as data LEFT OUTER JOIN member_tbl as mem ON data.m_no = mem.m_no where data.d_kind = ? order by d_regdate desc;";
 		  connection.query(sql,[d_kind], function (err, rows) {
 			  console.log(sql)
-	    		 if (err) console.error("err : " + err);
-	    		 
-	    		 res.send(rows);
-	    		 connection.release();
+	    		 	// console.log(rows)
+					var date = new Date()
+					var ttoday = date.getFullYear()
+					var m_age ;
+					rows.forEach(rdata => {
+						console.log(rdata.m_birth)
+						var rbirth = rdata.m_birth.toString()
+												console.log(rbirth)
+						var mybirth =	rbirth.slice(11, 15)
+												console.log(mybirth)
+								m_age = eval(ttoday - mybirth + 1 + "");
+								m_age = m_age.toString().slice(0,1)
+							  rdata.m_age = m_age
+						console.log(rows)
+						});
+						
+						// console.log(rows)
+	          if (err) console.error("err : " + err);
+	    	  
+	          res.send({data: rows});
+	          connection.release();
 			  
 		  });
 		}
 	  });
 	});
+	router.get('/home', function(req,res,next){
+	  pool.getConnection(function (err, connection) {
+	      var sql = "SELECT * FROM data_tbl as data LEFT OUTER JOIN member_tbl as mem ON data.m_no = mem.m_no order by d_regdate desc;";
 
-router.get('/home', function(req,res,next){
+	      connection.query(sql, function (err, rows) {
+					// console.log(rows)
+					var date = new Date()
+					var ttoday = date.getFullYear()
+					var m_age ;
+					rows.forEach(rdata => {
+						console.log(rdata.m_birth)
+						var rbirth = rdata.m_birth.toString()
+												console.log(rbirth)
+						var mybirth =	rbirth.slice(11, 15)
+												console.log(mybirth)
+								m_age = eval(ttoday - mybirth + 1 + "");
+								m_age = m_age.toString().slice(0,1)
+							  rdata.m_age = m_age
+						console.log(rows)
+						});
+						
+						// console.log(rows)
+	          if (err) console.error("err : " + err);
+	    	  
+	          res.send({data: rows});
+	          connection.release();
+	      });
+	  }); 
+	});
+
+
+/* router.get('/home', function(req,res,next){
 	  pool.getConnection(function (err, connection) {
 	      var sql = "SELECT * FROM data_tbl as data LEFT OUTER JOIN member_tbl as mem ON data.m_no = mem.m_no order by d_regdate desc;";
 
@@ -135,7 +183,9 @@ router.get('/home', function(req,res,next){
 	          connection.release();
 	      });
 	  }); 
-	});
+	}); */
+
+
 router.get('/home_mypage', function(req,res,next){
 	var dnum =req.param('num');
 	console.log("dnuddddm")
@@ -220,16 +270,19 @@ router.get('/mem_selectdb', function(req,res,next){
 	  }); 
 	});
 
-router.get('/uploaddb', function(req,res,next){
-	   var m_no 		= req.param("m_no");
-	   var d_kind     	= parseInt(req.param("d_kind"));
-	   var d_location   = req.param("d_location");
-//	   var d_regdate    = new Date();
-	   var d_title   	= req.param("d_title");
-	   var d_content   	= req.param("d_content");
-	   var d_star 		= parseInt(req.param("d_star"));
-	   var d_path 		= req.param("d_path");
-	   var d_like   = "";
+router.post('/uploaddb', function(req,res,next){
+	var m_no 		= req.param("m_no");
+	var d_kind     	= parseInt(req.param("d_kind"));
+	var d_location   = req.param("d_location");
+	//	   var d_regdate    = new Date();
+	var d_title   	= req.param("d_title");
+	var d_content   	= req.param("d_content");
+	var d_star 		= parseInt(req.param("d_star"));
+	var d_path 		= req.param("d_path");
+	var d_like   = "";
+	console.log(d_kind)
+	console.log(d_location)
+	console.log(d_title)
 	   
 	  pool.getConnection(function (err, connection) {
 	      var sql = "insert into data_tbl(m_no,d_regdate,d_kind,d_location,d_title,d_content,d_path,d_star,d_like)values(?,sysDate(),?,?,?,?,?,?,0)";
