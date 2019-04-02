@@ -148,6 +148,8 @@ created(){
 	font-family: "Am";
 	color: white;
 	font-size: 20pt;
+	border: 1px solid #999;
+	border-radius: 0;
 }
 .btn.lbtn {
 	background-color: black;
