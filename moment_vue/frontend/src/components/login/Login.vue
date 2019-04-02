@@ -7,18 +7,18 @@
 		<form id="loginform" class="loginf" style="margin-top: 60px;">
 			<div class="form-group">
 				<label for="m_email">Email:</label> 
-				<input type="email"class="form-control" name="m_email" id="m_email" size="10"placeholder="Enter email">
+				<input type="email"class="form-control" name="m_email" id="m_email" size="10"placeholder="Enter email" v-model="m_email">
 			</div>
 			<div class="form-group">
 				<label for="m_pw">Password:</label> 
-				<input type="password" class="form-control" name="m_pw" id="m_pw" size="10" placeholder="Enter password">
+				<input type="password" class="form-control" name="m_pw" id="m_pw" size="10" placeholder="Enter password" v-model="m_pw">
 			</div>
 <!-- 			<div class="checkbox"> -->
 <!-- 				<label><input type="checkbox"> Remember me</label> -->
 <!-- 			</div> -->
 		</form>
 		<div id="btn-group btn-group d-flex">
-			 <a href="#" @click="loginfn"  class="btn btn-default lbtn" id="mem_login" value="로그인">로그인</a>
+			 <a href="#" @click="loginfn"  class="btn btn-default lbtn" id="mem_login">로그인</a>
 			 <a href="#" @click="initt"  class="btn btn-default lbtn" onclick="location.href='/moment/mem_insert'" id="mem_insert" value="회원가입">회원가입</a>
 			 <a href="#" @click="initt"  class="btn btn-default lbtn" onclick="logoutfn()" id="mem_logout" value="로그아웃">로그아웃</a>
 			 <a href="#" @click="initt"  class="btn btn-default lbtn" data-toggle="modal" data-target="#myModal">아이디찾기</a>
@@ -55,7 +55,7 @@
 	<div align="center">
 		<div class="form-group">
 				<label for="m_email_s">Email:</label> 
-				<input type="email" class="form-control" name="m_email_s" id="m_email_s" size="10" placeholder="Enter email">
+				<input type="email" class="form-control" name="m_email_s" id="m_email_s" size="10" placeholder="Enter email" >
 			</div>
 		<div class="form-group">
 				<label for="m_tel_s">Phone:</label> 
@@ -86,6 +86,8 @@ created(){
   },   
  data() {
 	return {
+		m_email:"",
+		m_pw:""
     }
   },
   components: {
@@ -93,7 +95,15 @@ created(){
   },
   methods: {
 	loginfn : function () {
-		  
+		  this.$axios.post('/moment/mem_logindb', {
+				m_email: this.m_email,
+				m_pw: this.m_pw,
+      }).then(response => {
+
+      	console.log(response)
+      }, function() {
+      	console.log('failed')
+      })
 	  }
   }
     

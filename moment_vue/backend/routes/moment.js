@@ -420,7 +420,7 @@ router.get('/home_selectdblike', function(req,res,next){
 	  }); 
 	});
 
-router.get('/mem_logindb', function(req,res,next){
+router.post('/mem_logindb', function(req,res,next){
 	var mail =req.param('m_email');
 	var pw =req.param('m_pw');
 	  pool.getConnection(function (err, connection) {
