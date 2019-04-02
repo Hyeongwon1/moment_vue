@@ -1,0 +1,250 @@
+<template lang="html">
+<body id="mybody" class="mybody">
+
+	<div id="head"></div>
+	<div class="container" id="mycon" style="height: 100%;">
+
+		<form id="loginform" class="loginf" style="margin-top: 60px;">
+			<div class="form-group">
+				<label for="m_email">Email:</label> 
+				<input type="email"class="form-control" name="m_email" id="m_email" size="10"placeholder="Enter email">
+			</div>
+			<div class="form-group">
+				<label for="m_pw">Password:</label> 
+				<input type="password" class="form-control" name="m_pw" id="m_pw" size="10" placeholder="Enter password">
+			</div>
+<!-- 			<div class="checkbox"> -->
+<!-- 				<label><input type="checkbox"> Remember me</label> -->
+<!-- 			</div> -->
+		</form>
+		<div id="btn-group btn-group d-flex">
+			 <a href="#" @click="loginfn"  class="btn btn-default lbtn" id="mem_login" value="로그인">로그인</a>
+			 <a href="#" @click="initt"  class="btn btn-default lbtn" onclick="location.href='/moment/mem_insert'" id="mem_insert" value="회원가입">회원가입</a>
+			 <a href="#" @click="initt"  class="btn btn-default lbtn" onclick="logoutfn()" id="mem_logout" value="로그아웃">로그아웃</a>
+			 <a href="#" @click="initt"  class="btn btn-default lbtn" data-toggle="modal" data-target="#myModal">아이디찾기</a>
+		</div>
+	</div>
+
+<!-- Modal -->
+  <div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog">
+    
+      <!-- Modal content-->
+      <div class="modal-content">
+      
+        <div class="modal-header">
+         <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">아이디 비밀번호 찾기</h4>
+        </div>
+        
+        <div class="modal-body">
+         
+  <h3 align="center">아이디 찾기</h3>
+	<div align="center">
+		<div class="form-group">
+				<label for="m_phone">Phone:</label> 
+				<input type="tel" class="form-control" name="m_phone" id="m_phone" size="10" placeholder="Enter tel">
+			</div>
+		<span id="id_result"></span><br><br>
+		<button class="btn btn-default" id="id" onclick="emailsearchfn()">ID찾기</button>
+	</div>
+	<br />
+	<hr/>
+	
+	<h3 align="center">비번 찾기</h3>
+	<div align="center">
+		<div class="form-group">
+				<label for="m_email_s">Email:</label> 
+				<input type="email" class="form-control" name="m_email_s" id="m_email_s" size="10" placeholder="Enter email">
+			</div>
+		<div class="form-group">
+				<label for="m_tel_s">Phone:</label> 
+				<input type="tel" class="form-control" name="m_tel_s" id="m_tel_s" size="10" placeholder="Enter phone">
+			</div>
+		<span id="pw_result"></span><br /><br />
+		<button id="pw" class="btn btn-default" onclick="emailsearchpwfn()">PW찾기</button>
+	</div>
+
+
+
+        </div>
+        
+     
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+</body>
+</template>
+<script>
+
+export default {
+created(){
+  },   
+ data() {
+	return {
+    }
+  },
+  components: {
+
+  },
+  methods: {
+	loginfn : function () {
+		  
+	  }
+  }
+    
+}
+</script>
+
+<style lang="css">
+@font-face {
+	font-family: "나눔고딕";
+	src: url("/font/NANUMBARUNGOTHIC.TTF")
+}
+
+@font-face {
+	font-family: "설렘";
+	src: url("/font/210 설렘주의B.ttf")
+}
+
+@font-face {
+	font-family: "";
+	src: url("/font/Typo_PapyrusM.ttf")
+}
+
+@font-face {
+	font-family: "Am";
+	src: url("/font/AmaticSC-Regular.ttf");
+}
+.mybody{
+	background-color: black;	
+}
+
+.loginf{
+	background-color: black;
+	font-family: "Am";
+	color: white;
+	font-size: 20pt;
+}
+.container{
+	background-color: black;
+
+}
+.form-group{
+	font-family: "Am";
+	color: white;
+	font-size: 20pt;
+}
+.btn.lbtn {
+	background-color: black;
+	font-family: "나눔고딕";
+	color: white;
+	font-size: 14pt;
+}
+.btn-group {
+	font-family: "나눔고딕";
+	width: 100%;
+}
+
+
+body {
+	font-family: "";
+	letter-spacing: -1px;
+}
+
+#date {
+	text-align: left;
+	float: left;
+	vertical-align: bottom;
+}
+
+#nickdiv {
+	text-align: right;
+	vertical-align: bottom;
+}
+
+#date, #mem_nick {
+	text-shadow: #999999 1px 1px 1px;
+}
+
+.hj_headmargin {
+	margin-top: 60px;
+	margin-bottom: 40px;
+}
+
+#clear {
+	flaot: both;
+}
+
+#title {
+	text-decoration: underline;
+	font-size: 16pt;
+	margin-bottom: 10px;
+	text-shadow: #999999 2px 2px 2px;
+	font-family: "�꽕�젞";
+}
+
+#location {
+	float: right;
+	text-align: right;
+	text-shadow: #999999 1px 1px 1px;
+}
+
+#content, #roll, #location {
+	font-size: 10pt;
+	text-shadow: #999999 1px 1px 1px;
+}
+
+.h1_1 {
+	border-top: 1px solid lightgray;
+	margin: 10px;
+}
+
+.h1_2 {
+	border-top: 1px solid lightgray;
+	margin-left: 10px;
+	margin-right: 10px;
+	margin-bottom: 10px;
+}
+
+#foot {
+	margin-top: 80px
+}
+
+.hj_roll_img {
+	width: 35px;
+}
+
+.hj_heart_img {
+	width: 18px;
+	margin-right: 10px;
+}
+
+#age {
+	margin-right: 10px;
+}
+
+#kindimg, #age {
+	width: 60px;
+}
+
+#icon {
+	margin-bottom: 10px;
+}
+
+#mylike {
+	font-size: 10pt;
+}
+
+.lbtn:active {
+	background-color: #A9A9F5;
+}
+
+.lbtn:hover {
+	background-color: #A9A9F5;
+}
+</style>

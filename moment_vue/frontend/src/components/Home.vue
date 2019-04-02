@@ -1,17 +1,16 @@
 <template>
 <body id="mybodyhtml">
-	<script src="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
 	<div id="head"></div>
 
 
 	<div style="margin-top: 51px; width: 100%; background-color: black;">
 
-		<div class="btn-group btn-group-justified">
-			<a href="#" @click="initt" class="btn hbtn" id="0" style="color: white;">ALL</a>
-			<a href="#" @click="initt" class="btn hbtn" id="1" style="color: white;">EAT</a>
-			<a href="#" @click="initt" class="btn hbtn" id="2" style="color: white;">BUY</a>
-			<a href="#" @click="initt" class="btn hbtn" id="3" style="color: white;">ENJOY</a>
-			<a href="#" class="btn hbtn" id="myaddress" style="color: white;" data-toggle="collapse" data-target="#myinput">ADDRESS</a>
+		<div class="btn-group btn-group d-flex">
+			<a href="#" @click="initt" class="btn hbtn" id="0" >ALL</a>
+			<a href="#" @click="initt" class="btn hbtn" id="1" >EAT</a>
+			<a href="#" @click="initt" class="btn hbtn" id="2" >BUY</a>
+			<a href="#" @click="initt" class="btn hbtn" id="3" >ENJOY</a>
+			<a href="#" class="btn hbtn" id="myaddress" data-toggle="collapse" data-target="#myinput">ADDRESS</a>
 		</div>
 
 
@@ -35,12 +34,11 @@
 		<div class="datas">
 		<div v-for="data in datas" :key="data.d_no" class="data">
 			<div class="row"></div><br>
-			<div id="colcol" class="">
-				<div class="box" @click="picview" style="padding: 20px;">
-					<input type="hidden" id="d_no" v-bind:value="data.d_no" v-model="d_no"/>
+			<div id="colcol" class="" >
+				<div class="box" style="padding: 20px;">
 					<div class="s_pic" style="background-color: black; width: 100%; display: table; height: 305px;">
 						<div class="ivdiv" style="display:table-cell; vertical-align:middle;"></div>
-							<img class="mainimg" v-bind:src="'/'+data.d_path "  width="100%" style="vertical-align: middle; margin: auto;">
+							<img class="mainimg" v-bind:src="'/'+data.d_path" v-bind:value="data.d_no" @click="picview" width="100%" style="vertical-align: middle; margin: auto;">
 						</div>
 					</div>
 					<br>
@@ -51,18 +49,19 @@
 							<div class="titlestar" id="myage" style="font-size: 15px; font-family: 설렘;">
 							<img v-bind:src="'/image/age/'+data.m_age+'0s.png'" style="width:40px;">
 						</div>
+						{{data.d_location}}
 					<div id="mytitle" class="titlestar" style="margin-top: 10px; text-decoration: underline; font-size: 15px; font-family: 설렘;">{{data.d_title}}</div>
 				</div>
 			</div>
 		</div>
 		
 <div style="margin-top: 51px; width: 100%; background-color: black;">
-	<div id="bottom_nav" class="navbar-mobile btn-group btn-group-justified navbar-fixed-bottom">
-		<a href="#" class="btn glyphicon glyphicon-home fbtn" id="myhome" style="color: white;"></a>
-		<a href="#" class="btn glyphicon glyphicon-heart fbtn" id="mylike" style="color: white;"></a> 
-		<a href="#" class="btn glyphicon glyphicon-camera fbtn" id="myupload" @click="myupload" style="color: white;"></a> 
-		<a href="#" class="btn glyphicon glyphicon-menu-hamburger fbtn" id="myrecord" style="color: white;"></a> 
-		<a href="#" class="btn glyphicon glyphicon-user fbtn" id="mymypage" style="color: white;"></a>
+	<div id="bottom_nav" class="navbar-mobile btn-group btn-group d-flex navbar-fixed-bottom">
+		<a href="#" class="btn fbtn" id="myhome" style="color: white;">홈</a>
+		<a href="#" class="btn fbtn" id="mylike" style="color: white;">좋아요</a> 
+		<a href="#" class="btn fbtn" id="myupload" @click="myupload" style="color: white;">업로드</a> 
+		<a href="#" class="btn fbtn" id="myrecord" style="color: white;">레코드</a> 
+		<a href="#" class="btn fbtn" id="mymypage" style="color: white;">마이페이지</a>
 	</div>
 </div>
 </body>
@@ -73,7 +72,6 @@ export default {
     this.$axios.get('/moment/home').then(response => {
 			console.log("aaaa")
 			this.datas = response.data.data;
-			console.log(response.data.data);
 		})
   },
   data(){
@@ -84,11 +82,23 @@ export default {
 		searchloc:"",
 		d_no:""
     }
-  },
+	},
   methods :{
 	initt : function(evt){
 		console.log(evt.target.id)
 		this.kinds = evt.target.id
+	
+		var anchList = document.getElementsByClassName("btn hbtn");
+	   	 for (var i = 0; i < anchList.length; i++) {
+					if (i == this.kinds) {
+							var anchor = document.getElementsByClassName("btn hbtn")[i];
+							anchor.className ='btn hbtn active';
+					}else{
+						var anchor = document.getElementsByClassName("btn hbtn")[i];
+							anchor.className ='btn hbtn';
+					}
+				 }
+				 
 		this.$axios.get('/moment/listinit?kind='+evt.target.id).then((response) => {
 								this.datas = response.data.data
 								this.newandlike="L I K E ▼"
@@ -96,7 +106,6 @@ export default {
 	},
 	myupload : function(){
 			location.href = "/upload"
-		console.log("orderF22222222222222222222norderFnorderFnorderFnorderFn")
 	},
 	odbtn : function(evt){
 		var ord ;
@@ -107,25 +116,28 @@ export default {
 				ord = "lk"
 		 		this.newandlike="N E W ▼"
 		}
-		this.$axios.get('/moment/listinit?ord='+ord+"&kind="+this.kinds).then((response) => {
+		
+		if (this.searchloc) {
+			this.$axios.get('/moment/home_address_selectdb?ord='+this.ord+"&kind="+this.kinds+"&loc="+this.searchloc).then((response) => {
                 console.warn(response);
                 this.datas = response.data.data
-				console.log("aaa")
-    })
+    	})
+		} else {
+			this.$axios.get('/moment/listinit?ord='+ord+"&kind="+this.kinds).then((response) => {
+									console.warn(response);
+									this.datas = response.data.data
+    	})
+		}
 	},
 	searchlocbtn : function(){
-		this.$axios.get('/moment/home_address_selectdb?ord='+this.ord+"&kind="+this.kinds+"&loc="+this.searchloc).then((response) => {
+			this.$axios.get('/moment/home_address_selectdb?ord='+this.ord+"&kind="+this.kinds+"&loc="+this.searchloc).then((response) => {
                 console.warn(response);
                 this.datas = response.data.data
-				console.log("aaa")
     })
 	},
-	picview : function(){
-			console.log(this.target)
-			console.log(this.d_no)
-			console.log(this.target.d_no)
-
-
+	picview : function(evt){
+			console.log(evt.target.attributes[1].value)
+			location.href = "/detail?d_no="+evt.target.attributes[1].value;
 	}
   }
 }
@@ -163,10 +175,19 @@ div {
 	background-color: white;
 }
 
-.hbtn {
+.btn.hbtn {
 	background-color: black;
 	font-family: "Am";
 	color: white;
+	font-size: 14pt;
+}
+.btn-group {
+	width: 100%;
+}
+.btn.hbtn.active {
+	background-color: white;
+	font-family: "Am";
+	color: black;
 	font-size: 14pt;
 }
 

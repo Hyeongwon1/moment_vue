@@ -10,9 +10,7 @@ import 'expose-loader?$!expose-loader?jQuery!jquery'
 
 import 'bootstrap'
 import 'bootstrap/dist/css/bootstrap.min.css'
-
 Vue.use(router)
-
 Vue.config.productionTip = false
 Vue.prototype.$axios = axios
 
