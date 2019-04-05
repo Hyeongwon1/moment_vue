@@ -12,18 +12,11 @@
 				<a href="#" @click="initt" class="btn hbtn" id="3" >E N J O Y</a>
 				<a href="#" class="btn hbtn" id="myaddress" data-toggle="collapse" data-target="#myinput">A D D R E S S</a>
 			</div>
-  <a id="show-sidebar" class="btn btn-sm btn-dark" href="#">
-    <i class="fas fa-bars"></i>
-  </a>
-
-
 			<div id="myinput" class="collapse" style="padding-left: 10px; padding-right: 10px;">
 
 				<div class="input-group" style="padding-bottom: 5px;">
 
-					<!-- <div class="ui-input-text ui-body-inherit ui-corner-all ui-shadow-inset"> -->
 						<input id="msearch" v-model="searchloc" type="text" class="form-control" placeholder="Search for..." style="background-color: white;">
-						<!-- </div> -->
 					<span class="input-group-btn">
 						<button class="btn btn-secondary mymys"  @click="searchlocbtn" style="width: 50px; background-color: white; color:black;" type="button"> Go!</button>
 					</span>
@@ -62,10 +55,10 @@
 <div style="margin-top: 51px; width: 100%; background-color: black;">
 	<div id="bottom_nav" class="btn-group d-flex fixed-bottom">
 		<a href="#" class="btn fbtn" id="myhome" >H O M E</a>
-		<a href="#" class="btn fbtn" id="mylike" >L I K E</a> 
+		<a href="#" class="btn fbtn" id="mylike" 	 >L I K E</a> 
 		<a href="#" class="btn fbtn" id="myupload" @click="myupload" >U P L O A D</a> 
 		<a href="#" class="btn fbtn" id="myrecord" @click="myrecorcd" >M Y M Y</a> 
-		<a href="#" class="btn fbtn" id="mymypage" >M Y p a g e</a>
+		<a href="#" class="btn fbtn" id="mymypage" @click="mypage">M Y p a g e</a>
 	</div>
 </div>
 </body>
@@ -158,6 +151,9 @@ export default {
 	},
 	fnhome : function(){
 		location.href = "/home";
+	},
+	mypage : function(){
+		location.href = "/mypage";
 	}
 
   }
@@ -173,12 +169,12 @@ export default {
 }
 
 @font-face {
-	font-family: "����";
+	font-family: "설렘";
 	src: url("/font/210 설렘주의B.ttf")
 }
 
 @font-face {
-	font-family: "�������";
+	font-family: "나눔고딕";
 	src: url("/font/NANUMBARUNGOTHIC.TTF")
 }
 

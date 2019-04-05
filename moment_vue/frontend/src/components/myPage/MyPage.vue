@@ -6,7 +6,6 @@
 	</div>
 	<div id="head" onclick= "myh()"></div>
 	<br>
-
 	<div class="container" id="mycon" style="height: 100%;">
        <div class="row">
 		<form id="mypageform" style="margin-top: 60px;">
@@ -47,7 +46,8 @@
 	    </div>
 	  </div>
 	</div>
-	 <div id="foot" style="margin-top:100px;" ></div>
+	 <div id="foot" style="margin-top:100px;">
+	 </div>
 </body>
 </template>
 <script>
