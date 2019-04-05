@@ -7,60 +7,16 @@ var fs          = require('fs');
 //var upload = multer({ dest: 'uploads/', limits: { fileSize: 5 * 1024 * 1024 } });
 
 
-var upload      = multer({
+var upload = multer({
     storage: multer.diskStorage({
         destination: function (req, file, cb) {
-        cb(null, 'uploads/');
+        cb(null, 'public/uploads/');
         },
         filename: function (req, file, cb) {
         cb(null, new Date().valueOf() + path.extname(file.originalname));
         }
     }),
     });
-
-
-
-router.post('/imgup', upload.single('file'), function(req, res){
-	  res.send(req.file.path); // object를 리턴함
-	  console.log(req.file); // 콘솔(터미널)을 통해서 req.file Object 내용 확인 가능.
-	});
-
-router.get('/', function(req, res, next) {
-  res.send('respond with a resource');
-	});
-
-router.get('/header', function(req,res,next){
-	res.render('./moment/header');
-	});
-router.get('/view_detail', function(req, res, next) {
-	var dnum =req.param('dnum');
-	console.log("dnuddddm")
-	console.log(dnum)
-	res.render('./moment/view_detail',{data:dnum} );
-//	res.send('aaaaa');
-});
-router.get('/header', function(req,res,next){
-	res.render('./moment/header');
-	});
-router.get('/footer', function(req,res,next){
-	res.render('./moment/footer');
-	});
-
-router.get('/mem_login', function(req,res,next){
-	res.render('./moment/mem_login');
-	});
-
-router.get('/mem_insert', function(req,res,next){
-	res.render('./moment/mem_insert');
-	});
-
-router.get('/mem_select', function(req,res,next){
-	res.render('./moment/mem_select');
-	});
-
-router.get('/mem_search', function(req,res,next){
-	res.render('./moment/mem_search');
-	});
 
 router.get('/list', function(req,res,next){
   pool.getConnection(function (err, connection) {
@@ -313,15 +269,27 @@ router.get('/mylike_selectdb', function(req,res,next){
 	  }); 
 	});
 
-router.get('/myrecord_selectdb', function(req,res,next){
+router.post('/myrecord_selectdb', function(req,res,next){
 	var m_email =req.param('m_email');
 	  pool.getConnection(function (err, connection) {
 	      var sql = "SELECT * FROM member_tbl as mem LEFT OUTER JOIN data_tbl as mydata ON mem.m_no = mydata.m_no where mem.m_email=? ";
 	      connection.query(sql,[m_email], function (err, rows) {
-//	    	  console.log(rows)
+						var date = new Date()
+						var ttoday = date.getFullYear()
+						var m_age ;
+						rows.forEach(rdata => {
+							console.log(rdata.m_birth)
+							var rbirth = rdata.m_birth.toString()
+													console.log(rbirth)
+							var mybirth =	rbirth.slice(11, 15)
+													console.log(mybirth)
+									m_age = eval(ttoday - mybirth + 1 + "");
+									m_age = m_age.toString().slice(0,1)
+									rdata.m_age = m_age
+							});
 	          if (err) console.error("err : " + err);
-	    	  
-	    	  res.send(rows);
+					
+						res.send(rows);
 	          connection.release();
 	      });
 	  }); 
@@ -355,28 +323,34 @@ router.get('/mem_selectdb', function(req,res,next){
 	  }); 
 	});
 
-router.post('/uploaddb', function(req,res,next){
-	var m_no 		= req.param("m_no");
-	var d_kind     	= parseInt(req.param("d_kind"));
-	var d_location   = req.param("d_location");
-	//	   var d_regdate    = new Date();
-	var d_title   	= req.param("d_title");
+router.post('/imgup', upload.single('image'), function(req, res){
+	  res.send(req.file.path); // object를 리턴함
+	  console.log(req.file); // 콘솔(터미널)을 통해서 req.file Object 내용 확인 가능.
+	});
+
+router.post('/uploaddb',upload.single('image'), function(req,res,next){
+
+	var m_no 					= req.param("m_no");
+	var d_kind     		= parseInt(req.param("d_kind"));
+	var d_location   	= req.param("d_location");
+	var d_title   		= req.param("d_title");
 	var d_content   	= req.param("d_content");
-	var d_star 		= parseInt(req.param("d_star"));
-	var d_path 		= req.param("d_path");
-	var d_like   = "";
-	console.log(d_kind)
-	console.log(d_location)
-	console.log(d_title)
+	var d_star 				= parseInt(req.param("d_star"));
+	var d_path 				= req.file.path.substr(7)
+	var d_like   			= "";
+	console.log(req.file.path.substr(7))
 	   
 	  pool.getConnection(function (err, connection) {
 	      var sql = "insert into data_tbl(m_no,d_regdate,d_kind,d_location,d_title,d_content,d_path,d_star,d_like)values(?,sysDate(),?,?,?,?,?,?,0)";
 	      
 	      connection.query(sql,[m_no,d_kind,d_location,d_title,d_content,d_path,d_star], function (err, rows) {
 //	    	  console.log(rows)
-	          if (err) console.error("err : " + err);
-	    	  
-	    	  res.send(rows);
+	          if (err) {
+							console.error("err : " + err);
+							res.send({err: err});
+						}else{
+							res.send(rows);
+						}
 	          connection.release();
 	      });
 	  }); 

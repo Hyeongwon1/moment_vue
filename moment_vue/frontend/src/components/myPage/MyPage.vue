@@ -4,81 +4,50 @@
 	<div onclick="fn()" id="head" class="hj_head fixed-top">
 		in the moment
 	</div>
-	<div class="container" id="mycon" style="height: 100%;">
+	<div id="head" onclick= "myh()"></div>
+	<br>
 
-		<form id="loginform" class="loginf" style="margin-top: 60px;">
+	<div class="container" id="mycon" style="height: 100%;">
+       <div class="row">
+		<form id="mypageform" style="margin-top: 60px;">
+			
+			<input type="hidden" class="form-control" name="m_no" id="m_no" size="10"placeholder="Enter email">
+		
 			<div class="form-group">
 				<label for="m_email">Email:</label> 
-				<input type="email"class="form-control" name="m_email" id="m_email" size="10"placeholder="Enter email" v-model="m_email">
+				<input type="email"class="form-control" name="m_email" id="m_email" size="10"placeholder="Enter email" disabled>
 			</div>
 			<div class="form-group">
 				<label for="m_pw">Password:</label> 
-				<input type="password" class="form-control" name="m_pw" id="m_pw" size="10" placeholder="Enter password" v-model="m_pw">
+				<input type="password" class="form-control" name="m_pw" id="m_pw" size="10" placeholder="Enter password">
 			</div>
-<!-- 			<div class="checkbox"> -->
-<!-- 				<label><input type="checkbox"> Remember me</label> -->
-<!-- 			</div> -->
+			<div class="form-group">
+				<label for="m_pw1">Password1:</label> 
+				<input type="password" class="form-control" name="m_pw1" id="m_pw1" size="10" placeholder="Enter password1">
+			</div>
+			<div class="form-group">
+				<label for="m_phone">phone:</label> 
+				<input type="tel" class="form-control" name="m_phone" id="m_phone" size="10" placeholder="Enter phone">
+			</div>
+			
+			<div class="form-group">
+				<label for="m_nick">nickname:</label> 
+				<input type="text" class="form-control" name="m_nick" id="m_nick" size="10" placeholder="Enter nick">
+			</div>
+			<div class="form-group">
+				<label for="m_birth">birth:</label> 
+				<input type="date" class="form-control" name="m_birth" id="m_birth" size="10" placeholder="Enter nick">
+			</div>
+			
 		</form>
-		<div id="btn-group btn-group d-flex">
-			 <a href="#" @click="loginfn"  class="btn btn-default lbtn" id="mem_login">:Login</a>
-			 <a href="#" @click="initt"  class="btn btn-default lbtn" onclick="location.href='/moment/mem_insert'" id="mem_insert" value="회원가입">:Sign Up</a>
-			 <!-- <a href="#" @click="initt"  class="btn btn-default lbtn" onclick="logoutfn()" id="mem_logout" value="로그아웃">로그아웃</a> -->
-			 <a href="#" @click="initt"  class="btn btn-default lbtn" data-toggle="modal" data-target="#myModal">Forgot Id/Pw?</a>
-		</div>
+		<div id="button">
+		<button class="btn btn-default" onclick="ajaxUpdate()">수정</button>
+		<button class="btn btn-default" onclick="logoutfn()">로그아웃</button>
+		<button class="btn btn-default" onclick="ajaxDelete()">탈퇴</button> 
+	    </div>
+	  </div>
 	</div>
-
-<!-- Modal -->
-  <div class="modal fade" id="myModal" role="dialog">
-    <div class="modal-dialog">
-    
-      <!-- Modal content-->
-      <div class="modal-content">
-      
-        <div class="modal-header">
-         <button type="button" class="close" data-dismiss="modal">&times;</button>
-          <h4 class="modal-title">아이디 비밀번호 찾기</h4>
-        </div>
-        
-        <div class="modal-body">
-         
-  <h3 align="center">아이디 찾기</h3>
-	<div align="center">
-		<div class="form-group">
-				<label for="m_phone">Phone:</label> 
-				<input type="tel" class="form-control" name="m_phone" id="m_phone" size="10" placeholder="Enter tel">
-			</div>
-		<span id="id_result"></span><br><br>
-		<button class="btn btn-default" id="id" onclick="emailsearchfn()">ID찾기</button>
-	</div>
-	<br />
-	<hr/>
-	
-	<h3 align="center">비번 찾기</h3>
-	<div align="center">
-		<div class="form-group">
-				<label for="m_email_s">Email:</label> 
-				<input type="email" class="form-control" name="m_email_s" id="m_email_s" size="10" placeholder="Enter email" >
-			</div>
-		<div class="form-group">
-				<label for="m_tel_s">Phone:</label> 
-				<input type="tel" class="form-control" name="m_tel_s" id="m_tel_s" size="10" placeholder="Enter phone">
-			</div>
-		<span id="pw_result"></span><br /><br />
-		<button id="pw" class="btn btn-default" onclick="emailsearchpwfn()">PW찾기</button>
-	</div>
-
-
-
-        </div>
-        
-     
-        <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        </div>
-      </div>
-      
-    </div>
-  </div>
+	 <div id="foot" style="margin-top:100px;" ></div>
 </body>
 </template>
 <script>

@@ -1,36 +1,38 @@
 <template>
 <body id="mybodyhtml">
-	<div id="head"></div>
+<div @click="fnhome" id="head" class="hj_head fixed-top">
+	in the moment
+</div>
 
-
-	<div style="margin-top: 51px; width: 100%; background-color: black;">
-
-		<div class="btn-group btn-group d-flex">
-			<a href="#" @click="initt" class="btn hbtn" id="0" >ALL</a>
-			<a href="#" @click="initt" class="btn hbtn" id="1" >EAT</a>
-			<a href="#" @click="initt" class="btn hbtn" id="2" >BUY</a>
-			<a href="#" @click="initt" class="btn hbtn" id="3" >ENJOY</a>
-			<a href="#" class="btn hbtn" id="myaddress" data-toggle="collapse" data-target="#myinput">ADDRESS</a>
-		</div>
-
-
-		<div id="myinput" class="collapse" style="padding-left: 10px; padding-right: 10px;">
-
-			<div class="input-group" style="padding-bottom: 5px;">
-
-				<!-- <div class="ui-input-text ui-body-inherit ui-corner-all ui-shadow-inset"> -->
-					<input id="msearch" v-model="searchloc" type="text" class="form-control" placeholder="Search for..." style="background-color: white;">
-					<!-- </div> -->
-				<span class="input-group-btn">
-					<button class="btn btn-secondary mymys"  @click="searchlocbtn" style="width: 50px; background-color: white; color:black;" type="button"> Go!</button>
-				</span>
+<div style="margin-top: 50px; width: 100%; background-color: black;">
+			<div class="btn-group d-flex">
+				<a href="#" @click="initt" class="btn hbtn" id="0" >A L L</a>
+				<a href="#" @click="initt" class="btn hbtn" id="1" >E A T</a>
+				<a href="#" @click="initt" class="btn hbtn" id="2" >B U Y</a>
+				<a href="#" @click="initt" class="btn hbtn" id="3" >E N J O Y</a>
+				<a href="#" class="btn hbtn" id="myaddress" data-toggle="collapse" data-target="#myinput">A D D R E S S</a>
 			</div>
+  <a id="show-sidebar" class="btn btn-sm btn-dark" href="#">
+    <i class="fas fa-bars"></i>
+  </a>
 
-			<div style="background-color: black; height: 4px;"></div>
-		</div>
-		<button id="odbtn" class="ui-btn" @click="odbtn">{{newandlike}}</button>
+
+			<div id="myinput" class="collapse" style="padding-left: 10px; padding-right: 10px;">
+
+				<div class="input-group" style="padding-bottom: 5px;">
+
+					<!-- <div class="ui-input-text ui-body-inherit ui-corner-all ui-shadow-inset"> -->
+						<input id="msearch" v-model="searchloc" type="text" class="form-control" placeholder="Search for..." style="background-color: white;">
+						<!-- </div> -->
+					<span class="input-group-btn">
+						<button class="btn btn-secondary mymys"  @click="searchlocbtn" style="width: 50px; background-color: white; color:black;" type="button"> Go!</button>
+					</span>
+				</div>
+
+				<div style="background-color: black; height: 4px;"></div>
+			</div>
+			<button id="odbtn" class="ui-btn" @click="odbtn">{{newandlike}}</button>
 	</div>
-	
 		<div class="datas">
 		<div v-for="data in datas" :key="data.d_no" class="data">
 			<div class="row"></div><br>
@@ -45,7 +47,7 @@
 
 					<div id="mynick" class="myname" style="float: left; margin-right: 15px; font-size: 10px;">{{data.m_nick}}</div>
 						<div class="titlestar" style="float: right; margin-right: 10px; font-size: 15px; font-family: 설렘;">
-							<img src="/image/like/full_heart.png" style="width:20px;float:left;margin-right:5px;">{{data.d_like}}</div>
+							<img src="/image/like/heart.png" style="width:20px;float:left;margin-right:5px;">{{data.d_like}}</div>
 							<div class="titlestar" id="myage" style="font-size: 15px; font-family: 설렘;">
 							<img v-bind:src="'/image/age/'+data.m_age+'0s.png'" style="width:40px;">
 						</div>
@@ -53,15 +55,17 @@
 					<div id="mytitle" class="titlestar" style="margin-top: 10px; text-decoration: underline; font-size: 15px; font-family: 설렘;">{{data.d_title}}</div>
 				</div>
 			</div>
+
+			<div class="col-xs-0 col-sm-0 col-md-2 col-lg-2"></div>
 		</div>
 		
 <div style="margin-top: 51px; width: 100%; background-color: black;">
-	<div id="bottom_nav" class="navbar-mobile btn-group btn-group d-flex navbar-fixed-bottom">
-		<a href="#" class="btn fbtn" id="myhome" style="color: white;">홈</a>
-		<a href="#" class="btn fbtn" id="mylike" style="color: white;">좋아요</a> 
-		<a href="#" class="btn fbtn" id="myupload" @click="myupload" style="color: white;">업로드</a> 
-		<a href="#" class="btn fbtn" id="myrecord" style="color: white;">레코드</a> 
-		<a href="#" class="btn fbtn" id="mymypage" style="color: white;">마이페이지</a>
+	<div id="bottom_nav" class="btn-group d-flex fixed-bottom">
+		<a href="#" class="btn fbtn" id="myhome" >H O M E</a>
+		<a href="#" class="btn fbtn" id="mylike" >L I K E</a> 
+		<a href="#" class="btn fbtn" id="myupload" @click="myupload" >U P L O A D</a> 
+		<a href="#" class="btn fbtn" id="myrecord" @click="myrecorcd" >M Y M Y</a> 
+		<a href="#" class="btn fbtn" id="mymypage" >M Y p a g e</a>
 	</div>
 </div>
 </body>
@@ -138,7 +142,24 @@ export default {
 	picview : function(evt){
 			console.log(evt.target.attributes[1].value)
 			location.href = "/detail?d_no="+evt.target.attributes[1].value;
+	},
+	myrecorcd: function(){
+		var s_m_email = sessionStorage.m_email
+		console.log(s_m_email)
+			this.$axios.post('/moment/myrecord_selectdb', {
+					m_email: s_m_email								
+			}).then(response => {
+
+			this.datas = response.data
+
+      }, function() {
+      	console.log('failed')
+      })
+	},
+	fnhome : function(){
+		location.href = "/home";
 	}
+
   }
 }
 
@@ -168,6 +189,16 @@ div {
 
 #mainimg {
 	
+}
+
+.hj_head {
+   text-align: center;
+   height: 50px;
+   background-color: black;
+   color: white;
+   font-family: "Am";
+   font-size: 25pt;
+   vertical-align: middle;
 }
 
 .box {
@@ -201,13 +232,19 @@ div {
 	height: 40px;
 	border: 0px;  
 }
-
+.btn.fbtn {
+	background-color: black;
+	font-family: "Am";
+	color: white;
+	font-size: 14pt;
+}
 .mymys{
     width: 50px;
     background-color: white;
     color: black;
 }
 #bottom_nav {
+	width: 100%;
 	background-color: black;
 }
 

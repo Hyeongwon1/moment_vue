@@ -1,6 +1,8 @@
 <template lang="html">
 <body id="mybodyhtml">
-		<div id="head" onclick="fn11()"></div>
+<div @click="fnhome" id="head" class="hj_head fixed-top">
+	in the moment
+</div>
    <div class="datas">   
 	   <div v-for="data in datas" :key="data.d_no" class="data">
          <div class="row hj_headmargin  col-sm-12  col-md-12 col-lg-12">
@@ -78,7 +80,9 @@ created(){
 
   },
   methods: {
-
+	fnhome : function(){
+		location.href = "/home";
+	}
    
   }
     
@@ -189,9 +193,5 @@ body {
 
 #icon {
 	margin-bottom: 10px;
-}
-
-#mylike {
-	font-size: 10pt;
 }
 </style>

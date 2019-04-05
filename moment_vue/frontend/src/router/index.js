@@ -4,6 +4,7 @@ import MomentHome from '@/components/Home'
 import MomentUpload from '@/components/Upload'
 import MomentDetail from '@/components/Detail'
 import MomentLogin from '@/components/login/Login'
+import MomentMyPage from '@/components/myPage/MyPage'
 
 Vue.use(Router)
 
@@ -29,6 +30,11 @@ export default new Router({
       path: '/login',
       name: 'Login',
       component: MomentLogin
+    },
+    {
+      path: '/mypage',
+      name: 'MyPage',
+      component: MomentMyPage
     }
   ]
 })
