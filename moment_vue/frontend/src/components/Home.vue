@@ -26,14 +26,13 @@
 			</div>
 			<button id="odbtn" class="ui-btn" @click="odbtn">{{newandlike}}</button>
 	</div>
-		<div class="datas">
-		<div v-for="data in datas" :key="data.d_no" class="data" style="width:380px; float:left; padding: 23px;">
-			<div class="row"></div><br>
-			<div id="colcol" class="" >
+		<div class="datas" style="padding: 70px; margin-top: -50px;">
+		<div v-for="data in datas" :key="data.d_no" class="data" style="width:350px; float:left; padding: 23px; margin-bottom: 50px; margin-top: 20px; position: relative;">
+			<div id="colcol" class="" style="height: 300px;">
 				<div class="box">
 					<div class="s_pic" style="background-color: #d6dade; width: 100%; display: table;">
-						<div class="ivdiv" style="display:table-cell; vertical-align:middle; height: 380px;"></div>
-							<img class="mainimg" v-bind:src="'/'+data.d_path" v-bind:value="data.d_no" @click="picview" width="100%" style="vertical-align: middle; margin: auto;">
+						<div class="ivdiv">
+							<img class="mainimg" v-bind:src="'/'+data.d_path" v-bind:value="data.d_no" @click="picview" >
 						</div>
 					</div>
 					<br>
@@ -43,12 +42,11 @@
 							<div class="titlestar" id="myage" style="font-size: 15px; font-family: 설렘;">
 							<img v-bind:src="'/image/age/'+data.m_age+'0s.png'" style="width:40px;">
 						</div>
-						{{data.d_location}}
+						<div><p class="loctxt">{{data.d_location}}</p></div>
 					<div id="mytitle" class="titlestar" style="margin-top: 10px; text-decoration: underline; font-size: 15px; font-family: 설렘;">{{data.d_title}}</div>
 				</div>
 			</div>
 
-			<div class="col-xs-0 col-sm-0 col-md-2 col-lg-2"></div>
 		</div>
 		
 <div style="margin-top: 51px; width: 100%; background-color: black;">
@@ -182,10 +180,25 @@ div {
 	text-shadow: #999999 1px 1px 1px;
 }
 
-#mainimg {
-	
+div p.loctxt{
+  overflow: hidden; 
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
+.mainimg {
+	vertical-align: middle; 
+	margin: auto; 
+	height: 230px; 
+	width:100%;
+	
+}
+.ivdiv{
+	display:table-cell; 
+	vertical-align:middle; 
+	height: 320px;
+	background-color: black;
+}
 .hj_head {
    text-align: center;
    height: 50px;
@@ -198,9 +211,10 @@ div {
 
 .box {
 	box-shadow: 5px 5px 20px #ccc;
-	background-color: black;
+	background-color: #e5e7e8;
 	padding: 20px;
   width: 320px;
+	
 }
 
 .btn.hbtn {
