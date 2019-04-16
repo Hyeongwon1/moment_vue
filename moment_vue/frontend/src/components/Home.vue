@@ -27,17 +27,16 @@
 			<button id="odbtn" class="ui-btn" @click="odbtn">{{newandlike}}</button>
 	</div>
 		<div class="datas">
-		<div v-for="data in datas" :key="data.d_no" class="data">
+		<div v-for="data in datas" :key="data.d_no" class="data" style="width:380px; float:left; padding: 23px;">
 			<div class="row"></div><br>
 			<div id="colcol" class="" >
-				<div class="box" style="padding: 20px;">
-					<div class="s_pic" style="background-color: black; width: 100%; display: table; height: 305px;">
-						<div class="ivdiv" style="display:table-cell; vertical-align:middle;"></div>
+				<div class="box">
+					<div class="s_pic" style="background-color: #d6dade; width: 100%; display: table;">
+						<div class="ivdiv" style="display:table-cell; vertical-align:middle; height: 380px;"></div>
 							<img class="mainimg" v-bind:src="'/'+data.d_path" v-bind:value="data.d_no" @click="picview" width="100%" style="vertical-align: middle; margin: auto;">
 						</div>
 					</div>
 					<br>
-
 					<div id="mynick" class="myname" style="float: left; margin-right: 15px; font-size: 10px;">{{data.m_nick}}</div>
 						<div class="titlestar" style="float: right; margin-right: 10px; font-size: 15px; font-family: 설렘;">
 							<img src="/image/like/heart.png" style="width:20px;float:left;margin-right:5px;">{{data.d_like}}</div>
@@ -199,7 +198,9 @@ div {
 
 .box {
 	box-shadow: 5px 5px 20px #ccc;
-	background-color: white;
+	background-color: black;
+	padding: 20px;
+  width: 320px;
 }
 
 .btn.hbtn {
@@ -207,6 +208,7 @@ div {
 	font-family: "Am";
 	color: white;
 	font-size: 14pt;
+	
 }
 .btn-group {
 	width: 100%;
