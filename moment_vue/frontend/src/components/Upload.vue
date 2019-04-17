@@ -7,19 +7,19 @@
       <div style="text-align: center">
          <table id="up_tb">
             <tr>
-               <td colspan="3">
-                  <div class="form-group kind_cl">
-                     <select class="form-control" id="d_kind" name="d_kind" v-model="d_kind">
+               <td colspan="2">
+                  <!-- <div class="form-group kind_cl"> -->
+                     <select class="form-control kind_cl" id="d_kind" name="d_kind" v-model="d_kind">
                         <option value="1">EAT</option>
                         <option value="2">BUY</option>
                         <option value="3">ENJOY</option>
                      </select>
-                  </div>
+                  <!-- </div> -->
                </td>
             </tr>
             <tr>
                <td><p id="title_p">TITLE</p></td>
-               <td><input type="text" id="d_title" name="d_title" v-model="d_title"></td>
+               <td colspan="2"><input type="text" id="d_title" name="d_title" v-model="d_title"></td>
                <td id="mytd">
                   <div id='imgvideo' style='width: 56px; height: 56px;'></div>
                </td>
@@ -50,13 +50,13 @@
             </tr>
             <tr>
                <td><p id="comment_p">COMMENT</p></td>
-               <td colspan="2"><input type="text" id="d_content" name="d_content" v-model="d_content"></td>
+               <td colspan="2"><textarea type="text" id="d_content" name="d_content" v-model="d_content"></textarea></td>
             </tr>
             <tr>
                <td><p id="star_p">별점</p></td>
                <td colspan="2">
                   <div>
-                     <select id="d_star" name="d_star" v-model="d_star">
+                     <select id="d_star" name="d_star" v-model="d_star" style="width: 30%;">
                         <option>1</option>
                         <option>2</option>
                         <option>3</option>
@@ -81,9 +81,9 @@
          </a>
       </div>
 
-      <div id="foot" class="sk_foot navbar-fixed-bottom">⊙
-         Copyright(c)2017 TT All rights reserved.</div>
-   </div>
+       <div id="foot" class="sk_foot fixed-bottom">⊙
+         Copyright(c)2017 TT All rights reserved.
+      </div>
 
 
 
@@ -303,8 +303,13 @@ td {
 }
 
 #location_img {
-   width: 8px;
-   height: 10px;
+   width: 15px;
+   height: 20px;
+
+}
+
+#d_kind{
+   width: 100%; 
 }
 
 #d_location, #d_title, #d_content {
@@ -312,6 +317,7 @@ td {
    border-top: solid 1px white;
    border-left: solid 1px white;
    border-right: solid 1px white;
+   width: 100%;
 }
 
 #write_img, #cancel_img {

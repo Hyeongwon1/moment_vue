@@ -124,7 +124,6 @@ created(){
 	font-size: 20pt;
 }
 .container{
-	background-color: black;
 
 }
 .form-group{

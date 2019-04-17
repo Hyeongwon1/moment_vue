@@ -52,7 +52,7 @@
 <div style="margin-top: 51px; width: 100%; background-color: black;">
 	<div id="bottom_nav" class="btn-group d-flex fixed-bottom">
 		<a href="#" class="btn fbtn" id="myhome" >H O M E</a>
-		<a href="#" class="btn fbtn" id="mylike" 	 >L I K E</a> 
+		<a href="#" class="btn fbtn" id="mylike" >L I K E</a> 
 		<a href="#" class="btn fbtn" id="myupload" @click="myupload" >U P L O A D</a> 
 		<a href="#" class="btn fbtn" id="myrecord" @click="myrecorcd" >M Y M Y</a> 
 		<a href="#" class="btn fbtn" id="mymypage" @click="mypage">M Y p a g e</a>

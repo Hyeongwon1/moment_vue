@@ -1,57 +1,56 @@
 <template lang="html">
 <body id="mybodyhtml">
+<div class="container">
 <div @click="fnhome" id="head" class="hj_head fixed-top">
 	in the moment
 </div>
-   <div class="datas">   
-	   <div v-for="data in datas" :key="data.d_no" class="data">
-         <div class="row hj_headmargin  col-sm-12  col-md-12 col-lg-12">
-               <div id="date"></div>
+	   <div v-for="data in datas" :key="data.d_no" class="viewdata">
+         <div class="headmargin col-sm-12 col-md-12 col-lg-12">
+               <div id="date">{{data.d_regdate}}</div>
                <div id="nickdiv">
-                  <span style="color: orange" id="mem_nick" >{{data.m_nick}}</span>&nbsp;님
+                  <span style="color: orange" id="mem_nick" >{{data.m_nick}}</span>
                </div>
-            <div id="clear"></div>
-
-            <div class=" h1_1 col-sm-12  col-md-12 col-lg-12"></div>
-            <div id="mainData" class="col-sm-6 col-sm-offset-3 col-md-6 col-md-offset-3 col-lg-6 col-lg-offset-3">
-				<img class="img-responsive" v-bind:src="'/'+data.d_path" style="width:100%; margin:auto;">
+      
+            <div class="h1_1 col-sm-12 col-md-12 col-lg-12"></div>
+            <!-- <div id="mainData" class="col-sm-6 col-sm-offset-3 col-md-6 col-md-offset-3 col-lg-6 col-lg-offset-3" style="width: 100%; margin: auto;" > -->
+            <div id="mainData" class="">
+								<img class="img-responsive" v-bind:src="'/'+data.d_path" style="width:75%; margin:auto; display: block;">
             </div>
-            <div class=" h1_1 col-sm-12  col-md-12 col-lg-12"></div>
-
-            <div id="row">
-               <div class="col-sm-12" id="icon">
-				<div v-if="data.d_kind =='1'">
-				  <img id="kindimg" style="float: right" class="img-responsive " src="/image/kind/eat.png">
-				</div>
-				<div v-else-if="data.d_kind =='2'">
-				  <img id="kindimg" style="float: right" class="img-responsive " src="/image/kind/buy.png">
-				</div> 
-				<div v-else-if="data.d_kind =='3'">
-				  <img id="kindimg" style="float: right" class="img-responsive " src="/image/kind/enjoy.png">
-				</div>  
-				  <!-- <div id ="clear" style="flaot: both"> -->
-                  <img style="float: right" id="age" class="img-responsive " v-bind:src="'/image/age/'+data.m_age+'0s.png'"> 
-                  <img id="like" style="float: left; margin-right: 3px" class="img-responsive hj_heart_img" src="/image/like/heart.png">
-                  <span style="float: left" id="likecnt">{{data.d_like}}</span>
-                   <img id="starimg" class="img-responsive hj_roll_img" style="float: left; margin-left: 10px"  v-bind:src="'/image/roll/r'+data.d_star+'.png'">
-                 </div>
-               </div>
-               <div class=" h1_2 col-sm-12  col-md-12 col-lg-12"></div>
+            <div class="h1_1 col-sm-12 col-md-12 col-lg-12"></div>
+						<div id="icon" class="col-sm-12" >
+									<div v-if="data.d_kind =='1'">
+										<img id="kindimg" class="img-responsive " src="/image/kind/eat.png">
+									</div>
+									<div v-else-if="data.d_kind =='2'">
+										<img id="kindimg" class="img-responsive " src="/image/kind/buy.png">
+									</div> 
+									<div v-else-if="data.d_kind =='3'">
+										<img id="kindimg" class="img-responsive " src="/image/kind/enjoy.png">
+									</div>  
+                  <img id="age"  class="img-responsive " v-bind:src="'/image/age/'+data.m_age+'0s.png'"> 
+                  <img id="like" class="img-responsive hj_heart_img" src="/image/like/heart.png">
+                  <span id="likecnt">{{data.d_like}}</span>
+                   <img id="starimg" class="img-responsive hj_roll_img" v-bind:src="'/image/roll/r'+data.d_star+'.png'">
+				 				 	<div id ="clear"></div>
+            </div>	
+            <div id="row" style="margin-top: 40px;">
+               <div class=" h1_2 col-sm-12 col-md-12 col-lg-12"></div>
                <div id="title" class=" col-sm-12  col-md-12 col-lg-12 ">{{data.d_title}}</div>
-
-
                <div id="content" class=" col-sm-12  col-md-12 col-lg-12">{{data.d_content}}</div>
-
-               <div class=" h1_1 col-sm-12  col-md-12 col-lg-12"></div>
+               <div class="h1_1 col-sm-12  col-md-12 col-lg-12"></div>
                <div id="location">
                   <a id="mya" href="#">{{data.d_location}}</a>에서,
                </div>
-
             </div>
       
 	   		</div>
-	   </div>
-	<div id="foot"></div>
+	   
+
+	 <div id="foot" class="sk_foot fixed-bottom">⊙
+         Copyright(c)2017 TT All rights reserved.
+    </div>
+	  
+</div>
 </body>
 </template>
 <script>
@@ -123,6 +122,7 @@ body {
 
 #nickdiv {
 	text-align: right;
+	margin-left: auto;
 	vertical-align: bottom;
 }
 
@@ -130,13 +130,14 @@ body {
 	text-shadow: #999999 1px 1px 1px;
 }
 
-.hj_headmargin {
+.headmargin {
 	margin-top: 60px;
 	margin-bottom: 40px;
+	height:-webkit-fill-available;
 }
 
 #clear {
-	flaot: both;
+	float: both;
 }
 
 #title {
@@ -168,10 +169,7 @@ body {
 	margin-left: 10px;
 	margin-right: 10px;
 	margin-bottom: 10px;
-}
-
-#foot {
-	margin-top: 80px
+	margin-top: 30px;
 }
 
 .hj_roll_img {
@@ -183,15 +181,26 @@ body {
 	margin-right: 10px;
 }
 
-#age {
-	margin-right: 10px;
-}
 
 #kindimg, #age {
 	width: 60px;
+	margin-right: -10px;
+	float: right ;
+}
+
+#like,#likecnt {
+	float: left; 
+	margin-right: 3px;	
+}
+
+#starimg {
+		float: left;
+    margin-left: 10px;
+		width: 50px;
+		
 }
 
 #icon {
-	margin-bottom: 10px;
+
 }
 </style>
