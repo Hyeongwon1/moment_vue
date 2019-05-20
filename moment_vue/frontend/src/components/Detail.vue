@@ -196,7 +196,6 @@ body {
 #starimg {
 		float: left;
     margin-left: 10px;
-		width: 50px;
 		
 }
 

@@ -38,7 +38,7 @@
 					<br>
 					<div id="mynick" class="myname" style="float: left; margin-right: 15px; font-size: 10px;">{{data.m_nick}}</div>
 						<div class="titlestar" style="float: right; margin-right: 10px; font-size: 15px; font-family: 설렘;">
-							<img src="/image/like/heart.png" style="width:20px;float:left;margin-right:5px;">{{data.d_like}}</div>
+							<img src="/image/like/heart.png" style="width:20px;float:left;margin-right:5px;" @click="checklike" value="1">{{data.d_like}}</div>
 							<div class="titlestar" id="myage" style="font-size: 15px; font-family: 설렘;">
 							<img v-bind:src="'/image/age/'+data.m_age+'0s.png'" style="width:40px;">
 						</div>
@@ -132,6 +132,19 @@ export default {
 	picview : function(evt){
 			console.log(evt.target.attributes[1].value)
 			location.href = "/detail?d_no="+evt.target.attributes[1].value;
+	},
+	checklike : function(evt){
+			console.log(evt.target.attributes.src)
+			console.log(evt.target.attributes)
+			var heartflag = evt.target.attributes[1].value
+console.log(heartflag)
+			if (heartflag == "1") {
+				console.log("aaa")
+				
+				evt.target.attributes.src = '/image/like/full_heart.png'
+			} else {
+				
+			}
 	},
 	myrecorcd: function(){
 		var s_m_email = sessionStorage.m_email

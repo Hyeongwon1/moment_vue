@@ -4,7 +4,6 @@
 	<div onclick="fn()" id="head" class="hj_head fixed-top">
 		in the moment
 	</div>
-	<div id="head" onclick= "myh()"></div>
 	<br>
 	<div class="container" id="mycon" style="height: 100%;">
        <div class="row">
@@ -46,8 +45,10 @@
 	    </div>
 	  </div>
 	</div>
-	 <div id="foot" style="margin-top:100px;">
-	 </div>
+	
+	 	<div id="foot" class="sk_foot fixed-bottom">⊙
+         Copyright(c)2017 TT All rights reserved.
+      </div>
 </body>
 </template>
 <script>
