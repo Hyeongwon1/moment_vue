@@ -1,6 +1,7 @@
 var multer      = require('multer');
 var path        = require('path');
 var express     = require('express');
+const puppeteer = require('puppeteer');
 var router      = express.Router();
 var pool 		= require('./mysqlConn');
 var fs          = require('fs');
@@ -17,6 +18,61 @@ var upload = multer({
         }
     }),
     });
+
+router.post('/pupp', function(req,res,next){
+	console.log("Puppppppppppppppppppppppppppppppppp")
+	puppeteer.launch()
+    .then((browser) => {
+      return browser.newPage()
+        .then((page) => {
+          return page.goto('https://www.naver.com/', { waitUnitl: 'networkidle' })
+            .then(() => page.evaluate(() => {
+							var post = {"num": "", "data": ""};
+							var len = document.querySelector('.ah_roll_area>ul').children.length
+							
+							var responseText = document.querySelector('.ah_roll_area').innerText;
+               return JSON.parse(document.querySelector('.ah_roll_area').innerText);
+            }))
+        })
+        .then((title) => {
+					browser.close();
+					console.log("aaaaaaaaaaaaaaaaaaaaatitle")
+					// responseObject = JSON.parse(title);
+					// console.log(responseObject)
+					res.send({data: title});
+          return title;
+        });
+    });
+// puppeteer.launch({
+// 		headless : false	// 헤드리스모드의 사용여부를 묻는다
+// , devtools : false	// 브라우저의 개발자 모드의 오픈 여부를 묻는다
+// , executablePath : puppeteer.executablePath()	// 실행할 chromium 기반의 브라우저의 실행 경로를 지정한다.
+// , ignoreDefaultArgs : false	// 배열이 주어진 경우 지정된 기본 인수를 필터링한다.(중요 : true사용금지)
+// , timeout : 30000	// 브라우저 인스턴스가 시작될 때까지 대기하는 시간(밀리 초)
+// , defaultViewport : { width : 800, height : 600 }	// 실행될 브라우저의 화면 크기를 지정한다.
+// , args : [ "about:blank" ]
+// }).then(async browser => {
+// const page = await browser.newPage();
+// // 새탭을 열고 작업을 수행할 페이지를 지정한다.
+// await page.goto( "https://www.naver.com", { waitUntil : "networkidle2" } );
+// // 5초간딜레이를 준다.
+// // await delay(5000);
+// // 스크린샷을 찍는다.
+// 				// const element1 = await page.$('input[name="hakbun"]');
+//         // student_id = await page.evaluate(element1 => element1.value, element1);
+//         // //이름을 가져와라
+//         // const element2 = await page.$('td[width="240"]');
+//         // name = await page.evaluate(element2 => element2.textContent, element2);
+
+
+// await page.screenshot( { path : "wickedBlog.png" } );
+// // 모든 작업을 수행하면 브라우저를 닫고 퍼펫티어를 종료한다.
+// await browser.close();
+
+// });
+
+
+});
 
 router.get('/list', function(req,res,next){
   pool.getConnection(function (err, connection) {
@@ -219,21 +275,6 @@ router.get('/listinit', function(req,res,next){
 						});
 				}); 
 	});		
-/* router.get('/home', function(req,res,next){
-	  pool.getConnection(function (err, connection) {
-	      var sql = "SELECT * FROM data_tbl as data LEFT OUTER JOIN member_tbl as mem ON data.m_no = mem.m_no order by d_regdate desc;";
-
-	      connection.query(sql, function (err, rows) {
-//	    	  console.log(rows)
-	          if (err) console.error("err : " + err);
-	    	  
-	          res.render('./moment/home', {data: rows});
-	          connection.release();
-	      });
-	  }); 
-	}); */
-
-
 router.get('/home_mypage', function(req,res,next){
 	var dnum =req.param('num');
 	console.log("dnuddddm")

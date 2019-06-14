@@ -48,10 +48,14 @@
 			</div>
 
 		</div>
-		
+		<div class="pupps" style="padding: 70px; margin-top: -50px;">
+				{{pupps}}
+
+
+		</div>
 <div style="margin-top: 51px; width: 100%; background-color: black;">
 	<div id="bottom_nav" class="btn-group d-flex fixed-bottom">
-		<a href="#" class="btn fbtn" id="myhome" >H O M E</a>
+		<a href="#" class="btn fbtn" id="myhome" @click="pupp" >H O M E</a>
 		<a href="#" class="btn fbtn" id="mylike" >L I K E</a> 
 		<a href="#" class="btn fbtn" id="myupload" @click="myupload" >U P L O A D</a> 
 		<a href="#" class="btn fbtn" id="myrecord" @click="myrecorcd" >M Y M Y</a> 
@@ -71,6 +75,7 @@ export default {
   data(){
     return {
 		datas: [],
+		pupps: "",
 		newandlike:"N E W ▼",
 		kinds:"",
 		searchloc:"",
@@ -137,7 +142,7 @@ export default {
 			console.log(evt.target.attributes.src)
 			console.log(evt.target.attributes)
 			var heartflag = evt.target.attributes[1].value
-console.log(heartflag)
+			console.log(heartflag)
 			if (heartflag == "1") {
 				console.log("aaa")
 				
@@ -164,6 +169,17 @@ console.log(heartflag)
 	},
 	mypage : function(){
 		location.href = "/mypage";
+	},
+	pupp: function(){
+			this.$axios.post('/moment/pupp', {
+											
+			}).then(response => {
+				console.log(response.data)
+				this.pupps = response.data
+		
+      }, function() {
+      	console.log('failed')
+      })
 	}
 
   }
