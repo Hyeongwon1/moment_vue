@@ -31,7 +31,7 @@ router.post('/pupp', function(req,res,next){
 							var len = document.querySelector('.ah_roll_area>ul').children.length
 							
 							var responseText = document.querySelector('.ah_roll_area').innerText;
-               return JSON.parse(document.querySelector('.ah_roll_area').innerText);
+               return document.querySelector('.ah_roll_area').innerText;
             }))
         })
         .then((title) => {

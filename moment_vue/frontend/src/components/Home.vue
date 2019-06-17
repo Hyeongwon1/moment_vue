@@ -1,61 +1,61 @@
 <template>
 <body id="mybodyhtml">
-<div @click="fnhome" id="head" class="hj_head fixed-top">
-	in the moment
+	<div class="headtop">
+		<Slide>
+		<a id="home" href="#" @click="pupp">
+			<span>aa</span>
+		</a>
+		</Slide>
+	</div>	
+	<div id="head" class="hj_head">	
+		<a @click="fnhome" class="head_moment">in the moment</a>
+	</div>
+<div>
+	<div class="btn-group d-flex">
+		<a href="#" @click="initt" class="btn hbtn" id="0" >A L L</a>
+		<a href="#" @click="initt" class="btn hbtn" id="1" >E A T</a>
+		<a href="#" @click="initt" class="btn hbtn" id="2" >B U Y</a>
+		<a href="#" @click="initt" class="btn hbtn" id="3" >E N J O Y</a>
+		<a href="#" class="btn hbtn" id="myaddress" data-toggle="collapse" data-target="#myinput">A D D R E S S</a>
+	</div>
+	<div id="myinput" class="collapse">
+		<div class="input-group">
+			<input id="msearch" v-model="searchloc" type="text" class="form-control" placeholder="Search for location" >
+			<span class="input-group-btn">
+				<button class="btn btn-secondary myinputsearch"  @click="searchlocbtn" type="button"> Go!</button>
+			</span>
+		</div>
+	</div>
+	<button id="odbtn" class="ui-btn" @click="odbtn">{{newandlike}}</button>
 </div>
 
-<div style="margin-top: 50px; width: 100%; background-color: black;">
-			<div class="btn-group d-flex">
-				<a href="#" @click="initt" class="btn hbtn" id="0" >A L L</a>
-				<a href="#" @click="initt" class="btn hbtn" id="1" >E A T</a>
-				<a href="#" @click="initt" class="btn hbtn" id="2" >B U Y</a>
-				<a href="#" @click="initt" class="btn hbtn" id="3" >E N J O Y</a>
-				<a href="#" class="btn hbtn" id="myaddress" data-toggle="collapse" data-target="#myinput">A D D R E S S</a>
-			</div>
-			<div id="myinput" class="collapse" style="padding-left: 10px; padding-right: 10px;">
-
-				<div class="input-group" style="padding-bottom: 5px;">
-
-						<input id="msearch" v-model="searchloc" type="text" class="form-control" placeholder="Search for..." style="background-color: white;">
-					<span class="input-group-btn">
-						<button class="btn btn-secondary mymys"  @click="searchlocbtn" style="width: 50px; background-color: white; color:black;" type="button"> Go!</button>
-					</span>
+<div class="datas">
+	<div v-for="data in datas" :key="data.d_no" class="data" style="">
+		<div class="box">
+			<div class="s_pic">
+				<div class="ivdiv">
+					<img class="mainimg" v-bind:src="'/'+data.d_path" v-bind:value="data.d_no" @click="picview" >
 				</div>
-
-				<div style="background-color: black; height: 4px;"></div>
 			</div>
-			<button id="odbtn" class="ui-btn" @click="odbtn">{{newandlike}}</button>
+			<br>
+			<div id="mynick" class="mynick">{{data.m_nick}}</div>
+			<div class="mylike">
+				<img src="/image/like/heart.png" class="mylikeimg" @click="checklike" value="1">{{data.d_like}}
+			</div>
+			<div class="myage" id="myage">
+				<img class="myageimg" v-bind:src="'/image/age/'+data.m_age+'0s.png'">
+			</div>
+			<div>
+				<p class="loctxt">{{data.d_location}}</p>
+			</div>
+			<div id="mytitle" class="mytitle">{{data.d_title}}</div>
+		</div>
 	</div>
-		<div class="datas" style="padding: 70px; margin-top: -50px;">
-		<div v-for="data in datas" :key="data.d_no" class="data" style="width:350px; float:left; padding: 23px; margin-bottom: 50px; margin-top: 20px; position: relative;">
-			<div id="colcol" class="" style="height: 300px;">
-				<div class="box">
-					<div class="s_pic" style="background-color: #d6dade; width: 100%; display: table;">
-						<div class="ivdiv">
-							<img class="mainimg" v-bind:src="'/'+data.d_path" v-bind:value="data.d_no" @click="picview" >
-						</div>
-					</div>
-					<br>
-					<div id="mynick" class="myname" style="float: left; margin-right: 15px; font-size: 10px;">{{data.m_nick}}</div>
-						<div class="titlestar" style="float: right; margin-right: 10px; font-size: 15px; font-family: 설렘;">
-							<img src="/image/like/heart.png" style="width:20px;float:left;margin-right:5px;" @click="checklike" value="1">{{data.d_like}}</div>
-							<div class="titlestar" id="myage" style="font-size: 15px; font-family: 설렘;">
-							<img v-bind:src="'/image/age/'+data.m_age+'0s.png'" style="width:40px;">
-						</div>
-						<div><p class="loctxt">{{data.d_location}}</p></div>
-					<div id="mytitle" class="titlestar" style="margin-top: 10px; text-decoration: underline; font-size: 15px; font-family: 설렘;">{{data.d_title}}</div>
-				</div>
-			</div>
+</div>
 
-		</div>
-		<div class="pupps" style="padding: 70px; margin-top: -50px;">
-				{{pupps}}
-
-
-		</div>
-<div style="margin-top: 51px; width: 100%; background-color: black;">
+<div>
 	<div id="bottom_nav" class="btn-group d-flex fixed-bottom">
-		<a href="#" class="btn fbtn" id="myhome" @click="pupp" >H O M E</a>
+		<a href="#" class="btn fbtn" id="myhome" >H O M E</a>
 		<a href="#" class="btn fbtn" id="mylike" >L I K E</a> 
 		<a href="#" class="btn fbtn" id="myupload" @click="myupload" >U P L O A D</a> 
 		<a href="#" class="btn fbtn" id="myrecord" @click="myrecorcd" >M Y M Y</a> 
@@ -65,12 +65,16 @@
 </body>
 </template>
 <script>
+import { Slide } from 'vue-burger-menu' 
 export default {
 	created(){
     this.$axios.get('/moment/home').then(response => {
 			console.log("aaaa")
 			this.datas = response.data.data;
 		})
+  },
+  components: {
+		Slide // Register your component
   },
   data(){
     return {
@@ -193,20 +197,18 @@ export default {
 	font-family: "Am";
 	src: url("/font/AmaticSC-Regular.ttf");
 }
-
 @font-face {
 	font-family: "설렘";
 	src: url("/font/210 설렘주의B.ttf")
 }
-
 @font-face {
 	font-family: "나눔고딕";
 	src: url("/font/NANUMBARUNGOTHIC.TTF")
 }
 
 div {
-	font-family: "�������";
-	text-shadow: #999999 1px 1px 1px;
+	/* font-family: "�������"; */
+	/* text-shadow: #999999 1px 1px 1px; */
 }
 
 div p.loctxt{
@@ -214,13 +216,58 @@ div p.loctxt{
   text-overflow: ellipsis;
   white-space: nowrap;
 }
-
+.headtop{
+    height: 30px;
+    background: black;
+}
+.hj_head {
+   text-align: center;
+   /* height: 50px; */
+   background-color: black;
+   color: white;
+   /* font-family: "Am"; */
+   /* font-size: 25pt; */
+   /* vertical-align: middle; */
+}
+.head_moment {
+   color: white;
+   font-family: "Am";
+   font-size: 25pt;
+   vertical-align: middle;
+}
+#myinput{
+	padding-left: 10px; 
+	padding-right: 10px;
+	background-color: black;	
+}
+.datas{
+	/* padding: 30px;  */
+}
+.data{
+	float:left; 
+	margin: 30px;
+	/* padding: 23px;  */
+	position: relative;
+	margin-bottom: 50px;
+}
+.data *{
+	font-family: "설렘";
+	font-size:20px;
+}
+.box {
+	box-shadow: 5px 5px 20px #ccc;
+	background-color: #e5e7e8;
+	padding: 20px;
+    width: 320px;
+}
+.s_pic{
+	
+}
 .mainimg {
 	vertical-align: middle; 
 	margin: auto; 
 	height: 230px; 
 	width:100%;
-	
 }
 .ivdiv{
 	display:table-cell; 
@@ -228,30 +275,39 @@ div p.loctxt{
 	height: 320px;
 	background-color: black;
 }
-.hj_head {
-   text-align: center;
-   height: 50px;
-   background-color: black;
-   color: white;
-   font-family: "Am";
-   font-size: 25pt;
-   vertical-align: middle;
+.mynick{
+	float: left; 
+	margin-right: 15px; 
+	font-size:15px;
 }
-
-.box {
-	box-shadow: 5px 5px 20px #ccc;
-	background-color: #e5e7e8;
-	padding: 20px;
-  width: 320px;
-	
+.mylike{
+	float: right; 
+	margin-right: 10px; 
+	font-size: 15px;
 }
-
+.mylikeimg{
+	width:20px;
+	float:left;
+	margin-right:5px;
+}
+.myage{
+	font-size: 15px;
+	margin-bottom: 10px;
+}
+.myageimg{
+	width:50px;
+	/* margin-top: 6px; */
+}
+.mytitle{
+	margin-top: 10px; 
+	text-decoration: underline; 
+}
 .btn.hbtn {
+	border-radius: 0rem;
 	background-color: black;
 	font-family: "Am";
 	color: white;
 	font-size: 14pt;
-	
 }
 .btn-group {
 	width: 100%;
@@ -265,7 +321,7 @@ div p.loctxt{
 
 #odbtn {
 	width: 100%;
-  background-color: black;
+    background-color: black;
 	font-size: 12pt;
 	color: white;
 	font-family: "Am";
@@ -279,16 +335,17 @@ div p.loctxt{
 	color: white;
 	font-size: 14pt;
 }
-.mymys{
-    width: 50px;
+.myinputsearch{
     background-color: white;
     color: black;
+}
+#msearch{
+	background-color: white;
 }
 #bottom_nav {
 	width: 100%;
 	background-color: black;
 }
-
 .fbtn:active {
 	background-color: #A9A9F5;
 }
