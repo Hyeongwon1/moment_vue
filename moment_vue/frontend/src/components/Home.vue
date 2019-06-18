@@ -3,7 +3,7 @@
 	<div class="headtop">
 		<Slide>
 		<a id="home" href="#" @click="pupp">
-			<span>aa</span>
+			<span>pupptest</span>
 		</a>
 		</Slide>
 	</div>	
@@ -107,9 +107,6 @@ export default {
 								this.newandlike="L I K E ▼"
             })
 	},
-	myupload : function(){
-			location.href = "/upload"
-	},
 	odbtn : function(evt){
 		var ord ;
 		if (evt.target.innerText =="N E W ▼") {
@@ -155,6 +152,9 @@ export default {
 				
 			}
 	},
+	myupload : function(){
+			location.href = "/upload"
+	},
 	myrecorcd: function(){
 		var s_m_email = sessionStorage.m_email
 		console.log(s_m_email)
@@ -168,11 +168,11 @@ export default {
       	console.log('failed')
       })
 	},
-	fnhome : function(){
-		location.href = "/home";
-	},
 	mypage : function(){
 		location.href = "/mypage";
+	},
+	fnhome : function(){
+		location.href = "/home";
 	},
 	pupp: function(){
 			this.$axios.post('/moment/pupp', {

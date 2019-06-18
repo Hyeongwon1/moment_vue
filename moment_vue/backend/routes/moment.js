@@ -2,6 +2,7 @@ var multer      = require('multer');
 var path        = require('path');
 var express     = require('express');
 const puppeteer = require('puppeteer');
+var moment 		= require('moment');
 var router      = express.Router();
 var pool 		= require('./mysqlConn');
 var fs          = require('fs');
@@ -20,6 +21,8 @@ var upload = multer({
     });
 
 router.post('/pupp', function(req,res,next){
+	console.log("aaaaaaaaaaaaa")
+	console.log(moment().format('MMMM Do YYYY, h:mm:ss a'))
 	console.log("Puppppppppppppppppppppppppppppppppp")
 	puppeteer.launch()
     .then((browser) => {
@@ -207,6 +210,7 @@ router.get('/listinit', function(req,res,next){
 						var m_age ;
 
 							rows.forEach(rdata => {
+								console.log("asdasdasdasddsrdata")
 								console.log(rdata.m_birth)
 								var rbirth = rdata.m_birth.toString()
 								var mybirth =	rbirth.slice(11, 15)
