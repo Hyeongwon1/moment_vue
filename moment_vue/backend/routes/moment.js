@@ -1,8 +1,9 @@
 var multer      = require('multer');
 var path        = require('path');
-var express     = require('express');
 const puppeteer = require('puppeteer');
 var moment 		= require('moment');
+var commons 	= require('./common');
+var express     = require('express');
 var router      = express.Router();
 var pool 		= require('./mysqlConn');
 var fs          = require('fs');
@@ -18,31 +19,49 @@ var upload = multer({
         cb(null, new Date().valueOf() + path.extname(file.originalname));
         }
     }),
-    });
+});
 
 router.post('/pupp', function(req,res,next){
-	console.log("aaaaaaaaaaaaa")
 	console.log(moment().format('MMMM Do YYYY, h:mm:ss a'))
-	console.log("Puppppppppppppppppppppppppppppppppp")
 	puppeteer.launch()
     .then((browser) => {
-      return browser.newPage()
+		return browser.newPage()
         .then((page) => {
-          return page.goto('https://www.naver.com/', { waitUnitl: 'networkidle' })
+			return page.goto('https://www.naver.com/', { waitUnitl: 'networkidle' })
             .then(() => page.evaluate(() => {
-							var post = {"num": "", "data": ""};
-							var len = document.querySelector('.ah_roll_area>ul').children.length
-							
-							var responseText = document.querySelector('.ah_roll_area').innerText;
-               return document.querySelector('.ah_roll_area').innerText;
+				let elements = Array.from(document.querySelectorAll('.ah_roll_area li'));
+				let res = [];
+				let rea = [];
+				// elements.map((li) => {
+				// 	let split =	li.textContent.trim().split('\n')
+				// 	res[split[0]] = split[1]
+                // });
+				elements.map((li) => {
+					let split =	li.textContent.trim().split('\n')
+					res.push({num:split[0],value:split[1]});		
+					rea.push(Number(split[0]),split[1]);		
+					});
+               return {res,rea};
             }))
         })
         .then((title) => {
 					browser.close();
-					console.log("aaaaaaaaaaaaaaaaaaaaatitle")
-					// responseObject = JSON.parse(title);
-					// console.log(responseObject)
-					res.send({data: title});
+					// console.log("aaaaaaaaaaaaaaaaaaaaatitle")
+					// responseObject = JSON.parse();
+					title.rea.push(moment().format())
+					console.log(title.rea)
+					pool.getConnection(function (err, connection) {
+						var sql = "insert into naver_searchWord values ?";
+							connection.query(sql,[title.rea], function (err, rows) {
+							console.log(rows)
+						if (err) console.error("err : " + err);
+							connection.release();
+						});
+					}); 
+					title.res.push({time:moment().format('MMMM Do YYYY, h:mm:ss a')})
+					// console.log(title.res)
+					res.send(title.res);
+					// res.send(title);
           return title;
         });
     });
@@ -103,61 +122,32 @@ router.get('/listinit', function(req,res,next){
 			}else{
 				orderby = " order by d_regdate desc";
 			}
-		console.log(d_kind)
-	  if (d_kind == 0 || d_kind== "") {
-	    	 var sql = "SELECT * FROM data_tbl as data LEFT OUTER JOIN member_tbl as mem ON data.m_no = mem.m_no "+" "+orderby;
-	    	 connection.query(sql, function (err, rows) {
-					var date = new Date()
-					var ttoday = date.getFullYear()
-					var m_age ;
-					rows.forEach(rdata => {
-						console.log(rdata.m_birth)
-						var rbirth = rdata.m_birth.toString()
-						var mybirth =	rbirth.slice(11, 15)
-								m_age = eval(ttoday - mybirth + 1 + "");
-								m_age = m_age.toString().slice(0,1)
-							  rdata.m_age = m_age
-						});
+	  	if (d_kind == 0 || d_kind== "") {
+			var sql = "SELECT * FROM data_tbl as data LEFT OUTER JOIN member_tbl as mem ON data.m_no = mem.m_no "+" "+orderby;
+	    	connection.query(sql, function (err, rows) {
+				commons.age(rows)	
 						
-	          if (err) console.error("err : " + err);
+	        	if (err) console.error("err : " + err);
 	    	  
-	          res.send({data: rows});
-	          connection.release();
+	          	res.send({data: rows});
+	          	connection.release();
 	      });
 		}else{
-		  var sql = "SELECT * FROM data_tbl as data LEFT OUTER JOIN member_tbl as mem ON data.m_no = mem.m_no where data.d_kind = ? "+" "+orderby;
-		  connection.query(sql,[d_kind], function (err, rows) {
-			  console.log(sql)
-	    		 	// console.log(rows)
-					var date = new Date()
-					var ttoday = date.getFullYear()
-					var m_age ;
-					rows.forEach(rdata => {
-						console.log(rdata.m_birth)
-						var rbirth = rdata.m_birth.toString()
-												console.log(rbirth)
-						var mybirth =	rbirth.slice(11, 15)
-												console.log(mybirth)
-								m_age = eval(ttoday - mybirth + 1 + "");
-								m_age = m_age.toString().slice(0,1)
-							  rdata.m_age = m_age
-						console.log(rows)
-						});
-						
-						// console.log(rows)
-	          if (err) console.error("err : " + err);
+		  	var sql = "SELECT * FROM data_tbl as data LEFT OUTER JOIN member_tbl as mem ON data.m_no = mem.m_no where data.d_kind = ? "+" "+orderby;
+		  	connection.query(sql,[d_kind], function (err, rows) {
+				commons.age(rows)
+	        	if (err) console.error("err : " + err);
 	    	  
-	          res.send({data: rows});
-	          connection.release();
-			  
-		  });
+	        	res.send({data: rows});
+	        	connection.release();
+		  	});
 		}
-	  });
 	});
+});
 	router.get('/home', function(req,res,next){
-		var ord =req.param('ord');
-	  pool.getConnection(function (err, connection) {
-			var orderby
+		const ord =req.param('ord');
+	  	pool.getConnection(function (err, connection) {
+			let orderby
 			if (ord == "nw") {
 				orderby = " order by d_regdate desc";
 			}else if(ord == "lk"){
@@ -165,27 +155,16 @@ router.get('/listinit', function(req,res,next){
 			}else{
 				orderby = " order by d_regdate desc";
 			}
-	      var sql = "SELECT * FROM data_tbl as data LEFT OUTER JOIN member_tbl as mem ON data.m_no = mem.m_no "+" "+orderby;
-	      connection.query(sql, function (err, rows) {
-					console.log(sql)
-					var date = new Date()
-					var ttoday = date.getFullYear()
-					var m_age ;
-					rows.forEach(rdata => {
-						var rbirth = rdata.m_birth.toString()
-						var mybirth =	rbirth.slice(11, 15)
-						m_age = eval(ttoday - mybirth + 1 + "");
-						m_age = m_age.toString().slice(0,1)
-						rdata.m_age = m_age
-					});
-					
-					if (err) console.error("err : " + err);
+			const sql = "SELECT * FROM data_tbl as data LEFT OUTER JOIN member_tbl as mem ON data.m_no = mem.m_no "+" "+orderby;
+	      	connection.query(sql, function (err, rows) {
+				commons.age(rows)
+				if (err) console.error("err : " + err);
 	    	  
-					res.send({data: rows});
-					connection.release();
-	      });
-			}); 
-		});
+				res.send({data: rows});
+				connection.release();
+	      	});
+		}); 
+	});
 		
 	router.get('/home_address_selectdb', function(req,res,next){
 	
@@ -202,47 +181,21 @@ router.get('/listinit', function(req,res,next){
 				orderby = " order by d_regdate desc";
 			}
 			pool.getConnection(function (err, connection) {
-					if (d_kind == 0 && d_kind== "") {
-						var sql = "SELECT * FROM data_tbl as data LEFT OUTER JOIN member_tbl as mem ON data.m_no = mem.m_no where data.d_location like ?"+" "+orderby;
-						connection.query(sql,["%"+d_location+"%"],function (err, rows) {
-						var date = new Date()
-						var ttoday = date.getFullYear()
-						var m_age ;
-
-							rows.forEach(rdata => {
-								console.log("asdasdasdasddsrdata")
-								console.log(rdata.m_birth)
-								var rbirth = rdata.m_birth.toString()
-								var mybirth =	rbirth.slice(11, 15)
-										m_age = eval(ttoday - mybirth + 1 + "");
-										m_age = m_age.toString().slice(0,1)
-										rdata.m_age = m_age
-								});
-							if (err) console.error("err : " + err);
-						
-							res.send({data: rows});
-							connection.release();
+				if (d_kind == 0 && d_kind== "") {
+					var sql = "SELECT * FROM data_tbl as data LEFT OUTER JOIN member_tbl as mem ON data.m_no = mem.m_no where data.d_location like ?"+" "+orderby;
+					connection.query(sql,["%"+d_location+"%"],function (err, rows) {
+						commons.age(rows)
+						if (err) console.error("err : " + err);
+						res.send({data: rows});
+						connection.release();
 					});
 				}else{
 					var sql = "SELECT * FROM data_tbl as data LEFT OUTER JOIN member_tbl as mem ON data.m_no = mem.m_no where data.d_kind = ? and data.d_location like ? "+""+orderby;
 					connection.query(sql,[d_kind,"%"+d_location+"%"], function (err, rows) {
-						var date = new Date()
-						var ttoday = date.getFullYear()
-						var m_age ;
-						rows.forEach(rdata => {
-							console.log(rdata.m_birth)
-							var rbirth = rdata.m_birth.toString()
-													console.log(rbirth)
-							var mybirth =	rbirth.slice(11, 15)
-													console.log(mybirth)
-									m_age = eval(ttoday - mybirth + 1 + "");
-									m_age = m_age.toString().slice(0,1)
-									rdata.m_age = m_age
-							console.log(rows)
-							});
-							if (err) console.error("err : " + err);
-							res.send({data: rows});
-							connection.release();
+						commons.age(rows)
+						if (err) console.error("err : " + err);
+						res.send({data: rows});
+						connection.release();
 					});
 				}
 			}); 
@@ -250,34 +203,22 @@ router.get('/listinit', function(req,res,next){
 
 
 	router.get('/data_view', function(req,res,next){
-			var dnum =req.param('dnum');
-			console.log("dvvvvnum")
-			console.log(dnum)
-				pool.getConnection(function (err, connection) {
+		var dnum =req.param('dnum');
+			pool.getConnection(function (err, connection) {
 						var sql ="SELECT * FROM data_tbl as data LEFT OUTER JOIN member_tbl as mem ON data.m_no = mem.m_no where data.d_no = ? ";
+				// var sql ="SELECT * FROM data_tbl as data LEFT OUTER JOIN member_tbl as mem ON data.m_no = mem.m_no order by d_no desc; ";
 		
-						connection.query(sql,[dnum], function (err, rows) {
-						var date = new Date()
-						var ttoday = date.getFullYear()
-						var m_age ;
-						rows.forEach(rdata => {
-							console.log(rdata.m_birth)
-							var rbirth = rdata.m_birth.toString()
-													console.log(rbirth)
-							var mybirth =	rbirth.slice(11, 15)
-													console.log(mybirth)
-									m_age = eval(ttoday - mybirth + 1 + "");
-									m_age = m_age.toString().slice(0,1)
-									rdata.m_age = m_age
-							console.log(rows)
-							});
-		//	    	  console.log(rows)
-								if (err) console.error("err : " + err);
-							
-							res.send(rows);
-								connection.release();
-						});
-				}); 
+				connection.query(sql,[dnum], function (err, rows) {
+						
+					commons.age(rows)
+
+					if (err) console.error("err : " + err);
+						
+					res.send(rows);
+					// res.send({data: rows});
+					connection.release();
+				});
+			}); 
 	});		
 router.get('/home_mypage', function(req,res,next){
 	var dnum =req.param('num');
@@ -287,18 +228,18 @@ router.get('/home_mypage', function(req,res,next){
 });
 
 router.get('/box_select', function(req,res,next){
-	  pool.getConnection(function (err, connection) {
-	      var sql = "SELECT * FROM data_tbl as data LEFT OUTER JOIN member_tbl as mem ON data.m_no = mem.m_no;";
+	pool.getConnection(function (err, connection) {
+	    var sql = "SELECT * FROM data_tbl as data LEFT OUTER JOIN member_tbl as mem ON data.m_no = mem.m_no;";
 
-	      connection.query(sql, function (err, rows) {
+	    connection.query(sql, function (err, rows) {
 //	    	  console.log(rows)
-	          if (err) console.error("err : " + err);
+	        if (err) console.error("err : " + err);
 	    	  
-	    	  res.send(rows);
-	          connection.release();
-	      });
-	  }); 
-	});
+	    	res.send(rows);
+	        connection.release();
+	    });
+	}); 
+});
 
 router.get('/mylike_selectdb', function(req,res,next){
 	var m_email =req.param('m_email');
@@ -310,35 +251,24 @@ router.get('/mylike_selectdb', function(req,res,next){
 	    	  
 	    	  res.send(rows);
 	          connection.release();
-	      });
-	  }); 
-	});
+	    });
+	}); 
+});
 
 router.post('/myrecord_selectdb', function(req,res,next){
 	var m_email =req.param('m_email');
-	  pool.getConnection(function (err, connection) {
-	      var sql = "SELECT * FROM member_tbl as mem LEFT OUTER JOIN data_tbl as mydata ON mem.m_no = mydata.m_no where mem.m_email=? ";
-	      connection.query(sql,[m_email], function (err, rows) {
-						var date = new Date()
-						var ttoday = date.getFullYear()
-						var m_age ;
-						rows.forEach(rdata => {
-							console.log(rdata.m_birth)
-							var rbirth = rdata.m_birth.toString()
-													console.log(rbirth)
-							var mybirth =	rbirth.slice(11, 15)
-													console.log(mybirth)
-									m_age = eval(ttoday - mybirth + 1 + "");
-									m_age = m_age.toString().slice(0,1)
-									rdata.m_age = m_age
-							});
-	          if (err) console.error("err : " + err);
+	pool.getConnection(function (err, connection) {
+	    var sql = "SELECT * FROM member_tbl as mem LEFT OUTER JOIN data_tbl as mydata ON mem.m_no = mydata.m_no where mem.m_email=? ";
+	    connection.query(sql,[m_email], function (err, rows) {
+			commons.age(rows)
+						
+	        if (err) console.error("err : " + err);
 					
-						res.send(rows);
-	          connection.release();
-	      });
-	  }); 
-	});
+			res.send(rows);
+	        connection.release();
+	    });
+	}); 
+});
 
 router.post('/mem_searchdb', function(req,res,next){
 	var m_no =req.param('num');
@@ -471,18 +401,21 @@ router.get('/mem_idcheckdb', function(req,res,next){
 	  }); 
 	});
 
+
+
+
+
+
+
 router.post('/likecnt', function(req,res,next){
 	var d_no = req.param("d_no");
 	var d_like = req.param("d_cnt");
-	console.log("라이크씨앤티")
 	  pool.getConnection(function (err, connection) {
 	      var sql = "UPDATE data_tbl SET d_like=?  WHERE d_no=?";
 	      connection.query(sql,[d_like,d_no], function (err, rows) {
 	    	  console.log(rows)
 	          if (err) console.error("err : " + err);
-	    	  
 	    	  res.send(rows);
-	    	  console.log("라이크씨앤티")
 	    	  console.log("라이크씨앤티"+rows)
 	          connection.release();
 	      });

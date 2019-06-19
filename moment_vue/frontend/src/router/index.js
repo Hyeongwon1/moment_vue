@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import MomentHome from '@/components/Home'
 import MomentUpload from '@/components/Upload'
+import MomentPupp1 from '@/components/Pupp1'
 import MomentDetail from '@/components/Detail'
 import MomentLogin from '@/components/login/Login'
 import MomentMyPage from '@/components/myPage/MyPage'
@@ -35,6 +36,11 @@ export default new Router({
       path: '/mypage',
       name: 'MyPage',
       component: MomentMyPage
+    },
+    {
+      path: '/pupp1',
+      name: 'PuppTest',
+      component: MomentPupp1
     }
   ]
 })

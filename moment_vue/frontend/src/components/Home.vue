@@ -70,6 +70,7 @@ export default {
 	created(){
     this.$axios.get('/moment/home').then(response => {
 			console.log("aaaa")
+			console.log(response.data.data)
 			this.datas = response.data.data;
 		})
   },
@@ -175,15 +176,17 @@ export default {
 		location.href = "/home";
 	},
 	pupp: function(){
-			this.$axios.post('/moment/pupp', {
+		location.href = "/pupp1";
+
+	// 		this.$axios.post('/moment/pupp', {
 											
-			}).then(response => {
-				console.log(response.data)
-				this.pupps = response.data
+	// 		}).then(response => {
+	// 			console.log(response.data)
+	// 			this.pupps = response.data
 		
-      }, function() {
-      	console.log('failed')
-      })
+    //   }, function() {
+    //   	console.log('failed')
+    //   })
 	}
 
   }
@@ -240,15 +243,10 @@ div p.loctxt{
 	padding-right: 10px;
 	background-color: black;	
 }
-.datas{
-	/* padding: 30px;  */
-}
 .data{
 	float:left; 
 	margin: 30px;
-	/* padding: 23px;  */
 	position: relative;
-	margin-bottom: 50px;
 }
 .data *{
 	font-family: "설렘";
@@ -257,11 +255,8 @@ div p.loctxt{
 .box {
 	box-shadow: 5px 5px 20px #ccc;
 	background-color: #e5e7e8;
-	padding: 20px;
+	padding: 15px;
     width: 320px;
-}
-.s_pic{
-	
 }
 .mainimg {
 	vertical-align: middle; 
@@ -344,6 +339,7 @@ div p.loctxt{
 }
 #bottom_nav {
 	width: 100%;
+	position: sticky;
 	background-color: black;
 }
 .fbtn:active {

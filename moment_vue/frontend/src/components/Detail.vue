@@ -50,7 +50,7 @@
 				</div>
         </div>	
 	</div>
-		<div id="bottom_nav" class="btn-group d-flex fixed-bottom">
+		<div id="bottom_navd" class="btn-group d-flex fixed-bottom">
 			<a href="#" class="btn fbtn" id="myhome" >H O M E</a>
 			<a href="#" class="btn fbtn" id="mylike" >L I K E</a> 
 			<a href="#" class="btn fbtn" id="myupload" @click="myupload" >U P L O A D</a> 
@@ -106,6 +106,9 @@ export default {
 		},
 		mypage : function(){
 			location.href = "/mypage";
+		},
+		pupp : function(){
+			location.href = "/pupp1";
 		}
 	}
 }
@@ -150,10 +153,6 @@ body {
 #date, #mem_nick {
 	text-shadow: #999999 1px 1px 1px;
 }
-#bottom_nav {
-	width: 100%;
-	background-color: black;
-}
 .headmargin {
 	margin-top: 60px;
 	margin-bottom: 40px;
@@ -197,6 +196,10 @@ body {
 }
 .hj_heart_img {
 	width: 18px;
+}
+#bottom_navd {
+	width: 100%;
+	background-color: black;
 }
 #age {
 	margin-right: 10px;
