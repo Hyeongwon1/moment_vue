@@ -6,7 +6,7 @@ var pool = mysql.createPool({
     port : 80,
     user : 'root',
     password : 'hi123456',
-    database:'momentdb'    
+    database:'momentdb', 
 });
 
 module.exports = pool;

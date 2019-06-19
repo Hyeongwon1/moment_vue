@@ -48,17 +48,17 @@ router.post('/pupp', function(req,res,next){
 					browser.close();
 					// console.log("aaaaaaaaaaaaaaaaaaaaatitle")
 					// responseObject = JSON.parse();
-					title.rea.push(moment().format())
+					title.rea.push(moment().format('YYYY/MM/DD HH:mm:ss'))
 					console.log(title.rea)
 					pool.getConnection(function (err, connection) {
 						var sql = "insert into naver_searchWord values ?";
-							connection.query(sql,[title.rea], function (err, rows) {
+							connection.query(sql,[[title.rea]], function (err, rows) {
 							console.log(rows)
 						if (err) console.error("err : " + err);
 							connection.release();
 						});
 					}); 
-					title.res.push({time:moment().format('MMMM Do YYYY, h:mm:ss a')})
+					title.res.push({time:moment().format('YYYY/MM/DD HH:mm:ss')})
 					// console.log(title.res)
 					res.send(title.res);
 					// res.send(title);
