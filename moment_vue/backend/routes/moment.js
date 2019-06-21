@@ -19,7 +19,7 @@ var upload = multer({
         cb(null, new Date().valueOf() + path.extname(file.originalname));
         }
     }),
-});
+});	
 
 router.post('/pupp', function(req,res,next){
 	console.log(moment().format('MMMM Do YYYY, h:mm:ss a'))
@@ -32,34 +32,33 @@ router.post('/pupp', function(req,res,next){
 				let elements = Array.from(document.querySelectorAll('.ah_roll_area li'));
 				let res = [];
 				let rea = [];
-				// elements.map((li) => {
-				// 	let split =	li.textContent.trim().split('\n')
-				// 	res[split[0]] = split[1]
-                // });
-				elements.map((li) => {
-					let split =	li.textContent.trim().split('\n')
-					res.push({num:split[0],value:split[1]});		
-					rea.push(Number(split[0]),split[1]);		
+					// elements.map((li) => {
+					// 	let split =	li.textContent.trim().split('\n')
+					// 	res[split[0]] = split[1]
+					// });
+					elements.map((li) => {
+						let split =	li.textContent.trim().split('\n')
+						res.push({num:split[0],value:split[1]});		
+						rea.push([Number(split[0]),split[1]]);		
 					});
                return {res,rea};
             }))
         })
         .then((title) => {
 					browser.close();
-					// console.log("aaaaaaaaaaaaaaaaaaaaatitle")
-					// responseObject = JSON.parse();
-					title.rea.push(moment().format('YYYY/MM/DD HH:mm:ss'))
+					title.rea.forEach(element => {
+						element.push(moment().format('YYYY/MM/DD HH:mm:ss'))
+					});
+					title.res.push({time:moment().format('YYYY/MM/DD HH:mm:ss')})
 					console.log(title.rea)
 					pool.getConnection(function (err, connection) {
-						var sql = "insert into naver_searchWord values ?";
-							connection.query(sql,[[title.rea]], function (err, rows) {
+						var sql = "insert into TCM_RANK_MST (RANK_NUM,RANK_VALUE,INSERT_DATETIME) values ?";
+						connection.query(sql,[title.rea], function (err, rows) {
 							console.log(rows)
-						if (err) console.error("err : " + err);
+							if (err) console.error("err : " + err);
 							connection.release();
 						});
 					}); 
-					title.res.push({time:moment().format('YYYY/MM/DD HH:mm:ss')})
-					// console.log(title.res)
 					res.send(title.res);
 					// res.send(title);
           return title;
@@ -115,6 +114,14 @@ router.get('/listinit', function(req,res,next){
 	var ord =req.param('ord');
 	  pool.getConnection(function (err, connection) {
 			var orderby
+			// param = {
+			// 	column : 'abcColumn desc , adcdm asc , dcjd'
+				
+			// }
+			// 	// a.split("[a]").join('안')	
+
+			// orderby = " order by [column]";
+
 			if (ord == "nw") {
 				orderby = " order by d_regdate desc";
 			}else if(ord == "lk"){
@@ -155,7 +162,16 @@ router.get('/listinit', function(req,res,next){
 			}else{
 				orderby = " order by d_regdate desc";
 			}
-			const sql = "SELECT * FROM data_tbl as data LEFT OUTER JOIN member_tbl as mem ON data.m_no = mem.m_no "+" "+orderby;
+			// const sql = "SELECT * FROM data_tbl as data LEFT OUTER JOIN member_tbl as mem ON data.m_no = mem.m_no "+" "+orderby;
+			const sql =`SELECT * 
+						FROM 	data_tbl as data 
+						LEFT 
+						OUTER 
+						JOIN 	member_tbl as mem 
+						ON 		data.m_no = mem.m_no ${orderby}`
+			// var string a = "[a] 아랑 [a]"
+			// a.split("[a]").join('안')	
+			// ;
 	      	connection.query(sql, function (err, rows) {
 				commons.age(rows)
 				if (err) console.error("err : " + err);
@@ -205,8 +221,8 @@ router.get('/listinit', function(req,res,next){
 	router.get('/data_view', function(req,res,next){
 		var dnum =req.param('dnum');
 			pool.getConnection(function (err, connection) {
-						var sql ="SELECT * FROM data_tbl as data LEFT OUTER JOIN member_tbl as mem ON data.m_no = mem.m_no where data.d_no = ? ";
-				// var sql ="SELECT * FROM data_tbl as data LEFT OUTER JOIN member_tbl as mem ON data.m_no = mem.m_no order by d_no desc; ";
+						// var sql ="SELECT * FROM data_tbl as data LEFT OUTER JOIN member_tbl as mem ON data.m_no = mem.m_no where data.d_no = ? ";
+				var sql ="SELECT * FROM data_tbl as data LEFT OUTER JOIN member_tbl as mem ON data.m_no = mem.m_no order by d_no desc; ";
 		
 				connection.query(sql,[dnum], function (err, rows) {
 						
@@ -305,20 +321,21 @@ router.post('/imgup', upload.single('image'), function(req, res){
 
 router.post('/uploaddb',upload.single('image'), function(req,res,next){
 
-	var m_no 					= req.param("m_no");
+	var m_no 			= req.param("m_no");
 	var d_kind     		= parseInt(req.param("d_kind"));
 	var d_location   	= req.param("d_location");
 	var d_title   		= req.param("d_title");
 	var d_content   	= req.param("d_content");
-	var d_star 				= parseInt(req.param("d_star"));
-	var d_path 				= req.file.path.substr(7)
-	var d_like   			= "";
+	var d_star 			= parseInt(req.param("d_star"));
+	var d_path 			= req.file.path.substr(7)
+	var d_regdate		= moment().format('YYYY/MM/DD HH:mm:ss');
+	var d_like   		= "";
 	console.log(req.file.path.substr(7))
 	   
 	  pool.getConnection(function (err, connection) {
-	      var sql = "insert into data_tbl(m_no,d_regdate,d_kind,d_location,d_title,d_content,d_path,d_star,d_like)values(?,sysDate(),?,?,?,?,?,?,0)";
+	      var sql = "insert into data_tbl(m_no,d_regdate,d_kind,d_location,d_title,d_content,d_path,d_star,d_like)values(?,?,?,?,?,?,?,?,0)";
 	      
-	      connection.query(sql,[m_no,d_kind,d_location,d_title,d_content,d_path,d_star], function (err, rows) {
+	      connection.query(sql,[m_no,d_regdate,d_kind,d_location,d_title,d_content,d_path,d_star], function (err, rows) {
 //	    	  console.log(rows)
 	          if (err) {
 							console.error("err : " + err);

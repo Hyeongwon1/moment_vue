@@ -3,7 +3,10 @@
 	<div class="headtop">
 		<Slide>
 		<a id="home" href="#" @click="pupp">
-			<span>pupptest</span>
+			<span>puppnaver</span>
+		</a>
+		<a id="skysc" href="#" @click="pupp">
+			<span>puppskysc</span>
 		</a>
 		</Slide>
 	</div>	
@@ -147,7 +150,6 @@ export default {
 			console.log(heartflag)
 			if (heartflag == "1") {
 				console.log("aaa")
-				
 				evt.target.attributes.src = '/image/like/full_heart.png'
 			} else {
 				

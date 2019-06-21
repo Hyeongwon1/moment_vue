@@ -3,7 +3,10 @@
 	<div class="headtop">
 		<Slide>
 		<a id="home" href="#" @click="pupp">
-			<span>pupptest</span>
+			<span>puppnaver</span>
+		</a>
+		<a id="skysc" href="#" @click="pupp">
+			<span>puppskysc</span>
 		</a>
 		</Slide>
 	</div>	
@@ -34,7 +37,8 @@
 						</div>  
 					<img id="age" class="img-responsive " v-bind:src="'/image/age/'+data.m_age+'0s.png'"> 
 					<div>
-						<img id="like" class="img-responsive hj_heart_img" src="/image/like/heart.png">
+						<!-- <img id="like" class="img-responsive hj_heart_img" src="/image/like/heart.png"> -->
+						<img src="/image/like/heart.png" class="img-responsive hj_heart_img" @click="checklike" value="1">
 						<span id="likecnt">{{data.d_like}}</span>
 						<img id="starimg" class="img-responsive hj_roll_img" v-bind:src="'/image/roll/r'+data.d_star+'.png'">
 					</div>
@@ -104,6 +108,20 @@ export default {
 			console.log('failed')
 		})
 		},
+		checklike : function(evt){
+			console.log(evt.target.attributes.src)
+			console.log(evt.target.attributes)
+			var heartflag = evt.target.attributes[1].value
+			console.log(heartflag)
+			if (heartflag == "1") {
+				console.log("aaa")
+				console.log(this.dats.d_like)
+				this.dats.d_like + 1
+				evt.target.attributes.src = '/image/like/full_heart.png'
+			} else {
+				
+			}
+		},
 		mypage : function(){
 			location.href = "/mypage";
 		},
@@ -149,6 +167,7 @@ body {
 	margin-left: auto;
 	vertical-align: bottom;
 	margin-right: 10px;
+	background-color: #e8f3ff;
 }
 #date, #mem_nick {
 	text-shadow: #999999 1px 1px 1px;
