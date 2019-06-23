@@ -1,8 +1,6 @@
 <template lang="html">
 <body id="mybody">
-<div @click="fnhome" id="head" class="hj_head fixed-top">
-	in the moment
-</div>
+	<top></top>
       <div style="margin-top: 100px;"></div>
       <div style="text-align: center">
          <table id="up_tb">
@@ -66,13 +64,12 @@
                   </div>
                </td>
             </tr>
-
          </table>
       </div>
       <br> <br>
 
   </div>
-      <div style="text-align: center">
+      <div style="text-align: center; margin-bottom: 155px;">
          <a href="#" @click="sendPost" id="write_bt" class="btn hbtn" style="color: white;">
             <img id="write_img" src="/image/pencil2.png"> Write
          </a> 
@@ -81,10 +78,12 @@
          </a>
       </div>
 
+
+<bottom></bottom>
+
        <div id="foot" class="sk_foot fixed-bottom">⊙
          Copyright(c)2017 TT All rights reserved.
       </div>
-
 
 
   <div class="modal fade" id="myModal" role="dialog">
@@ -95,17 +94,14 @@
           <button type="button" ref="modalclose" data-dismiss="modal">Close</button>
       </div>
     </div>
-
   </div>
-
-
-
+  
  </div>
-
- 
 </body>
 </template>
 <script>
+import bottom from './bar/bottom.vue'
+import top from './bar/top.vue'
 import DaumPostcode from 'vuejs-daum-postcode'
 export default {
  data () {
@@ -122,7 +118,9 @@ export default {
      }
   },
   components: {
-    DaumPostcode
+   DaumPostcode,
+   bottom,
+	top
   },
   methods: {
     sendPost: function () {

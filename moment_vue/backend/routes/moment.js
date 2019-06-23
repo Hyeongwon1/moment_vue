@@ -52,7 +52,12 @@ router.post('/pupp', function(req,res,next){
 					title.res.push({time:moment().format('YYYY/MM/DD HH:mm:ss')})
 					console.log(title.rea)
 					pool.getConnection(function (err, connection) {
-						var sql = "insert into TCM_RANK_MST (RANK_NUM,RANK_VALUE,INSERT_DATETIME) values ?";
+						var sql = `insert into 
+													TCM_RANK_MST 
+													(RANK_NUM,
+														RANK_VALUE,
+														INSERT_DATETIME) 
+														values ?`;
 						connection.query(sql,[title.rea], function (err, rows) {
 							console.log(rows)
 							if (err) console.error("err : " + err);
@@ -91,14 +96,16 @@ router.post('/pupp', function(req,res,next){
 // await browser.close();
 
 // });
-
-
 });
 
 router.get('/list', function(req,res,next){
   pool.getConnection(function (err, connection) {
-      var sql = "SELECT * FROM data_tbl as data LEFT OUTER JOIN member_tbl as mem ON data.m_no = mem.m_no order by d_regdate desc;";
-
+			var sql = `SELECT * FROM 
+										data_tbl as data 
+										LEFT OUTER JOIN 
+										member_tbl as mem 
+										ON data.m_no = mem.m_no 
+										order by d_regdate desc`;
       connection.query(sql, function (err, rows) {
 				if (err) console.error("err : " + err);
     	  
@@ -115,36 +122,45 @@ router.get('/listinit', function(req,res,next){
 	  pool.getConnection(function (err, connection) {
 			var orderby
 			// param = {
-			// 	column : 'abcColumn desc , adcdm asc , dcjd'
-				
+			// 	column : 'd_regdate desc , d_like desc , dcjd'
 			// }
-			// 	// a.split("[a]").join('안')	
-
+				// ord.split("nw").join('d_regdate')	
 			// orderby = " order by [column]";
 
+			// var string a = "[a] 아랑 [a]"
+			// orderby.split("[a]").join('안')	
 			if (ord == "nw") {
-				orderby = " order by d_regdate desc";
+				orderby = " d_regdate desc";
 			}else if(ord == "lk"){
-				orderby = " order by d_like desc";
+				orderby = " d_like desc";
 			}else{
-				orderby = " order by d_regdate desc";
+				orderby = " d_regdate desc";
 			}
 	  	if (d_kind == 0 || d_kind== "") {
-			var sql = "SELECT * FROM data_tbl as data LEFT OUTER JOIN member_tbl as mem ON data.m_no = mem.m_no "+" "+orderby;
+				const sql = `SELECT * 
+												FROM data_tbl as data 
+												LEFT OUTER JOIN 
+												member_tbl as mem 
+												ON data.m_no = mem.m_no
+												order by ${orderby}`;
+
 	    	connection.query(sql, function (err, rows) {
-				commons.age(rows)	
-						
+							commons.age(rows)	
 	        	if (err) console.error("err : " + err);
-	    	  
 	          	res.send({data: rows});
 	          	connection.release();
 	      });
-		}else{
-		  	var sql = "SELECT * FROM data_tbl as data LEFT OUTER JOIN member_tbl as mem ON data.m_no = mem.m_no where data.d_kind = ? "+" "+orderby;
+			}else{
+				const sql = `SELECT * 
+										FROM data_tbl as data 
+										LEFT OUTER JOIN 
+										member_tbl as mem 
+										ON data.m_no = mem.m_no 
+										WHERE data.d_kind = ? 
+										order by ${orderby}`;
 		  	connection.query(sql,[d_kind], function (err, rows) {
-				commons.age(rows)
+						commons.age(rows)
 	        	if (err) console.error("err : " + err);
-	    	  
 	        	res.send({data: rows});
 	        	connection.release();
 		  	});
@@ -156,19 +172,19 @@ router.get('/listinit', function(req,res,next){
 	  	pool.getConnection(function (err, connection) {
 			let orderby
 			if (ord == "nw") {
-				orderby = " order by d_regdate desc";
+				orderby = " d_regdate desc";
 			}else if(ord == "lk"){
-				orderby = " order by d_like desc";
+				orderby = " d_like desc";
 			}else{
-				orderby = " order by d_regdate desc";
+				orderby = " d_regdate desc";
 			}
-			// const sql = "SELECT * FROM data_tbl as data LEFT OUTER JOIN member_tbl as mem ON data.m_no = mem.m_no "+" "+orderby;
 			const sql =`SELECT * 
-						FROM 	data_tbl as data 
-						LEFT 
-						OUTER 
-						JOIN 	member_tbl as mem 
-						ON 		data.m_no = mem.m_no ${orderby}`
+										FROM 	data_tbl as data 
+										LEFT 
+										OUTER 
+										JOIN 	member_tbl as mem 
+										ON 		data.m_no = mem.m_no
+										order by  ${orderby}`
 			// var string a = "[a] 아랑 [a]"
 			// a.split("[a]").join('안')	
 			// ;
@@ -198,7 +214,14 @@ router.get('/listinit', function(req,res,next){
 			}
 			pool.getConnection(function (err, connection) {
 				if (d_kind == 0 && d_kind== "") {
-					var sql = "SELECT * FROM data_tbl as data LEFT OUTER JOIN member_tbl as mem ON data.m_no = mem.m_no where data.d_location like ?"+" "+orderby;
+					var sql = `SELECT * 
+												FROM 
+												data_tbl as data 
+												LEFT OUTER JOIN 
+												member_tbl as mem 
+												ON data.m_no = mem.m_no 
+												WHERE data.d_location like ? ${orderby}`;
+												console.log(sql)
 					connection.query(sql,["%"+d_location+"%"],function (err, rows) {
 						commons.age(rows)
 						if (err) console.error("err : " + err);
@@ -206,7 +229,15 @@ router.get('/listinit', function(req,res,next){
 						connection.release();
 					});
 				}else{
-					var sql = "SELECT * FROM data_tbl as data LEFT OUTER JOIN member_tbl as mem ON data.m_no = mem.m_no where data.d_kind = ? and data.d_location like ? "+""+orderby;
+					var sql = `SELECT * 
+												FROM 
+												data_tbl as data 
+												LEFT OUTER JOIN 
+												member_tbl as mem 
+												ON data.m_no = mem.m_no 
+												where data.d_kind = ? 
+												and data.d_location like ? ${orderby}`;
+												console.log(sql)
 					connection.query(sql,[d_kind,"%"+d_location+"%"], function (err, rows) {
 						commons.age(rows)
 						if (err) console.error("err : " + err);
@@ -221,8 +252,13 @@ router.get('/listinit', function(req,res,next){
 	router.get('/data_view', function(req,res,next){
 		var dnum =req.param('dnum');
 			pool.getConnection(function (err, connection) {
-						// var sql ="SELECT * FROM data_tbl as data LEFT OUTER JOIN member_tbl as mem ON data.m_no = mem.m_no where data.d_no = ? ";
-				var sql ="SELECT * FROM data_tbl as data LEFT OUTER JOIN member_tbl as mem ON data.m_no = mem.m_no order by d_no desc; ";
+				var sql =`SELECT * 
+										FROM 
+										data_tbl as data 
+										LEFT OUTER JOIN 
+										member_tbl as mem 
+										ON data.m_no = mem.m_no 
+										order by d_no desc; `;
 		
 				connection.query(sql,[dnum], function (err, rows) {
 						
@@ -245,7 +281,12 @@ router.get('/home_mypage', function(req,res,next){
 
 router.get('/box_select', function(req,res,next){
 	pool.getConnection(function (err, connection) {
-	    var sql = "SELECT * FROM data_tbl as data LEFT OUTER JOIN member_tbl as mem ON data.m_no = mem.m_no;";
+			var sql = `SELECT * 
+										FROM 
+										data_tbl as data 
+										LEFT OUTER JOIN 
+										member_tbl as mem 
+										ON data.m_no = mem.m_no;`;
 
 	    connection.query(sql, function (err, rows) {
 //	    	  console.log(rows)
@@ -260,7 +301,19 @@ router.get('/box_select', function(req,res,next){
 router.get('/mylike_selectdb', function(req,res,next){
 	var m_email =req.param('m_email');
 	  pool.getConnection(function (err, connection) {
-	      var sql = "SELECT * FROM (member_tbl as mem LEFT OUTER JOIN like_tbl as mylike ON mem.m_no = mylike.m_no) LEFT OUTER JOIN data_tbl as mydata ON mylike.d_no = mydata.d_no LEFT OUTER JOIN member_tbl as mymem ON mydata.m_no = mymem.m_no where mymem.m_email = ?";
+				var sql = `SELECT * 
+											FROM 
+												(
+												member_tbl as mem 
+												LEFT OUTER JOIN 
+												like_tbl as mylike 
+												ON mem.m_no = mylike.m_no
+												) 
+												LEFT OUTER JOIN data_tbl as mydata 
+												ON mylike.d_no = mydata.d_no 
+												LEFT OUTER JOIN member_tbl as mymem 
+												ON mydata.m_no = mymem.m_no 
+												where mymem.m_email = ?`;
 	      connection.query(sql,[m_email], function (err, rows) {
 	    	  console.log(sql)
 	          if (err) console.error("err : " + err);
@@ -274,7 +327,12 @@ router.get('/mylike_selectdb', function(req,res,next){
 router.post('/myrecord_selectdb', function(req,res,next){
 	var m_email =req.param('m_email');
 	pool.getConnection(function (err, connection) {
-	    var sql = "SELECT * FROM member_tbl as mem LEFT OUTER JOIN data_tbl as mydata ON mem.m_no = mydata.m_no where mem.m_email=? ";
+			var sql = `SELECT * 
+										FROM 
+										member_tbl as mem 
+										LEFT OUTER JOIN data_tbl as mydata 
+										ON mem.m_no = mydata.m_no 
+										where mem.m_email=? `;
 	    connection.query(sql,[m_email], function (err, rows) {
 			commons.age(rows)
 						
@@ -321,7 +379,7 @@ router.post('/imgup', upload.single('image'), function(req, res){
 
 router.post('/uploaddb',upload.single('image'), function(req,res,next){
 
-	var m_no 			= req.param("m_no");
+	var m_no 					= req.param("m_no");
 	var d_kind     		= parseInt(req.param("d_kind"));
 	var d_location   	= req.param("d_location");
 	var d_title   		= req.param("d_title");
@@ -333,7 +391,17 @@ router.post('/uploaddb',upload.single('image'), function(req,res,next){
 	console.log(req.file.path.substr(7))
 	   
 	  pool.getConnection(function (err, connection) {
-	      var sql = "insert into data_tbl(m_no,d_regdate,d_kind,d_location,d_title,d_content,d_path,d_star,d_like)values(?,?,?,?,?,?,?,?,0)";
+				var sql = `insert into data_tbl(m_no,
+																				d_regdate,
+																				d_kind,
+																				d_location,
+																				d_title,
+																				d_content,
+																				d_path,
+																				d_star,
+																				d_like)
+																				values(
+																					?,?,?,?,?,?,?,?,0)`;
 	      
 	      connection.query(sql,[m_no,d_regdate,d_kind,d_location,d_title,d_content,d_path,d_star], function (err, rows) {
 //	    	  console.log(rows)
@@ -357,7 +425,12 @@ router.post('/mem_updatedb', function(req,res,next){
 	var m_phone   	= req.param("m_phone");
 	var count   = "";
 	  pool.getConnection(function (err, connection) {
-	      var sql = "update member_tbl set m_nick=?,m_pw=?,m_phone=? where m_no=?";
+				var sql = `update member_tbl 
+															set 
+															m_nick=?,
+															m_pw=?,
+															m_phone=? 
+															where m_no=?`;
 	  	
 	      connection.query(sql,[m_nick,m_pw,m_phone,m_no], function (err, rows) {
 //	    	  console.log(rows)
@@ -374,7 +447,13 @@ router.get('/home_selectdblike', function(req,res,next){
 	var k_num =req.param('kind');
 	console.log(k_num)
 	  pool.getConnection(function (err, connection) {
-	      var sql = "SELECT * FROM data_tbl as data LEFT OUTER JOIN member_tbl as mem ON data.m_no = mem.m_no order by d_like desc;";
+				var sql = `SELECT * 
+										FROM 
+										data_tbl as data 
+										LEFT OUTER JOIN 
+										member_tbl as mem 
+										ON data.m_no = mem.m_no 
+										order by d_like desc;`;
 
 	      connection.query(sql,[k_num], function (err, rows) {
 //	    	  console.log(rows)
@@ -407,7 +486,11 @@ router.get('/mem_idcheckdb', function(req,res,next){
 	console.log("m_email")
 	console.log(m_email)
 	  pool.getConnection(function (err, connection) {
-	      var sql = "SELECT * FROM member_tbl WHERE m_email=?";
+				var sql = `SELECT * 
+										FROM 
+										member_tbl 
+										WHERE 
+										m_email=?`;
 	      connection.query(sql,[m_email], function (err, rows) {
 //	    	  console.log(rows)
 	          if (err) console.error("err : " + err);
