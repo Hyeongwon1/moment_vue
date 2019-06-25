@@ -14,19 +14,12 @@
             </div>
             <div class="h1_1"></div>
 				<div id="icon" class="col-sm-12" >
-						<div v-if="data.d_kind =='1'">
-							<img id="kindimg" class="img-responsive " src="/image/kind/eat.png">
-						</div>
-						<div v-else-if="data.d_kind =='2'">
-							<img id="kindimg" class="img-responsive " src="/image/kind/buy.png">
-						</div> 
-						<div v-else-if="data.d_kind =='3'">
-							<img id="kindimg" class="img-responsive " src="/image/kind/enjoy.png">
-						</div>  
+						<img v-if="data.d_kind =='1'" id="kindimg" class="img-responsive " src="/image/kind/eat.png">
+						<img v-if="data.d_kind =='2'" id="kindimg" class="img-responsive " src="/image/kind/buy.png">
+						<img v-if="data.d_kind =='3'" id="kindimg" class="img-responsive " src="/image/kind/enjoy.png">
 					<img id="age" class="img-responsive " v-bind:src="'/image/age/'+data.m_age+'0s.png'"> 
 					<div>
-						<!-- <img id="like" class="img-responsive hj_heart_img" src="/image/like/heart.png"> -->
-						<img src="/image/like/heart.png" class="img-responsive hj_heart_img" @click="checklike" value="1">
+						<img src="/image/like/heart.png" class="img-responsive hj_heart_img" v-bind:aaa="data.d_no" @click="checklike" value="1" >
 						<span id="likecnt">{{data.d_like}}</span>
 						<img id="starimg" class="img-responsive hj_roll_img" v-bind:src="'/image/roll/r'+data.d_star+'.png'">
 					</div>
@@ -42,7 +35,7 @@
 				</div>
         </div>	
 	</div>
-		<bottom></bottom>
+<bottom></bottom>
 </div>
 </template>
 <script>
@@ -59,8 +52,6 @@ export default {
     this.$axios.get('/moment/data_view?dnum='+dno).then(response => {
 			console.log("aaaa")
 		 this.datas = response.data;
-         console.log(this.datas)
-         console.log(response.data)
 		})
   	},   
 	data() {
@@ -73,12 +64,6 @@ export default {
 			top
   	},
   	methods: {
-		fnhome : function(){
-			location.href = "/home";
-		},
-		myupload : function(){
-				location.href = "/upload"
-		},
 		myrecorcd: function(){
 			var s_m_email = sessionStorage.m_email
 			console.log(s_m_email)
@@ -88,29 +73,31 @@ export default {
 
 				this.datas = response.data
 
-		}, function() {
-			console.log('failed')
-		})
+				}, function() {
+					console.log('failed')
+				})
 		},
 		checklike : function(evt){
-			console.log(evt.target.attributes.src)
-			console.log(evt.target.attributes)
 			var heartflag = evt.target.attributes[1].value
-			console.log(heartflag)
 			if (heartflag == "1") {
-				console.log("aaa")
-				console.log(this.dats.d_like)
-				this.dats.d_like + 1
-				evt.target.attributes.src = '/image/like/full_heart.png'
+				evt.target.attributes.src.nodeValue = "/image/like/full_heart.png"
+				evt.target.attributes[1].value = 0
+
+				// this.$axios.post('/moment/myrecord_selectdb', {
+				// 		m_email: s_m_email								
+				// }).then(response => {
+
+				// this.datas = response.data
+
+				// }, function() {
+				// 	console.log('failed')
+				// })
+
+
 			} else {
-				
+				evt.target.attributes.src.nodeValue = "/image/like/heart.png"
+				evt.target.attributes[1].value = 1
 			}
-		},
-		mypage : function(){
-			location.href = "/mypage";
-		},
-		pupp : function(){
-			location.href = "/pupp1";
 		}
 	}
 }
@@ -199,10 +186,6 @@ body {
 }
 .hj_heart_img {
 	width: 18px;
-}
-#bottom_navd {
-	width: 100%;
-	background-color: black;
 }
 #age {
 	margin-right: 10px;

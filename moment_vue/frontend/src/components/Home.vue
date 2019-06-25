@@ -287,11 +287,6 @@ div p.loctxt{
 #msearch{
 	background-color: white;
 }
-#bottom_nav {
-	width: 100%;
-	position: sticky;
-	background-color: black;
-}
 .fbtn:active {
 	background-color: #A9A9F5;
 }

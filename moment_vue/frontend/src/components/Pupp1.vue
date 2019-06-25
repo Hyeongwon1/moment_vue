@@ -1,18 +1,6 @@
 <template lang="html">
 <body id="mybodyhtml">
-	<div class="headtop">
-		<Slide>
-		<a id="home" href="#" @click="pupp">
-			<span>puppnaver</span>
-		</a>
-		<a id="skysc" href="#" @click="pupp">
-			<span>puppskysc</span>
-		</a>
-		</Slide>
-	</div>	
-	<div id="head" class="hj_head">	
-		<a @click="fnhome" class="head_moment">in the moment</a>
-	</div>
+	<top></top>
 	<div style="text-align: center">
 			<a href="#" @click="sendpupp" id="write_bt" class="btn hbtn" style="color: white;">
 				<img id="write_img" src="/image/pencil2.png"> g e t
@@ -31,17 +19,12 @@
             <div class="h1_pupp"></div>
 			<div>{{data.time}}</div>
 	</div>
-		<div id="bottom_navd" class="btn-group d-flex fixed-bottom">
-			<a href="#" class="btn fbtn" id="myhome" >H O M E</a>
-			<a href="#" class="btn fbtn" id="mylike" >L I K E</a> 
-			<a href="#" class="btn fbtn" id="myupload" @click="myupload" >U P L O A D</a> 
-			<a href="#" class="btn fbtn" id="myrecord" @click="myrecorcd" >M Y M Y</a> 
-			<a href="#" class="btn fbtn" id="mymypage" @click="mypage">M Y p a g e</a>
-		</div>
+	<bottom></bottom>	
 </body>
 </template>
 <script>
-import { Slide } from 'vue-burger-menu' 
+import bottom from './bar/bottom.vue'
+import top from './bar/top.vue'
 export default {
 	created(){
     	this.$axios.post('/moment/pupp', {}).then(response => {
@@ -57,7 +40,9 @@ export default {
     	}	
   	},
   	components: {
-		Slide // Register your component
+		bottom,
+		top
+
   	},
   	methods: {
 		fnhome : function(){

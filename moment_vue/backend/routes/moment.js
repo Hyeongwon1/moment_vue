@@ -101,9 +101,9 @@ router.post('/pupp', function(req,res,next){
 router.get('/list', function(req,res,next){
   pool.getConnection(function (err, connection) {
 			var sql = `SELECT * FROM 
-										data_tbl as data 
+										TCM_DATA_MST as data 
 										LEFT OUTER JOIN 
-										member_tbl as mem 
+										TCM_MEMBER_MST as mem 
 										ON data.m_no = mem.m_no 
 										order by d_regdate desc`;
       connection.query(sql, function (err, rows) {
@@ -138,11 +138,11 @@ router.get('/listinit', function(req,res,next){
 			}
 	  	if (d_kind == 0 || d_kind== "") {
 				const sql = `SELECT * 
-												FROM data_tbl as data 
-												LEFT OUTER JOIN 
-												member_tbl as mem 
-												ON data.m_no = mem.m_no
-												order by ${orderby}`;
+									FROM TCM_DATA_MST as data 
+									LEFT OUTER JOIN 
+									TCM_MEMBER_MST as mem 
+									ON data.m_no = mem.m_no
+									order by ${orderby}`;
 
 	    	connection.query(sql, function (err, rows) {
 							commons.age(rows)	
@@ -152,12 +152,12 @@ router.get('/listinit', function(req,res,next){
 	      });
 			}else{
 				const sql = `SELECT * 
-										FROM data_tbl as data 
-										LEFT OUTER JOIN 
-										member_tbl as mem 
-										ON data.m_no = mem.m_no 
-										WHERE data.d_kind = ? 
-										order by ${orderby}`;
+									FROM TCM_DATA_MST as data 
+									LEFT OUTER JOIN 
+									TCM_MEMBER_MST as mem 
+									ON data.m_no = mem.m_no 
+									WHERE data.d_kind = ? 
+									order by ${orderby}`;
 		  	connection.query(sql,[d_kind], function (err, rows) {
 						commons.age(rows)
 	        	if (err) console.error("err : " + err);
@@ -179,12 +179,12 @@ router.get('/listinit', function(req,res,next){
 				orderby = " d_regdate desc";
 			}
 			const sql =`SELECT * 
-										FROM 	data_tbl as data 
-										LEFT 
-										OUTER 
-										JOIN 	member_tbl as mem 
-										ON 		data.m_no = mem.m_no
-										order by  ${orderby}`
+								FROM TCM_DATA_MST as data 
+								LEFT 
+								OUTER 
+								JOIN TCM_MEMBER_MST as mem 
+								ON 	data.m_no = mem.m_no
+								order by  ${orderby}`
 			// var string a = "[a] 아랑 [a]"
 			// a.split("[a]").join('안')	
 			// ;
@@ -216,9 +216,9 @@ router.get('/listinit', function(req,res,next){
 				if (d_kind == 0 && d_kind== "") {
 					var sql = `SELECT * 
 												FROM 
-												data_tbl as data 
+												TCM_DATA_MST as data 
 												LEFT OUTER JOIN 
-												member_tbl as mem 
+												TCM_MEMBER_MST as mem 
 												ON data.m_no = mem.m_no 
 												WHERE data.d_location like ? ${orderby}`;
 												console.log(sql)
@@ -231,9 +231,9 @@ router.get('/listinit', function(req,res,next){
 				}else{
 					var sql = `SELECT * 
 												FROM 
-												data_tbl as data 
+												TCM_DATA_MST as data 
 												LEFT OUTER JOIN 
-												member_tbl as mem 
+												TCM_MEMBER_MST as mem 
 												ON data.m_no = mem.m_no 
 												where data.d_kind = ? 
 												and data.d_location like ? ${orderby}`;
@@ -254,9 +254,9 @@ router.get('/listinit', function(req,res,next){
 			pool.getConnection(function (err, connection) {
 				var sql =`SELECT * 
 										FROM 
-										data_tbl as data 
+										TCM_DATA_MST as data 
 										LEFT OUTER JOIN 
-										member_tbl as mem 
+										TCM_MEMBER_MST as mem 
 										ON data.m_no = mem.m_no 
 										order by d_no desc; `;
 		
@@ -283,9 +283,9 @@ router.get('/box_select', function(req,res,next){
 	pool.getConnection(function (err, connection) {
 			var sql = `SELECT * 
 										FROM 
-										data_tbl as data 
+										TCM_DATA_MST as data 
 										LEFT OUTER JOIN 
-										member_tbl as mem 
+										TCM_MEMBER_MST as mem 
 										ON data.m_no = mem.m_no;`;
 
 	    connection.query(sql, function (err, rows) {
@@ -304,14 +304,14 @@ router.get('/mylike_selectdb', function(req,res,next){
 				var sql = `SELECT * 
 											FROM 
 												(
-												member_tbl as mem 
+												TCM_MEMBER_MST as mem 
 												LEFT OUTER JOIN 
 												like_tbl as mylike 
 												ON mem.m_no = mylike.m_no
 												) 
-												LEFT OUTER JOIN data_tbl as mydata 
+												LEFT OUTER JOIN TCM_DATA_MST as mydata 
 												ON mylike.d_no = mydata.d_no 
-												LEFT OUTER JOIN member_tbl as mymem 
+												LEFT OUTER JOIN TCM_MEMBER_MST as mymem 
 												ON mydata.m_no = mymem.m_no 
 												where mymem.m_email = ?`;
 	      connection.query(sql,[m_email], function (err, rows) {
@@ -329,8 +329,8 @@ router.post('/myrecord_selectdb', function(req,res,next){
 	pool.getConnection(function (err, connection) {
 			var sql = `SELECT * 
 										FROM 
-										member_tbl as mem 
-										LEFT OUTER JOIN data_tbl as mydata 
+										TCM_MEMBER_MST as mem 
+										LEFT OUTER JOIN TCM_DATA_MST as mydata 
 										ON mem.m_no = mydata.m_no 
 										where mem.m_email=? `;
 	    connection.query(sql,[m_email], function (err, rows) {
@@ -347,7 +347,7 @@ router.post('/myrecord_selectdb', function(req,res,next){
 router.post('/mem_searchdb', function(req,res,next){
 	var m_no =req.param('num');
 	  pool.getConnection(function (err, connection) {
-	      var sql = "SELECT * FROM member_tbl WHERE m_no=?";
+	      var sql = "SELECT * FROM TCM_MEMBER_MST WHERE m_no=?";
 
 	      connection.query(sql,[m_no], function (err, rows) {
 //	    	  console.log(rows)
@@ -360,7 +360,7 @@ router.post('/mem_searchdb', function(req,res,next){
 	});
 router.get('/mem_selectdb', function(req,res,next){
 	  pool.getConnection(function (err, connection) {
-	      var sql = "SELECT * FROM member_tbl ";
+	      var sql = "SELECT * FROM TCM_MEMBER_MST ";
 
 	      connection.query(sql , function (err, rows) {
 //	    	  console.log(rows)
@@ -391,7 +391,7 @@ router.post('/uploaddb',upload.single('image'), function(req,res,next){
 	console.log(req.file.path.substr(7))
 	   
 	  pool.getConnection(function (err, connection) {
-				var sql = `insert into data_tbl(m_no,
+				var sql = `insert into TCM_DATA_MST(m_no,
 																				d_regdate,
 																				d_kind,
 																				d_location,
@@ -425,7 +425,7 @@ router.post('/mem_updatedb', function(req,res,next){
 	var m_phone   	= req.param("m_phone");
 	var count   = "";
 	  pool.getConnection(function (err, connection) {
-				var sql = `update member_tbl 
+				var sql = `update TCM_MEMBER_MST 
 															set 
 															m_nick=?,
 															m_pw=?,
@@ -449,9 +449,9 @@ router.get('/home_selectdblike', function(req,res,next){
 	  pool.getConnection(function (err, connection) {
 				var sql = `SELECT * 
 										FROM 
-										data_tbl as data 
+										TCM_DATA_MST as data 
 										LEFT OUTER JOIN 
-										member_tbl as mem 
+										TCM_MEMBER_MST as mem 
 										ON data.m_no = mem.m_no 
 										order by d_like desc;`;
 
@@ -469,7 +469,7 @@ router.post('/mem_logindb', function(req,res,next){
 	var mail =req.param('m_email');
 	var pw =req.param('m_pw');
 	  pool.getConnection(function (err, connection) {
-	      var sql = "SELECT * FROM member_tbl WHERE m_email=? and m_pw=?";
+	      var sql = "SELECT * FROM TCM_MEMBER_MST WHERE m_email=? and m_pw=?";
 	      connection.query(sql,[mail,pw], function (err, rows) {
 //	    	  console.log(rows)
 	          if (err) console.error("err : " + err);
@@ -487,10 +487,10 @@ router.get('/mem_idcheckdb', function(req,res,next){
 	console.log(m_email)
 	  pool.getConnection(function (err, connection) {
 				var sql = `SELECT * 
-										FROM 
-										member_tbl 
-										WHERE 
-										m_email=?`;
+								FROM 
+								TCM_MEMBER_MST 
+								WHERE 
+								m_email=?`;
 	      connection.query(sql,[m_email], function (err, rows) {
 //	    	  console.log(rows)
 	          if (err) console.error("err : " + err);
@@ -511,7 +511,7 @@ router.post('/likecnt', function(req,res,next){
 	var d_no = req.param("d_no");
 	var d_like = req.param("d_cnt");
 	  pool.getConnection(function (err, connection) {
-	      var sql = "UPDATE data_tbl SET d_like=?  WHERE d_no=?";
+	      var sql = "UPDATE TCM_DATA_MST SET d_like=?  WHERE d_no=?";
 	      connection.query(sql,[d_like,d_no], function (err, rows) {
 	    	  console.log(rows)
 	          if (err) console.error("err : " + err);
@@ -526,7 +526,7 @@ router.get('/likecheck', function(req,res,next){
 	var mnum = req.param("mnum");
 	console.log("라이크체크")
 	  pool.getConnection(function (err, connection) {
-	      var sql = "SELECT  likee.d_no, likee.m_no, data.d_like FROM data_tbl as data  LEFT OUTER JOIN like_tbl as likee ON data.d_no = likee.d_no where likee.m_no = ?";
+	      var sql = "SELECT  likee.d_no, likee.m_no, data.d_like FROM TCM_DATA_MST as data  LEFT OUTER JOIN like_tbl as likee ON data.d_no = likee.d_no where likee.m_no = ?";
 	  	
 	      connection.query(sql,[mnum], function (err, rows) {
 	    	  console.log(rows)
