@@ -100,12 +100,16 @@ router.post('/pupp', function(req,res,next){
 
 router.get('/list', function(req,res,next){
   pool.getConnection(function (err, connection) {
-			var sql = `SELECT * FROM 
-										TCM_DATA_MST as data 
-										LEFT OUTER JOIN 
-										TCM_MEMBER_MST as mem 
-										ON data.m_no = mem.m_no 
-										order by d_regdate desc`;
+			var sql = `SELECT *
+							FROM 
+							TCM_DATA_MST as data 
+							LEFT JOIN 
+							TCM_MEMBER_MST as mem 
+							ON mem.m_no = data.m_no
+							where data.d_no in(SELECT max(d_no) 
+												FROM TCM_DATA_MST 
+													group by m_no)
+						`;
       connection.query(sql, function (err, rows) {
 				if (err) console.error("err : " + err);
     	  
@@ -178,12 +182,15 @@ router.get('/listinit', function(req,res,next){
 			}else{
 				orderby = " d_regdate desc";
 			}
-			const sql =`SELECT * 
-								FROM TCM_DATA_MST as data 
-								LEFT 
-								OUTER 
-								JOIN TCM_MEMBER_MST as mem 
-								ON 	data.m_no = mem.m_no
+			const sql =`SELECT *
+							FROM 
+							TCM_DATA_MST as data 
+							LEFT JOIN 
+							TCM_MEMBER_MST as mem 
+							ON mem.m_no = data.m_no
+							where data.d_no in(SELECT max(d_no) 
+												FROM TCM_DATA_MST 
+													group by m_no)
 								order by  ${orderby}`
 			// var string a = "[a] 아랑 [a]"
 			// a.split("[a]").join('안')	
@@ -250,22 +257,36 @@ router.get('/listinit', function(req,res,next){
 
 
 	router.get('/data_view', function(req,res,next){
-		var dnum =req.param('dnum');
+		var mnum =req.param('mnum');
 			pool.getConnection(function (err, connection) {
-				var sql =`SELECT * 
-										FROM 
-										TCM_DATA_MST as data 
-										LEFT OUTER JOIN 
-										TCM_MEMBER_MST as mem 
-										ON data.m_no = mem.m_no 
-										order by d_no desc; `;
-		
-				connection.query(sql,[dnum], function (err, rows) {
-						
+			var sql =`SELECT 	data.d_no,
+								data.m_no,
+								data.d_regdate,
+								data.d_kind,
+								data.d_location,
+								data.d_title,
+								data.d_content,
+								data.d_path,
+								data.d_star,
+								data.d_like,
+								mem.m_no,
+								mem.m_nick,
+								mem.m_birth,
+								(case when likee.check_flag is null then 0 else likee.check_flag end) as check_flag 
+				
+								FROM TCM_DATA_MST as data 
+									LEFT JOIN 
+									TCM_MEMBER_MST as mem 
+									ON data.m_no = mem.m_no
+									LEFT JOIN
+									TCM_LIKE_MST as likee
+									ON likee.data_no = data.d_no
+									and likee.member_no= ${mnum}
+									Where data.m_no = ${mnum} 
+									order by d_no desc; `;
+				connection.query(sql, function (err, rows) {
 					commons.age(rows)
-
 					if (err) console.error("err : " + err);
-						
 					res.send(rows);
 					// res.send({data: rows});
 					connection.release();
@@ -526,7 +547,13 @@ router.get('/likecheck', function(req,res,next){
 	var mnum = req.param("mnum");
 	console.log("라이크체크")
 	  pool.getConnection(function (err, connection) {
-	      var sql = "SELECT  likee.d_no, likee.m_no, data.d_like FROM TCM_DATA_MST as data  LEFT OUTER JOIN like_tbl as likee ON data.d_no = likee.d_no where likee.m_no = ?";
+		  var sql = `SELECT likee.d_no, 
+							likee.m_no, 
+							data.d_like 
+							FROM TCM_DATA_MST as data  
+							LEFT JOIN 
+							TCM_LIKE_MST as likee 
+							ON data.d_no = likee.d_no where likee.m_no = ?`;
 	  	
 	      connection.query(sql,[mnum], function (err, rows) {
 	    	  console.log(rows)

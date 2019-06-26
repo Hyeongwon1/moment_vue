@@ -18,11 +18,16 @@
 						<img v-if="data.d_kind =='2'" id="kindimg" class="img-responsive " src="/image/kind/buy.png">
 						<img v-if="data.d_kind =='3'" id="kindimg" class="img-responsive " src="/image/kind/enjoy.png">
 					<img id="age" class="img-responsive " v-bind:src="'/image/age/'+data.m_age+'0s.png'"> 
-					<div>
-						<img src="/image/like/heart.png" class="img-responsive hj_heart_img" v-bind:aaa="data.d_no" @click="checklike" value="1" >
-						<span id="likecnt">{{data.d_like}}</span>
-						<img id="starimg" class="img-responsive hj_roll_img" v-bind:src="'/image/roll/r'+data.d_star+'.png'">
-					</div>
+						<div v-if="data.check_flag =='0'">
+							<img src="/image/like/heart.png" class="img-responsive hj_heart_img"  @click="checklike" v-bind:value="0" >
+							<span class="likecnt">{{data.d_like}}</span>
+							<img id="starimg" class="img-responsive hj_roll_img" v-bind:src="'/image/roll/r'+data.d_star+'.png'">
+						</div>
+						<div v-if="data.check_flag =='1'">
+							<img src="/image/like/full_heart.png" class="img-responsive hj_heart_img"  @click="checklike" v-bind:value="data.check_flag" >
+							<span class="likecnt">{{data.d_like}}</span>
+							<img id="starimg" class="img-responsive hj_roll_img" v-bind:src="'/image/roll/r'+data.d_star+'.png'">
+						</div>
 				</div>
 				<div id="row" style="margin-top: 10px;">
 					<div class=" h1_2"></div>
@@ -46,11 +51,11 @@ export default {
       var a = window.location.href
 		var arr = []
 		arr = a.split("=")
-		var dno = arr[1]
+		var mno = arr[1]
 		
-      console.log(dno)
-    this.$axios.get('/moment/data_view?dnum='+dno).then(response => {
-			console.log("aaaa")
+      console.log(mno)
+    this.$axios.get('/moment/data_view?mnum='+mno).then(response => {
+		console.log(response.data) 
 		 this.datas = response.data;
 		})
   	},   
@@ -78,16 +83,21 @@ export default {
 				})
 		},
 		checklike : function(evt){
+			console.log(evt.target) 
+			console.log(evt.target.nextSibling.nextSibling.innerText) 
+			console.log(evt.target.attributes[1].value)
 			var heartflag = evt.target.attributes[1].value
-			if (heartflag == "1") {
+			if (heartflag == "0") {
 				evt.target.attributes.src.nodeValue = "/image/like/full_heart.png"
-				evt.target.attributes[1].value = 0
+				evt.target.attributes[1].value = 1
+				var likecnt = evt.target.nextSibling.nextSibling.innerText
+				evt.target.nextSibling.nextSibling.innerText= Number(likecnt)+1;
 
 				// this.$axios.post('/moment/myrecord_selectdb', {
 				// 		m_email: s_m_email								
-				// }).then(response => {
+				// }).then(response => { 
 
-				// this.datas = response.data
+				// this.datas = response.data 
 
 				// }, function() {
 				// 	console.log('failed')
@@ -96,7 +106,9 @@ export default {
 
 			} else {
 				evt.target.attributes.src.nodeValue = "/image/like/heart.png"
-				evt.target.attributes[1].value = 1
+				evt.target.attributes[1].value = 0
+				var likecntt = evt.target.nextSibling.nextSibling.innerText
+				evt.target.nextSibling.nextSibling.innerText = Number(likecntt)-1
 			}
 		}
 	}

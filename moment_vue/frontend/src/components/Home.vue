@@ -26,7 +26,7 @@
 		<div class="box">
 			<div class="s_pic">
 				<div class="ivdiv">
-					<img class="mainimg" v-bind:src="'/'+data.d_path" v-bind:value="data.d_no" @click="picview" >
+					<img class="mainimg" v-bind:src="'/'+data.d_path" v-bind:value="data.d_no" @click="picview"  v-bind:aaa="data.m_no">
 				</div>
 			</div>
 			<br>
@@ -124,8 +124,8 @@ export default {
     })
 	},
 	picview : function(evt){
-			console.log(evt.target.attributes[1].value)
-			location.href = "/detail?d_no="+evt.target.attributes[1].value;
+			console.log(evt.target.attributes[2].value)
+			location.href = "/detail?m_no="+evt.target.attributes[2].value;
 	},
 	checklike : function(evt){
 			console.log(evt.target.attributes.src)
