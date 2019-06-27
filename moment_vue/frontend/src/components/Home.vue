@@ -125,7 +125,9 @@ export default {
 	},
 	picview : function(evt){
 			console.log(evt.target.attributes[2].value)
-			location.href = "/detail?m_no="+evt.target.attributes[2].value;
+			const s_no = sessionStorage.m_no
+			const m_no =evt.target.attributes[2].value
+			location.href = `/detail?m_no=${m_no}&s_no=${s_no}`;
 	},
 	checklike : function(evt){
 			console.log(evt.target.attributes.src)

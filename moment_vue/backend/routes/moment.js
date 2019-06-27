@@ -258,6 +258,7 @@ router.get('/listinit', function(req,res,next){
 
 	router.get('/data_view', function(req,res,next){
 		var mnum =req.param('mnum');
+		var snum =req.param('snum');
 			pool.getConnection(function (err, connection) {
 			var sql =`SELECT 	data.d_no,
 								data.m_no,
@@ -273,17 +274,18 @@ router.get('/listinit', function(req,res,next){
 								mem.m_nick,
 								mem.m_birth,
 								(case when likee.check_flag is null then 0 else likee.check_flag end) as check_flag 
-				
-								FROM TCM_DATA_MST as data 
+									
+									FROM TCM_DATA_MST as data 
 									LEFT JOIN 
 									TCM_MEMBER_MST as mem 
 									ON data.m_no = mem.m_no
 									LEFT JOIN
 									TCM_LIKE_MST as likee
 									ON likee.data_no = data.d_no
-									and likee.member_no= ${mnum}
+									and likee.member_no= ${snum}
 									Where data.m_no = ${mnum} 
 									order by d_no desc; `;
+									console.log(sql)
 				connection.query(sql, function (err, rows) {
 					commons.age(rows)
 					if (err) console.error("err : " + err);
@@ -413,16 +415,16 @@ router.post('/uploaddb',upload.single('image'), function(req,res,next){
 	   
 	  pool.getConnection(function (err, connection) {
 				var sql = `insert into TCM_DATA_MST(m_no,
-																				d_regdate,
-																				d_kind,
-																				d_location,
-																				d_title,
-																				d_content,
-																				d_path,
-																				d_star,
-																				d_like)
-																				values(
-																					?,?,?,?,?,?,?,?,0)`;
+													d_regdate,
+													d_kind,
+													d_location,
+													d_title,
+													d_content,
+													d_path,
+													d_star,
+													d_like)
+													values(
+													?,?,?,?,?,?,?,?,0)`;
 	      
 	      connection.query(sql,[m_no,d_regdate,d_kind,d_location,d_title,d_content,d_path,d_star], function (err, rows) {
 //	    	  console.log(rows)
@@ -522,23 +524,37 @@ router.get('/mem_idcheckdb', function(req,res,next){
 	  }); 
 	});
 
-
-
-
-
-
-
-router.post('/likecnt', function(req,res,next){
-	var d_no = req.param("d_no");
-	var d_like = req.param("d_cnt");
-	  pool.getConnection(function (err, connection) {
-	      var sql = "UPDATE TCM_DATA_MST SET d_like=?  WHERE d_no=?";
-	      connection.query(sql,[d_like,d_no], function (err, rows) {
-	    	  console.log(rows)
-	          if (err) console.error("err : " + err);
-	    	  res.send(rows);
-	    	  console.log("라이크씨앤티"+rows)
-	          connection.release();
+router.post('/like', function(req,res,next){
+	const d_no = req.param("d_no");
+	const d_like = req.param("d_like");
+	const sno = req.param("sno");
+	const heartflag = req.param("flag");
+	const idatetime = moment().format('YYYY/MM/DD HH:mm:ss')
+    var sql2 =""
+	if( heartflag == 0){
+		sql2=`INSERT INTO TCM_LIKE_MST 
+				(data_no,member_no,check_flag,insertDateTime) 
+				VALUES 
+				(${d_no},
+				${sno},
+				1,
+				'${idatetime}');`
+	}else if(heartflag == 1){
+		sql2=`DELETE FROM TCM_LIKE_MST 
+				WHERE data_no=${d_no} 
+				and member_no=${sno}
+				;`;		 
+	}
+	pool.getConnection( async function (err, connection) {
+		var sql =`UPDATE TCM_DATA_MST
+							  SET d_like=${d_like}  
+							  WHERE d_no=${d_no}
+							  ;`;
+	      connection.query(sql+sql2, function (err, rows) {
+				console.log(sql)
+				console.log(sql2)
+	        if (err) console.error("err : " + err);
+	        connection.release();
 	      });
 	  }); 
 	});
@@ -564,35 +580,5 @@ router.get('/likecheck', function(req,res,next){
 	      });
 	  }); 
 	});
-router.get('/likeup', function(req,res,next){
-	var d_no = req.param("dnum");
-	var m_no = req.param("mnum");
-	console.log("라이크업")
-	  pool.getConnection(function (err, connection) {
-	      var sql = "insert into like_tbl (d_no,m_no) values(?,?)";
-	      connection.query(sql,[d_no,m_no], function (err, rows) {
-	    	  console.log(rows)
-	          if (err) console.error("err : " + err);
-	    	  
-	    	  res.send(rows);
-	          connection.release();
-	      });
-	  }); 
-	});
 
-router.get('/likedown', function(req,res,next){
-	var d_no = req.param("dnum");
-	var m_no = req.param("mnum");
-	console.log("라이크다운")
-	  pool.getConnection(function (err, connection) {
-	      var sql = "delete from like_tbl where d_no=? and m_no=?";
-	      connection.query(sql,[d_no,m_no], function (err, rows) {
-	    	  console.log(rows)
-	          if (err) console.error("err : " + err);
-	    	  
-	    	  res.send(rows);
-	          connection.release();
-	      });
-	  }); 
-	});
 module.exports = router;

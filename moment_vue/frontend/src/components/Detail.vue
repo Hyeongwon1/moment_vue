@@ -19,12 +19,12 @@
 						<img v-if="data.d_kind =='3'" id="kindimg" class="img-responsive " src="/image/kind/enjoy.png">
 					<img id="age" class="img-responsive " v-bind:src="'/image/age/'+data.m_age+'0s.png'"> 
 						<div v-if="data.check_flag =='0'">
-							<img src="/image/like/heart.png" class="img-responsive hj_heart_img"  @click="checklike" v-bind:value="0" >
+							<img src="/image/like/heart.png" class="img-responsive hj_heart_img"  @click="checklike" v-bind:value="0" v-bind:aaa="data.d_no" >
 							<span class="likecnt">{{data.d_like}}</span>
 							<img id="starimg" class="img-responsive hj_roll_img" v-bind:src="'/image/roll/r'+data.d_star+'.png'">
 						</div>
 						<div v-if="data.check_flag =='1'">
-							<img src="/image/like/full_heart.png" class="img-responsive hj_heart_img"  @click="checklike" v-bind:value="data.check_flag" >
+							<img src="/image/like/full_heart.png" class="img-responsive hj_heart_img"  @click="checklike" v-bind:value="data.check_flag" v-bind:aaa="data.d_no" >
 							<span class="likecnt">{{data.d_like}}</span>
 							<img id="starimg" class="img-responsive hj_roll_img" v-bind:src="'/image/roll/r'+data.d_star+'.png'">
 						</div>
@@ -48,14 +48,12 @@ import bottom from './bar/bottom.vue'
 import top from './bar/top.vue'
 export default {
 	created(){
-      var a = window.location.href
+      	var a = window.location.href
 		var arr = []
-		arr = a.split("=")
+		arr = a.split("=") 
 		var mno = arr[1]
-		
-      console.log(mno)
-    this.$axios.get('/moment/data_view?mnum='+mno).then(response => {
-		console.log(response.data) 
+		var sno = arr[2]
+    this.$axios.get(`/moment/data_view?mnum=${mno}&snum=${sno}`).then(response => {
 		 this.datas = response.data;
 		})
   	},   
@@ -82,34 +80,34 @@ export default {
 					console.log('failed')
 				})
 		},
-		checklike : function(evt){
-			console.log(evt.target) 
-			console.log(evt.target.nextSibling.nextSibling.innerText) 
-			console.log(evt.target.attributes[1].value)
+		checklike : async function(evt){
+			// console.log(evt.target) 
+			// console.log(evt.target.nextSibling.nextSibling.innerText) 
+			// console.log(evt.target.attributes[1].value)
+			// console.log(evt.target.attributes[2].value)
+			const s_no =sessionStorage.m_no
 			var heartflag = evt.target.attributes[1].value
 			if (heartflag == "0") {
 				evt.target.attributes.src.nodeValue = "/image/like/full_heart.png"
 				evt.target.attributes[1].value = 1
 				var likecnt = evt.target.nextSibling.nextSibling.innerText
 				evt.target.nextSibling.nextSibling.innerText= Number(likecnt)+1;
-
-				// this.$axios.post('/moment/myrecord_selectdb', {
-				// 		m_email: s_m_email								
-				// }).then(response => { 
-
-				// this.datas = response.data 
-
-				// }, function() {
-				// 	console.log('failed')
-				// })
-
-
-			} else {
+			} else if(heartflag == "1") {
 				evt.target.attributes.src.nodeValue = "/image/like/heart.png"
 				evt.target.attributes[1].value = 0
 				var likecntt = evt.target.nextSibling.nextSibling.innerText
 				evt.target.nextSibling.nextSibling.innerText = Number(likecntt)-1
 			}
+			await this.$axios.post('/moment/like', {
+				d_no : evt.target.attributes[2].value,
+				d_like:	evt.target.nextSibling.nextSibling.innerText,						
+				sno	:s_no,
+				flag: heartflag						
+			}).then(response => { 
+				console.log(response.data )
+			}, function() {
+					console.log('failed')
+			})
 		}
 	}
 }
