@@ -25,7 +25,8 @@
     "vue-burger-menu": "^2.0.1",
     "vue-daum-postcode": "^0.4.0",
     "vue-router": "^3.0.5",
-    "vuejs-daum-postcode": "^1.0.4"
+    "vuejs-daum-postcode": "^1.0.4",
+    "vuetify": "^1.5.16"
   },
   "devDependencies": {
     "autoprefixer": "^7.1.2",

@@ -2,6 +2,7 @@
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import Vue from 'vue'
 import App from './App'
+import Vuetify from 'vuetify'
 import router from './router'
 import axios from 'axios'
 
@@ -10,7 +11,10 @@ import 'expose-loader?$!expose-loader?jQuery!jquery'
 
 import 'bootstrap'
 import 'bootstrap/dist/css/bootstrap.min.css'
-Vue.use(router)
+
+import 'vuetify/dist/vuetify.min.css'
+
+Vue.use(Vuetify)
 Vue.config.productionTip = false
 Vue.prototype.$axios = axios
 
@@ -19,6 +23,5 @@ new Vue({
   el: '#app',
   router,
   components: { App },
-  template: '<App/>',
   render: h => h(App)
 })

@@ -1,10 +1,31 @@
 <template>
     <div>
-       <router-view></router-view>
+        <top></top>
+        <router-view></router-view>
+        <bottom></bottom>
     </div>
 </template>
 
 <script>
+import bottom from '@/components/bar/bottom.vue'
+import top from '@/components/bar/top.vue'
+export default {
+	created(){
+		
+	},   
+	data() {
+		return {
+			datas: []
+		}	
+	},
+	components: {
+			bottom,
+			top
+	},
+	methods: {
+		
+	}
+}
 </script>
 
 <style>

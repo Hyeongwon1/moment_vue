@@ -1,6 +1,6 @@
 <template lang="html">
 <body id="mybody">
-	<top></top>
+	
       <div style="margin-top: 100px;"></div>
       <div style="text-align: center">
          <table id="up_tb">
@@ -77,23 +77,19 @@
          	<img id="cancel_img" src="/image/cancel_icon3.png">Cancel
          </a>
       </div>
-
-
-<bottom></bottom>
-
-       <div id="foot" class="sk_foot fixed-bottom">⊙
+      <!-- <div id="foot" class="sk_foot fixed-bottom">⊙
          Copyright(c)2017 TT All rights reserved.
-      </div>
+      </div> -->
 
 
-  <div class="modal fade" id="myModal" role="dialog">
-    <div class="modal-dialog">
+   <div class="modal fade" id="myModal" role="dialog">
+   <div class="modal-dialog">
       <!-- Modal content-->
       <div class="modal-content">
             <DaumPostcode :on-complete=handleAddress></DaumPostcode>
-          <button type="button" ref="modalclose" data-dismiss="modal">Close</button>
+         <button type="button" ref="modalclose" data-dismiss="modal">Close</button>
       </div>
-    </div>
+   </div>
   </div>
   
  </div>
@@ -119,8 +115,7 @@ export default {
   },
   components: {
    DaumPostcode,
-   bottom,
-	top
+   
   },
   methods: {
     sendPost: function () {

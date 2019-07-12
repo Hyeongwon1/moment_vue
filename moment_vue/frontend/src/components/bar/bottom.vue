@@ -1,29 +1,78 @@
 <template>
-  <div>
-    <div id="bottom_nav" class="btn-group d-flex fixed-bottom">
-      <a href="#" class="btn fbtn" id="myhome" >H O M E</a>
-      <a href="#" class="btn fbtn" id="mylike" >L I K E</a> 
-      <a href="#" class="btn fbtn" id="myupload" @click="myupload" >U P L O A D</a> 
-      <a href="#" class="btn fbtn" id="myrecord" @click="myrecorcd" >M Y M Y</a> 
-      <a href="#" class="btn fbtn" id="mymypage" @click="mypage">M Y p a g e</a>
-    </div>
-  </div>
+  <v-bottom-nav
+      :active.sync="bottomNav"
+      :value="true"
+      fixed
+      color="color"
+      id='bottom_nav'
+    >
+      <v-btn
+        color="teal"
+        flat
+        value="Home"
+        @click="home" 
+      >
+        <span>Home</span>
+        <v-icon>home</v-icon>
+      </v-btn>
+
+      <v-btn
+        color="teal"
+        flat
+        value="favorites"
+      >
+        <span>Favorites</span>
+        <v-icon>favorite</v-icon>
+      </v-btn>
+
+      <v-btn
+        color="teal"
+        flat
+        value="Image"
+        @click="myupload" 
+      >
+        <span>Image Up</span>
+        <v-icon>image</v-icon>
+      </v-btn>
+
+      <v-btn
+        color="teal"
+        flat
+        value="search"
+        @click="myrecorcd"
+      >
+        <span>search</span>
+        <v-icon>search</v-icon>
+      </v-btn>
+
+      <v-btn
+        color="teal"
+        flat
+        value="mypage"
+        @click="mypage"
+      >
+        <span>mypage</span>
+        <v-icon>perm_identity</v-icon>
+      </v-btn>
+    </v-bottom-nav>
 </template>
- 
 <script>
 export default {
   name: 'bottom',
   data () {
     return {
-     
+    
     }
   },
   components: {
 
   },
   methods: {
+      home : function(){
+          this.$router.push({ path: 'home' })
+      },
       myupload : function(){
-          location.href = "/upload"
+          this.$router.push({ path: 'upload' })
       },
       myrecorcd: function(){
         var s_m_email = sessionStorage.m_email
@@ -37,10 +86,12 @@ export default {
           }, function() {
             console.log('failed')
           })
-      }
-      ,
+      },
       mypage : function(){
-        location.href = "/mypage";
+			const s_no = sessionStorage.m_no
+			const m_no =sessionStorage.m_no
+      // location.href = `/mypage?m_no=${m_no}&s_no=${s_no}`;
+      this.$router.push({ path: 'mypage', query: { m_no : m_no , s_no : s_no }})
       }
   }
 }
@@ -49,8 +100,9 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 #bottom_nav {
-	width: 100%;
+  background-color: antiquewhite
+	/* width: 100%; */
 	/* position: sticky; */
-	background-color: black;
+	/* background-color: black; */
 }
 </style>

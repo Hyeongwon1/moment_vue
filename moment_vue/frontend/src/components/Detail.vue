@@ -1,13 +1,12 @@
 <template lang="html">
 <div id="mybodyhtml">
-	<top></top>
 
 	<div v-for="data in datas" :key="data.d_no" class="viewdata">
-         <div class="headmargin">
-               <div id="date">{{data.d_regdate}}</div>
-               <div id="nickdiv">
-                  <span style="color: orange" id="mem_nick" >{{data.m_nick}}</span>
-               </div>
+        <div class="headmargin">
+				<div id="date">{{data.d_regdate}}</div>
+				<div id="nickdiv">
+					<span style="color: orange" id="mem_nick" >{{data.m_nick}}</span>
+				</div>
             <div class="h1_1"></div>
             <div id="mainData" class="">
 				<img class="img-responsive" v-bind:src="'/'+data.d_path" style="width:75%; margin:auto; display: block;">
@@ -40,33 +39,29 @@
 				</div>
         </div>	
 	</div>
-<bottom></bottom>
 </div>
 </template>
 <script>
-import bottom from './bar/bottom.vue'
-import top from './bar/top.vue'
 export default {
 	created(){
-      	var a = window.location.href
+		var a = window.location.href
 		var arr = []
 		arr = a.split("=") 
 		var mno = arr[1]
 		var sno = arr[2]
-    this.$axios.get(`/moment/data_view?mnum=${mno}&snum=${sno}`).then(response => {
-		 this.datas = response.data;
+			this.$axios.get(`/moment/data_view?mnum=${mno}&snum=${sno}`).then(response => {
+			this.datas = response.data;
 		})
-  	},   
+	},   
 	data() {
 		return {
 			datas: []
-    	}	
-		},
-  	components: {
-			bottom,
-			top
-  	},
-  	methods: {
+		}	
+	},
+	components: {
+			
+	},
+	methods: {
 		myrecorcd: function(){
 			var s_m_email = sessionStorage.m_email
 			console.log(s_m_email)
@@ -193,6 +188,7 @@ body {
 }
 .hj_roll_img {
 	width: 35px;
+	height: 20px;
 }
 .hj_heart_img {
 	width: 18px;

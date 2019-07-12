@@ -9,6 +9,13 @@ import MomentMyPage from '@/components/myPage/MyPage'
 
 Vue.use(Router)
 
+// const requireAuth = () => (to, from, next) => {
+//   if (store.state.accessToken !== '') {
+//     return next()
+//   }
+//   next('/login')
+// }
+
 export default new Router({
   mode: 'history',
   routes: [

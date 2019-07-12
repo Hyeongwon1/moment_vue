@@ -1,14 +1,12 @@
 <template>
 <body id="mybodyhtml">
-	<top></top>
-
 <div>
 	<div class="btn-group d-flex">
-		<a href="#" @click="initt" class="btn hbtn" id="0" >A L L</a>
-		<a href="#" @click="initt" class="btn hbtn" id="1" >E A T</a>
-		<a href="#" @click="initt" class="btn hbtn" id="2" >B U Y</a>
-		<a href="#" @click="initt" class="btn hbtn" id="3" >E N J O Y</a>
-		<a href="#" class="btn hbtn" id="myaddress" data-toggle="collapse" data-target="#myinput">A D D R E S S</a>
+		<button @click="initt" class="btn hbtn" id="0" >A L L</button>
+		<button @click="initt" class="btn hbtn" id="1" >E A T</button>
+		<button @click="initt" class="btn hbtn" id="2" >B U Y</button>
+		<button @click="initt" class="btn hbtn" id="3" >E N J O Y</button>
+		<button class="btn hbtn" id="myaddress" data-toggle="collapse" data-target="#myinput">A D D R E S S</button>
 	</div>
 	<div id="myinput" class="collapse">
 		<div class="input-group">
@@ -20,67 +18,88 @@
 	</div>
 	<button id="odbtn" class="ui-btn" @click="odbtn">{{newandlike}}</button>
 </div>
-
-<div class="datas">
-	<div v-for="data in datas" :key="data.d_no" class="data" style="">
-		<div class="box">
-			<div class="s_pic">
-				<div class="ivdiv">
-					<img class="mainimg" v-bind:src="'/'+data.d_path" v-bind:value="data.d_no" @click="picview"  v-bind:aaa="data.m_no">
-				</div>
-			</div>
-			<br>
-			<div id="mynick" class="mynick">{{data.m_nick}}</div>
-			<div class="mylike">
-				<img src="/image/like/heart.png" class="mylikeimg" @click="checklike" value="1">{{data.d_like}}
-			</div>
-			<div class="myage" id="myage">
-				<img class="myageimg" v-bind:src="'/image/age/'+data.m_age+'0s.png'">
-			</div>
-			<div>
-				<p class="loctxt">{{data.d_location}}</p>
-			</div>
-			<div id="mytitle" class="mytitle">{{data.d_title}}</div>
-		</div>
-	</div>
-</div>
-
-<bottom>
-</bottom>
+	<v-layout justify-center>
+		<v-flex sm10 md10>
+		<v-card>
+			<v-container
+			fluid
+			grid-list-md
+			id='homecon'
+			>
+			<v-layout row wrap>
+				<v-flex
+				v-for="data in datas"
+				:key="data.d_no"
+				sm6 md3 xs6
+				>
+				<v-card>
+					<v-img
+					:src="data.d_path"
+					height="250px"
+					@click="picview"
+					>
+					<input id="" v-text="data.d_no" type="hidden"/>
+					</v-img>
+					<v-card-title>
+						<v-layout fill-height>
+						<v-flex xs12 align-end flexbox>
+							<span id="mynick" class="mynick" v-text="data.m_nick"></span>
+						</v-flex>
+						</v-layout>
+							<div class="myage" id="myage">
+								<img class="myageimg" v-bind:src="'/image/age/'+data.m_age+'0s.png'">
+							</div>
+					</v-card-title>
+					<v-card-actions>
+					<v-spacer>
+						<v-icon v-for=" data in data.d_star" 
+								:key="data.d_no"
+								color="teal" >star</v-icon>
+						<!-- <img id="starimg" class="img-responsive hj_roll_img" v-bind:src="'/image/roll/r'+data.d_star+'.png'"> -->
+					</v-spacer>
+					<v-btn icon>
+						<v-icon color="red">favorite</v-icon>
+					</v-btn>
+						<p class="" v-text="data.d_like"></p>
+					</v-card-actions>
+				</v-card>
+				</v-flex>
+			</v-layout>
+			</v-container>
+		</v-card>
+		</v-flex>
+	</v-layout>
 </body>
 </template>
 <script>
-import bottom from './bar/bottom.vue'
-import top from './bar/top.vue'
+
 export default {
 	created(){
     this.$axios.get('/moment/home').then(response => {
-			console.log("aaaa")
-			console.log(response.data.data)
 			this.datas = response.data.data;
 		})
-  },
-  components: {
-		bottom,
-		top
-  },
-  data(){
-    return {
-		datas: [],
-		pupps: "",
-		newandlike:"N E W ▼",
-		kinds:"",
-		searchloc:"",
-		d_no:""
-    }
 	},
-  methods :{
+	components: {
+	
+	},
+	data(){
+		return {
+			datas: [],
+			pupps: "",
+			newandlike:"N E W ▼",
+			kinds:"",
+			searchloc:"",
+			d_no:"",
+			data_num:""
+		}
+	},
+	methods :{
 	initt : function(evt){
 		console.log(evt.target.id)
 		this.kinds = evt.target.id
 	
 		var anchList = document.getElementsByClassName("btn hbtn");
-	   	 for (var i = 0; i < anchList.length; i++) {
+			for (var i = 0; i < anchList.length; i++) {
 					if (i == this.kinds) {
 							var anchor = document.getElementsByClassName("btn hbtn")[i];
 							anchor.className ='btn hbtn active';
@@ -88,12 +107,11 @@ export default {
 						var anchor = document.getElementsByClassName("btn hbtn")[i];
 							anchor.className ='btn hbtn';
 					}
-				 }
-				 
+				}		 
 		this.$axios.get('/moment/listinit?kind='+evt.target.id).then((response) => {
 								this.datas = response.data.data
 								this.newandlike="L I K E ▼"
-            })
+        })
 	},
 	odbtn : function(evt){
 		var ord ;
@@ -112,7 +130,6 @@ export default {
     	})
 		} else {
 			this.$axios.get('/moment/listinit?ord='+ord+"&kind="+this.kinds).then((response) => {
-									console.warn(response);
 									this.datas = response.data.data
     	})
 		}
@@ -124,10 +141,9 @@ export default {
     })
 	},
 	picview : function(evt){
-			console.log(evt.target.attributes[2].value)
 			const s_no = sessionStorage.m_no
-			const m_no =evt.target.attributes[2].value
-			location.href = `/detail?m_no=${m_no}&s_no=${s_no}`;
+			const m_no = evt.target.firstChild.innerText
+			this.$router.push({ path: 'detail', query: { m_no : m_no , s_no : s_no }})
 	},
 	checklike : function(evt){
 			console.log(evt.target.attributes.src)
@@ -143,9 +159,7 @@ export default {
 	}
   }
 }
-
 </script>
-
 
 <style>
 @font-face {
@@ -165,35 +179,18 @@ div {
 	/* font-family: "�������"; */
 	/* text-shadow: #999999 1px 1px 1px; */
 }
-
+#homecon{
+	margin-bottom: 55px;
+}
 div p.loctxt{
   overflow: hidden; 
   text-overflow: ellipsis;
   white-space: nowrap;
 }
-.headtop{
-    height: 30px;
-    background: black;
-}
-.hj_head {
-   text-align: center;
-   /* height: 50px; */
-   background-color: black;
-   color: white;
-   /* font-family: "Am"; */
-   /* font-size: 25pt; */
-   /* vertical-align: middle; */
-}
-.head_moment {
-   color: white;
-   font-family: "Am";
-   font-size: 25pt;
-   vertical-align: middle;
-}
 #myinput{
 	padding-left: 10px; 
 	padding-right: 10px;
-	background-color: black;	
+	background-color: antiquewhite;	
 }
 .data{
 	float:left; 
@@ -223,9 +220,10 @@ div p.loctxt{
 	background-color: black;
 }
 .mynick{
+	font-family: "설렘";
 	float: left; 
 	margin-right: 15px; 
-	font-size:15px;
+	font-size:20px;
 }
 .mylike{
 	float: right; 
@@ -251,9 +249,9 @@ div p.loctxt{
 }
 .btn.hbtn {
 	border-radius: 0rem;
-	background-color: black;
+	background-color: antiquewhite;
 	font-family: "Am";
-	color: white;
+	color: #007bff;
 	font-size: 14pt;
 }
 .btn-group {
@@ -268,9 +266,9 @@ div p.loctxt{
 
 #odbtn {
 	width: 100%;
-    background-color: black;
+    background-color: antiquewhite;
 	font-size: 12pt;
-	color: white;
+	color: #007bff;
 	font-family: "Am";
 	margin: auto;
 	height: 40px;
@@ -288,20 +286,5 @@ div p.loctxt{
 }
 #msearch{
 	background-color: white;
-}
-.fbtn:active {
-	background-color: #A9A9F5;
-}
-
-.fbtn:hover {
-	background-color: #A9A9F5;
-}
-
-.hbtn:active {
-	background-color: #A9A9F5;
-}
-
-.hbtn:hover {
-	background-color: #A9A9F5;
 }
 </style>

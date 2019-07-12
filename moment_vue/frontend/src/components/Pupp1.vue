@@ -1,6 +1,5 @@
 <template lang="html">
 <body id="mybodyhtml">
-	<top></top>
 	<div style="text-align: center">
 			<a href="#" @click="sendpupp" id="write_bt" class="btn hbtn" style="color: white;">
 				<img id="write_img" src="/image/pencil2.png"> g e t
@@ -19,32 +18,27 @@
             <div class="h1_pupp"></div>
 			<div>{{data.time}}</div>
 	</div>
-	<bottom></bottom>	
 </body>
 </template>
 <script>
-import bottom from './bar/bottom.vue'
-import top from './bar/top.vue'
 export default {
 	created(){
-    	this.$axios.post('/moment/pupp', {}).then(response => {
+		this.$axios.post('/moment/pupp', {}).then(response => {
 				console.log(response.data)
 				this.pupps = response.data
 		}, function() {
-      		console.log('failed')
-      	})
-  	},   
+		console.log('failed')
+		})
+	},   
 	data() {
 		return {
 			pupps: []
-    	}	
-  	},
-  	components: {
-		bottom,
-		top
+		}	
+	},
+	components: {
 
-  	},
-  	methods: {
+	},
+	methods: {
 		fnhome : function(){
 			location.href = "/home";
 		},

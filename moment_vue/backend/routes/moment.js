@@ -283,7 +283,7 @@ router.get('/listinit', function(req,res,next){
 									TCM_LIKE_MST as likee
 									ON likee.data_no = data.d_no
 									and likee.member_no= ${snum}
-									Where data.m_no = ${mnum} 
+									Where data.d_no = ${mnum} 
 									order by d_no desc; `;
 									console.log(sql)
 				connection.query(sql, function (err, rows) {
@@ -294,7 +294,47 @@ router.get('/listinit', function(req,res,next){
 					connection.release();
 				});
 			}); 
-	});		
+	});
+
+	router.get('/data_view', function(req,res,next){
+		var mnum =req.param('mnum');
+		var snum =req.param('snum');
+			pool.getConnection(function (err, connection) {
+			var sql =`SELECT 	data.d_no,
+								data.m_no,
+								data.d_regdate,
+								data.d_kind,
+								data.d_location,
+								data.d_title,
+								data.d_content,
+								data.d_path,
+								data.d_star,
+								data.d_like,
+								mem.m_no,
+								mem.m_nick,
+								mem.m_birth,
+								(case when likee.check_flag is null then 0 else likee.check_flag end) as check_flag 
+									FROM TCM_DATA_MST as data 
+									LEFT JOIN 
+									TCM_MEMBER_MST as mem 
+									ON data.m_no = mem.m_no
+									LEFT JOIN
+									TCM_LIKE_MST as likee
+									ON likee.data_no = data.d_no
+									and likee.member_no= ${snum}
+									Where data.d_no = ${mnum} 
+									order by d_no desc; `;
+									console.log(sql)
+			connection.query(sql, function (err, rows) {
+				commons.age(rows)
+				if (err) console.error("err : " + err);
+				res.send(rows);
+				// res.send({data: rows});
+				connection.release();
+			});
+		}); 
+	});			
+	
 router.get('/home_mypage', function(req,res,next){
 	var dnum =req.param('num');
 	console.log("dnuddddm")
@@ -305,25 +345,24 @@ router.get('/home_mypage', function(req,res,next){
 router.get('/box_select', function(req,res,next){
 	pool.getConnection(function (err, connection) {
 			var sql = `SELECT * 
-										FROM 
-										TCM_DATA_MST as data 
-										LEFT OUTER JOIN 
-										TCM_MEMBER_MST as mem 
-										ON data.m_no = mem.m_no;`;
+							FROM 
+							TCM_DATA_MST as data 
+							LEFT OUTER JOIN 
+							TCM_MEMBER_MST as mem 
+							ON data.m_no = mem.m_no;`;
 
-	    connection.query(sql, function (err, rows) {
+		connection.query(sql, function (err, rows) {
 //	    	  console.log(rows)
-	        if (err) console.error("err : " + err);
-	    	  
-	    	res.send(rows);
-	        connection.release();
-	    });
+			if (err) console.error("err : " + err);
+			res.send(rows);
+			connection.release();
+		});
 	}); 
 });
 
 router.get('/mylike_selectdb', function(req,res,next){
 	var m_email =req.param('m_email');
-	  pool.getConnection(function (err, connection) {
+		pool.getConnection(function (err, connection) {
 				var sql = `SELECT * 
 											FROM 
 												(

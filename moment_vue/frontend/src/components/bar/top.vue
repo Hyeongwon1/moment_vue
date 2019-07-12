@@ -11,7 +11,8 @@
 		</Slide>
 	</div>	
 	<div id="head" class="hj_head">	
-		<a @click="fnhome" class="head_moment">in the moment</a>
+		<!-- <a @click="fnhome" class="head_moment">in the moment</a> -->
+		<router-link to="/home"><a class="head_moment">in the moment</a></router-link>
 	</div>
   </div>
 </template>
@@ -33,13 +34,30 @@ export default {
 		    location.href = "/home";
     	},
 	    pupp: function(){
-		    location.href = "/pupp1";
+			this.$router.push({ path: 'pupp1' })
       }
   }
 }
 </script>
  
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-
+<style>
+.hj_head {
+   text-align: center;
+   /* height: 50px; */
+   background-color: antiquewhite;
+   /* font-family: "Am"; */
+   /* font-size: 25pt; */
+   /* vertical-align: middle; */
+}
+.head_moment {
+   color: antiquewhite;
+   font-family: "Am";
+   font-size: 25pt;
+   vertical-align: middle;
+}
+.headtop{
+    height: 30px;
+    background: antiquewhite;
+}
 </style>
