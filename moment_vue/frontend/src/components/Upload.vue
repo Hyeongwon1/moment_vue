@@ -130,6 +130,7 @@ export default {
       const config = {
          headers: { 'content-type': 'multipart/form-data' }
         }
+        console.log(formData)
       this.$axios.post('/moment/uploaddb',formData, config).then(response => {
          if (response.data.err) {
             alert(response.data.err.code)

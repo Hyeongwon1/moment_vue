@@ -601,23 +601,46 @@ router.post('/like', function(req,res,next){
 router.get('/likecheck', function(req,res,next){
 	var mnum = req.param("mnum");
 	console.log("라이크체크")
-	  pool.getConnection(function (err, connection) {
-		  var sql = `SELECT likee.d_no, 
-							likee.m_no, 
-							data.d_like 
-							FROM TCM_DATA_MST as data  
-							LEFT JOIN 
-							TCM_LIKE_MST as likee 
-							ON data.d_no = likee.d_no where likee.m_no = ?`;
-	  	
-	      connection.query(sql,[mnum], function (err, rows) {
-	    	  console.log(rows)
-	          if (err) console.error("err : " + err);
-	    	  
-	    	  res.send(rows);
-	          connection.release();
-	      });
-	  }); 
+		pool.getConnection(function (err, connection) {
+			var sql = `SELECT likee.d_no, 
+								likee.m_no, 
+								data.d_like 
+								FROM TCM_DATA_MST as data  
+								LEFT JOIN 
+								TCM_LIKE_MST as likee 
+								ON data.d_no = likee.d_no where likee.m_no = ?`;
+			
+			connection.query(sql,[mnum], function (err, rows) {
+				console.log(rows)
+				if (err) console.error("err : " + err);
+				
+				res.send(rows);
+				connection.release();
+			});
+		}); 
 	});
 
+	router.post('/mem_insertdb', function(req,res,next){
+		// let res = [];
+		console.log("req.param")
+		// console.log(req.param)
+		console.log(req.param("i_email"))
+		console.log(req.param("i_pw"))
+		var m_email    	= req.param("i_email");
+		var m_pw		= req.param("i_pw");
+		var m_nick    	= req.param("i_nick");
+		var m_birth   	= req.param("i_date");
+		var m_phone   	= req.param("i_phone");
+		pool.getConnection(function (err, connection) {
+			var sql = `insert into TCM_MEMBER_MST(m_email,m_pw,m_nick,m_birth,m_phone)values(?,?,?,?,?)`;
+			
+			connection.query(sql,[m_email,m_pw,m_nick,m_birth,m_phone], function (err, rows) {
+	//	    	  console.log(rows)
+				if (err) console.error("err : " + err);
+				
+				res.send(rows);
+				connection.release();
+			});
+		}); 
+	});
 module.exports = router;

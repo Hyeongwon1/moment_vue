@@ -27,12 +27,34 @@ export default new Router({
     {
       path: '/upload',
       name: 'Upload',
-      component: MomentUpload
+      component: MomentUpload,
+      beforeEnter: function (to, from, next) {
+        console.log('aaaaaaaaaaaaaaaa')
+        var semail = sessionStorage.getItem('m_email')
+        console.log('semail')
+        console.log(semail)
+        if (semail == null) {
+          alert('로그인이 필요합니다.')
+        } else {
+          next()
+        }
+      }
     },
     {
       path: '/detail',
       name: 'Detail',
-      component: MomentDetail
+      component: MomentDetail,
+      beforeEnter: function (to, from, next) {
+        console.log('aaaaaaaaaaaaaaaa')
+        var semail = sessionStorage.getItem('m_email')
+        console.log('semail')
+        console.log(semail)
+        if (semail == null) {
+          alert('로그인이 필요합니다.')
+        } else {
+          next()
+        }
+      }
     },
     {
       path: '/login',
@@ -42,7 +64,18 @@ export default new Router({
     {
       path: '/mypage',
       name: 'MyPage',
-      component: MomentMyPage
+      component: MomentMyPage,
+      beforeEnter: function (to, from, next) {
+        console.log('aaaaaaaaaaaaaaaa')
+        var semail = sessionStorage.getItem('m_email')
+        console.log('semail')
+        console.log(semail)
+        if (semail == null) {
+          alert('로그인이 필요합니다.')
+        } else {
+          next()
+        }
+      }
     },
     {
       path: '/pupp1',

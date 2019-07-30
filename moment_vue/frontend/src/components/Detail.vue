@@ -1,6 +1,5 @@
 <template lang="html">
 <div id="mybodyhtml">
-
 	<div v-for="data in datas" :key="data.d_no" class="viewdata">
         <div class="headmargin">
 				<div id="date">{{data.d_regdate}}</div>
@@ -98,11 +97,15 @@ export default {
 				d_like:	evt.target.nextSibling.nextSibling.innerText,						
 				sno	:s_no,
 				flag: heartflag						
-			}).then(response => { 
+			}).then(response => { 					
 				console.log(response.data )
 			}, function() {
 					console.log('failed')
 			})
+			// var result = await this.$axios.poos
+			// var result = await this.$axios.poos
+			// var result = await this.$axios.poos
+			// var result = await this.$axios.poos
 		}
 	}
 }

@@ -175,13 +175,6 @@ export default {
 	src: url("/font/NANUMBARUNGOTHIC.TTF")
 }
 
-div {
-	/* font-family: "�������"; */
-	/* text-shadow: #999999 1px 1px 1px; */
-}
-#homecon{
-	margin-bottom: 55px;
-}
 div p.loctxt{
   overflow: hidden; 
   text-overflow: ellipsis;
