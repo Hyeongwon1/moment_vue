@@ -1,14 +1,16 @@
 <template>
 <body class="loginbody">
-	<v-layout column align-center persistent>
+	<v-layout column align-center persistent >
 		<v-form
-			ref="form"
-			@submit.prevent="loginfn"
+		ref="form"
+		@submit.prevent="loginfn"
+		style="margin-top: 160px;"
 		>
 			<v-text-field
 			v-model="m_email"
 			:counter="15"
 			label="Email"
+			:append-icon="'mail'"
 			required
 			></v-text-field>
 			<v-text-field
@@ -24,17 +26,18 @@
 			label="Remember?"
 			required
 			></v-checkbox>
-			<v-layout justify-center>
+			<v-layout justify-center style="margin-right: 145px;">
 				<v-btn type="submit" class="mr-4 lbtn" >:Login</v-btn>
 			</v-layout >
 		</v-form>
 	</v-layout>
 
+<a href="#" @click="logoutfn"  class="btn btn-default lbtn"  id="mem_logout" value="로그아웃">로그아웃</a>
 	<v-layout justify-center>
 		<v-dialog v-model="dialog" persistent max-width="600px">
 			<template v-slot:activator="{ on }">
 				<v-btn color="" v-on="on">:Sign Up</v-btn>
-				<v-btn  @click="initt" data-toggle="modal" data-target="#myModal">Forgot Id/Pw?</v-btn >
+				<v-btn  @click="initt" data-toggle="modal" data-target="#myModal">:Forgot Id/Pw?</v-btn >
 			</template>
 			<v-card>
 			<v-card-title>
@@ -44,20 +47,40 @@
 				<v-container grid-list-md>
 				<v-layout wrap>
 					<v-flex xs12 sm6 md4>
-					<v-text-field v-model="i_nick" label="Nick name*" required ></v-text-field>
+					<v-text-field 
+						ref="i_nick"
+						v-model="i_nick" 
+						label="Nick name*"
+						:rules="[() => !!i_nick || 'This field is required']"
+						:error-messages="errorMessages"
+						prepend-icon="account_box"
+						required 
+						>
+						</v-text-field>
 					</v-flex>
 					<v-flex xs12>
-					<v-text-field v-model="i_email" label="Email*" required></v-text-field>
+					<v-text-field 
+						v-model="i_email" 
+						:rules="[rules.required, rules.email]"
+						label="Email*"
+						prepend-icon="email" 
+						>
+						</v-text-field>
 					</v-flex>
 					<v-flex xs12>
-					<v-text-field v-model="i_pw" label="Password*" type="password" required></v-text-field>
+					<v-text-field 
+						v-model="i_pw" 
+						label="Password*" 
+						prepend-icon="visibility"
+						type="password" 
+						required></v-text-field>
 					</v-flex>
 					<v-flex xs12 sm6>
 						<v-menu
 						ref="menu"
 						v-model="menu"
 						:close-on-content-click="false"
-						:return-value.sync="date"
+						:return-value.sync="i_date"
 						transition="scale-transition"
 						offset-y
 						full-width
@@ -66,7 +89,7 @@
 						<template v-slot:activator="{ on }">
 							<v-text-field
 							v-model="i_date"
-							label="BirthDay"
+							label="BirthDay*"
 							prepend-icon="event"
 							readonly
 							v-on="on"
@@ -80,7 +103,13 @@
 						</v-menu>
 					</v-flex>
 					<v-flex xs12 sm6>
-					<v-text-field v-model="i_phone" label="Phone" type="Phone" required></v-text-field>
+					<v-text-field 
+						v-model="i_phone" 
+						label="Phone*" 
+						type="Phone" 
+						prepend-icon="phone"
+						required
+						hint="010-0000-0000"></v-text-field>
 					</v-flex>
 				</v-layout>
 				</v-container>
@@ -94,36 +123,6 @@
 			</v-card>
 		</v-dialog>
 	</v-layout>
-
-
-
-		<!-- <form id="loginform" class="loginf" @submit.prevent="loginfn"> 
-			<v-text-field
-				v-model="m_email"
-				:error-messages="nameErrors"
-				:counter="15"
-				label="Email"
-				required
-				@input="$v.name.$touch()"
-				@blur="$v.name.$touch()"
-			></v-text-field>
-			<v-text-field
-				v-model="m_pw"
-				v-bind="$attrs"
-				v-on="$listeners"
-				:counter="10"
-				required
-				label="Password"
-				:append-icon="visible ? 'visibility_off' : 'visibility'"
-				:append-icon-cb="() => (visible = !visible)"
-				:type="visible ? 'text' : 'password'"
-			/>
-			<v-btn class="mr-4 lbtn" @click="submit">submit</v-btn>
-			<v-btn class="lbtn" @click="clear">clear</v-btn>
-		</form>
-			<a href="#" @click="inittrrrr"  class="btn btn-default lbtn"  id="mem_insert" value="회원가입">:Sign Up</a>
-			<a href="#" @click="logoutfn"  class="btn btn-default lbtn"  id="mem_logout" value="로그아웃">로그아웃</a>
-			<a href="#" @click="initt"  class="btn btn-default lbtn" data-toggle="modal" data-target="#myModal">Forgot Id/Pw?</a> -->
 
 <!-- Modal -->
 		<div class="modal fade" id="myModal" role="dialog">
@@ -187,9 +186,19 @@ created(){
 			i_nick:"",
 			i_date:"",
 			i_pw:"",
-			i_phone:"",	
+			i_phone:"",
+			errorMessages: '',
+			error:true,
+			success:false,	
+			rules: {
+						required: value => !!value || 'Required.',
+						counter: value => value.length <= 20 || 'Max 20 characters',
+						email: value => {
+						const pattern = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+						return pattern.test(value) || 'Invalid e-mail.'
+						},
+					},
 			dialog: false,
-			alert:false,
 			date: new Date().toISOString().substr(0, 10),
 			menu: false
 		}
@@ -206,36 +215,14 @@ created(){
 				})
 				if (result.data != "" && result.data != null) {
 					sessionStorage.setItem('m_email', this.m_email);
+					localStorage.setItem('m_email', this.m_email);
 					sessionStorage.setItem('m_no', result.data[0].m_no);
 					router.push({ path: 'home' })
-					console.log('여기는 오는거야????')
 				} else {
-					alert = true;
-					console.log('널임')
-					alert('아이디 또는 비밀번호가 다릅니다.')
+					alert("aaaaaaaaaaaa")
 				}
 				console.log(result.data)
 				console.log(result)
-				// this.$axios.post('/moment/mem_logindb', {
-				// 		m_email: this.m_email,
-				// 		m_pw: this.m_pw,
-				// }).then(response => {
-				// 	this.datas = response.data
-				// 	console.log(this.datas[0].m_no)
-				// if (this.datas != null) {
-				// 	sessionStorage.setItem('m_email', this.m_email);
-				// 	sessionStorage.setItem('m_no', this.datas[0].m_no);
-				// 	console.log("라우터")
-				// 	console.log(router)
-				// 	// location.href = "/home";
-				// 	router.push({ path: 'home' })
-				// } else {
-					
-				// }
-				// 	console.log(response)
-				// }, function() {
-				// 	console.log('failed')
-				// })
 		},
 		logoutfn : function () {
 			sessionStorage.removeItem('m_email')
@@ -246,66 +233,31 @@ created(){
 		inittrrrr : function () {
 			console.log("aaaaaa")
 			this.dialog = false
-
 		},
 		signUp : async function () {
-			console.log(this.i_email)
-			console.log(this.i_pw)
-			console.log(this.i_phone)
-			console.log(this.i_date)
-			console.log(this.i_email)
-			var formData = new FormData();
-			formData.append("i_email", this.i_email);
-			formData.append("i_pw", this.i_pw);
-			formData.append("i_date", this.i_date);
-			formData.append("i_phone", this.i_phone);
-			formData.append("i_nick", this.i_nick);
-			const config = {
-				headers: { 'content-type': 'multipart/form-data' }
-				}
-				
-				// this.$axios.post('/moment/mem_insertdb',formData).then(response => {
-				// 	if (response.data.err) {
-				// 		alert(response.data.err.code)
-				// 	} else {
-				// 	}
-				// }, function() {
-				// 	console.log('failed')
-				// })
-
-				var result = await this.$axios.post('/moment/mem_insertdb',formData, config)
-				// if (result.data != "" && result.data != null) {
-				// 	sessionStorage.setItem('m_email', this.m_email);
-				// 	sessionStorage.setItem('m_no', result.data[0].m_no);
-				// 	router.push({ path: 'home' })
-				// 	console.log('여기는 오는거야????')
-				// } else {
-				// 	alert = true;
-				// 	console.log('널임')
-				// 	alert('아이디 또는 비밀번호가 다릅니다.')
-				// }
-				// console.log(result.data)
-				// console.log(result)
-				// this.$axios.post('/moment/mem_logindb', {
-				// 		m_email: this.m_email,
-				// 		m_pw: this.m_pw,
-				// }).then(response => {
-				// 	this.datas = response.data
-				// 	console.log(this.datas[0].m_no)
-				// if (this.datas != null) {
-				// 	sessionStorage.setItem('m_email', this.m_email);
-				// 	sessionStorage.setItem('m_no', this.datas[0].m_no);
-				// 	console.log("라우터")
-				// 	console.log(router)
-				// 	// location.href = "/home";
-				// 	router.push({ path: 'home' })
-				// } else {
-					
-				// }
-				// 	console.log(response)
-				// }, function() {
-				// 	console.log('failed')
-				// })
+				this.$axios.post('/moment/mem_insertdb',{
+						i_nick	: this.i_nick,
+						i_email	: this.i_email,
+						i_pw	: this.i_pw,
+						i_date	: this.i_date,
+						i_phone	: this.i_phone
+				}).then(response => {
+					console.log(response.data)
+					if (response.data =='success') {
+						router.push({ path: 'login' })
+					} else {
+						console.log(response.data)
+						console.log(response.data.sqlMessage)
+						const aa = _.includes(response.data.sqlMessage , "m_email");
+						if (aa == true) {
+							console.log("걸렸네!")
+						} else {
+							console.log("안걸렸네!")
+						}
+					}
+				}, function() {
+					console.log('failed')
+				})
 		}
 	}
     
@@ -334,7 +286,7 @@ created(){
 }
 .loginbody{
 	background-color: antiquewhite;	
-	height: -webkit-fill-available;
+	height: 800px;
 }
 
 .loginf{
@@ -342,9 +294,6 @@ created(){
 	font-family: "나눔고딕";
 	color: #007bff;
 	font-size: 20pt;
-}
-.container{
-
 }
 .form-group{
 	font-family: "나눔고딕";

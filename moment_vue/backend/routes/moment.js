@@ -486,22 +486,23 @@ router.post('/mem_updatedb', function(req,res,next){
 	var m_birth   	= req.param("m_birth");
 	var m_phone   	= req.param("m_phone");
 	var count   = "";
-	  pool.getConnection(function (err, connection) {
+		pool.getConnection(function (err, connection) {
 				var sql = `update TCM_MEMBER_MST 
 															set 
 															m_nick=?,
 															m_pw=?,
 															m_phone=? 
 															where m_no=?`;
-	  	
-	      connection.query(sql,[m_nick,m_pw,m_phone,m_no], function (err, rows) {
-//	    	  console.log(rows)
-	          if (err) console.error("err : " + err);
-	    	  
-	    	  res.send(rows);
-	          connection.release();
-	      });
-	  }); 
+		connection.query(sql,[m_nick,m_pw,m_phone,m_no], function (err, rows) {
+				if (err){
+					console.error("err : " + err)
+					res.send({ data : err });
+				}else{
+					res.send({ data : "success" });
+				} 
+				connection.release();
+			});
+		}); 
 	});
 
 router.get('/home_selectdblike', function(req,res,next){
@@ -624,22 +625,25 @@ router.get('/likecheck', function(req,res,next){
 		// let res = [];
 		console.log("req.param")
 		// console.log(req.param)
-		console.log(req.param("i_email"))
+		console.log(req.param('i_email'))
 		console.log(req.param("i_pw"))
 		var m_email    	= req.param("i_email");
 		var m_pw		= req.param("i_pw");
 		var m_nick    	= req.param("i_nick");
 		var m_birth   	= req.param("i_date");
 		var m_phone   	= req.param("i_phone");
+		console.log('m_email')
+		console.log(m_email)
 		pool.getConnection(function (err, connection) {
 			var sql = `insert into TCM_MEMBER_MST(m_email,m_pw,m_nick,m_birth,m_phone)values(?,?,?,?,?)`;
 			
 			connection.query(sql,[m_email,m_pw,m_nick,m_birth,m_phone], function (err, rows) {
-	//	    	  console.log(rows)
-				if (err) console.error("err : " + err);
-				
-				res.send(rows);
-				connection.release();
+				if (err){
+					console.error("err : " + err)
+					res.send(err);
+				}else{
+					res.send({ data : "success" });
+				}
 			});
 		}); 
 	});

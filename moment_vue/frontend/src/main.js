@@ -2,6 +2,8 @@
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import Vue from 'vue'
 import App from './App'
+import VueLodash from 'vue-lodash'
+import Vuelidate from 'vuelidate'
 import Vuetify from 'vuetify'
 import router from './router'
 import axios from 'axios'
@@ -14,6 +16,9 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 
 import 'vuetify/dist/vuetify.min.css'
 
+const options = { name: 'lodash' } // customize the way you want to call it
+Vue.use(VueLodash, options)
+Vue.use(Vuelidate)
 Vue.use(Vuetify)
 Vue.config.productionTip = false
 Vue.prototype.$axios = axios
