@@ -41,7 +41,7 @@ router.post('/pupp', function(req,res,next){
 						res.push({num:split[0],value:split[1]});		
 						rea.push([Number(split[0]),split[1]]);		
 					});
-               return {res,rea};
+				return {res,rea};
             }))
         })
         .then((title) => {
@@ -509,59 +509,59 @@ router.get('/home_selectdblike', function(req,res,next){
 	
 	var k_num =req.param('kind');
 	console.log(k_num)
-	  pool.getConnection(function (err, connection) {
-				var sql = `SELECT * 
-										FROM 
-										TCM_DATA_MST as data 
-										LEFT OUTER JOIN 
-										TCM_MEMBER_MST as mem 
-										ON data.m_no = mem.m_no 
-										order by d_like desc;`;
+		pool.getConnection(function (err, connection) {
+					var sql = `SELECT * 
+											FROM 
+											TCM_DATA_MST as data 
+											LEFT OUTER JOIN 
+											TCM_MEMBER_MST as mem 
+											ON data.m_no = mem.m_no 
+											order by d_like desc;`;
 
-	      connection.query(sql,[k_num], function (err, rows) {
-//	    	  console.log(rows)
-	          if (err) console.error("err : " + err);
-	    	  
-	    	  res.send(rows);
-	          connection.release();
-	      });
-	  }); 
-	});
+			connection.query(sql,[k_num], function (err, rows) {
+	//	    	  console.log(rows)
+				if (err) console.error("err : " + err);
+				
+				res.send(rows);
+				connection.release();
+			});
+		}); 
+});
 
 router.post('/mem_logindb', function(req,res,next){
 	var mail =req.param('m_email');
 	var pw =req.param('m_pw');
-	  pool.getConnection(function (err, connection) {
-	      var sql = "SELECT * FROM TCM_MEMBER_MST WHERE m_email=? and m_pw=?";
-	      connection.query(sql,[mail,pw], function (err, rows) {
-//	    	  console.log(rows)
-	          if (err) console.error("err : " + err);
-	    	  
-	    	  res.send(rows);
-	          connection.release();
-	      });
-	  }); 
-	});
+		pool.getConnection(function (err, connection) {
+			var sql = "SELECT * FROM TCM_MEMBER_MST WHERE m_email=? and m_pw=?";
+			connection.query(sql,[mail,pw], function (err, rows) {
+	//	    	  console.log(rows)
+				if (err) console.error("err : " + err);
+				
+				res.send(rows);
+				connection.release();
+			});
+		}); 
+});
 
 
 router.get('/mem_idcheckdb', function(req,res,next){
 	var m_email =req.param('m_email');
 	console.log("m_email")
 	console.log(m_email)
-	  pool.getConnection(function (err, connection) {
-				var sql = `SELECT * 
-								FROM 
-								TCM_MEMBER_MST 
-								WHERE 
-								m_email=?`;
-	      connection.query(sql,[m_email], function (err, rows) {
-//	    	  console.log(rows)
-	          if (err) console.error("err : " + err);
-	    	  
-	    	  res.send(rows);
-	          connection.release();
-	      });
-	  }); 
+		pool.getConnection(function (err, connection) {
+					var sql = `SELECT * 
+									FROM 
+									TCM_MEMBER_MST 
+									WHERE 
+									m_email=?`;
+			connection.query(sql,[m_email], function (err, rows) {
+	//	    	  console.log(rows)
+				if (err) console.error("err : " + err);
+				
+				res.send(rows);
+				connection.release();
+			});
+		}); 
 	});
 
 router.post('/like', function(req,res,next){
@@ -587,16 +587,15 @@ router.post('/like', function(req,res,next){
 	}
 	pool.getConnection( async function (err, connection) {
 		var sql =`UPDATE TCM_DATA_MST
-							  SET d_like=${d_like}  
-							  WHERE d_no=${d_no}
-							  ;`;
-	      connection.query(sql+sql2, function (err, rows) {
+					SET d_like=${d_like}  
+						WHERE d_no=${d_no};`;
+			connection.query(sql+sql2, function (err, rows) {
 				console.log(sql)
 				console.log(sql2)
-	        if (err) console.error("err : " + err);
-	        connection.release();
-	      });
-	  }); 
+			if (err) console.error("err : " + err);
+			connection.release();
+			});
+		}); 
 	});
 
 router.get('/likecheck', function(req,res,next){

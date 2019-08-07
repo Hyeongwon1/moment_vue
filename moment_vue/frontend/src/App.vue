@@ -1,8 +1,10 @@
 <template>
     <div>
+		<v-app>
         <top></top>
         <router-view></router-view>
         <bottom></bottom>
+		</v-app>
     </div>
 </template>
 

@@ -1,5 +1,5 @@
 <template>
-<body class="loginbody">
+<div class="loginbody">
 	<v-layout column align-center persistent >
 		<v-form
 		ref="form"
@@ -26,22 +26,20 @@
 			label="Remember?"
 			required
 			></v-checkbox>
-			<v-layout justify-center style="margin-right: 145px;">
+			<v-layout justify-center style="margin-left: 10px;">
 				<v-btn type="submit" class="mr-4 lbtn" >:Login</v-btn>
 			</v-layout >
 		</v-form>
 	</v-layout>
 
-<a href="#" @click="logoutfn"  class="btn btn-default lbtn"  id="mem_logout" value="로그아웃">로그아웃</a>
 	<v-layout justify-center>
 		<v-dialog v-model="dialog" persistent max-width="600px">
 			<template v-slot:activator="{ on }">
 				<v-btn color="" v-on="on">:Sign Up</v-btn>
-				<v-btn  @click="initt" data-toggle="modal" data-target="#myModal">:Forgot Id/Pw?</v-btn >
 			</template>
-			<v-card>
+			<v-card ref="form">
 			<v-card-title>
-				<span class="headline">User Profile</span>
+				<span class="headline">회원가입</span>
 			</v-card-title>
 			<v-card-text>
 				<v-container grid-list-md>
@@ -59,21 +57,26 @@
 						</v-text-field>
 					</v-flex>
 					<v-flex xs12>
-					<v-text-field 
+					<v-text-field
+						ref="i_email" 
 						v-model="i_email" 
-						:rules="[rules.required, rules.email]"
+						:rules="[rules.email]"
 						label="Email*"
 						prepend-icon="email" 
+						required
 						>
 						</v-text-field>
 					</v-flex>
 					<v-flex xs12>
 					<v-text-field 
+						ref="i_pw"
 						v-model="i_pw" 
 						label="Password*" 
-						prepend-icon="visibility"
+						:rules="[rules.required]"
+						prepend-icon="visibility_off"
 						type="password" 
-						required></v-text-field>
+						required
+						></v-text-field>
 					</v-flex>
 					<v-flex xs12 sm6>
 						<v-menu
@@ -89,9 +92,12 @@
 						<template v-slot:activator="{ on }">
 							<v-text-field
 							v-model="i_date"
+							ref="i_date"
 							label="BirthDay*"
+							:rules="[() => !!i_date || 'This field is required']"
 							prepend-icon="event"
 							readonly
+							required
 							v-on="on"
 							></v-text-field>
 						</template>
@@ -104,11 +110,14 @@
 					</v-flex>
 					<v-flex xs12 sm6>
 					<v-text-field 
-						v-model="i_phone" 
-						label="Phone*" 
-						type="Phone" 
+						v-model="i_phone"
+						ref="i_phone" 
+						label="Phone*"
+						:rules="[() => !!i_phone || 'This field is required']"
 						prepend-icon="phone"
 						required
+						return-masked-value
+						mask="###-####-####"
 						hint="010-0000-0000"></v-text-field>
 					</v-flex>
 				</v-layout>
@@ -124,76 +133,29 @@
 		</v-dialog>
 	</v-layout>
 
-<!-- Modal -->
-		<div class="modal fade" id="myModal" role="dialog">
-			<div class="modal-dialog">
-			
-			<!-- Modal content-->
-			<div class="modal-content">
-				<div class="modal-header">
-				<button type="button" class="close" data-dismiss="modal">&times;</button>
-				<h4 class="modal-title">아이디 비밀번호 찾기</h4>
-			</div>
-				<div class="modal-body">
-				
-		<h3 align="center">아이디 찾기</h3>
-		<div align="center">
-				<div class="form-group">
-					<label for="m_phone">Phone:</label> 
-					<input type="tel" class="form-control" name="m_phone" id="m_phone" size="10" placeholder="Enter tel">
-				</div>
-			<span id="id_result"></span><br><br>
-			<button class="btn btn-default" id="id" onclick="emailsearchfn()">ID찾기</button>
-		</div>
-		<br />
-		<hr/>
-		
-		<h3 align="center">비번 찾기</h3>
-		<div align="center">
-			<div class="form-group">
-					<label for="m_email_s">Email:</label> 
-					<input type="email" class="form-control" name="m_email_s" id="m_email_s" size="10" placeholder="Enter email" >
-				</div>
-			<div class="form-group">
-					<label for="m_tel_s">Phone:</label> 
-					<input type="tel" class="form-control" name="m_tel_s" id="m_tel_s" size="10" placeholder="Enter phone">
-				</div>
-			<span id="pw_result"></span><br /><br />
-			<button id="pw" class="btn btn-default" onclick="emailsearchpwfn()">PW찾기</button>
-		</div>
-			</div>
-			<div class="modal-footer">
-				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-				</div>
-			</div>
-			</div>
-		</div>
-		
-
-</body>
+</div>
 </template>
 <script>
 import router from '@/router'
 export default {
-created(){
-	},   
+	created(){
+	}, 
 	data() {
 		return {
 			datas:[],
-			m_email:"",
-			m_pw:"",
-			i_email:"",
-			i_nick:"",
-			i_date:"",
-			i_pw:"",
-			i_phone:"",
+			m_email:null,
+			m_pw:null,
+			i_email:null,
+			i_nick:null,
+			i_date:null,
+			i_pw:null,
+			i_phone:null,
 			errorMessages: '',
-			error:true,
+			formHasErrors: false,
 			success:false,	
 			rules: {
-						required: value => !!value || 'Required.',
-						counter: value => value.length <= 20 || 'Max 20 characters',
-						email: value => {
+					required: value => !!value || 'Required.',
+					email: value => {
 						const pattern = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
 						return pattern.test(value) || 'Invalid e-mail.'
 						},
@@ -206,58 +168,80 @@ created(){
 	components: {
 
 	},
+	computed: {
+		form () {
+			return {
+				i_nick	: this.i_nick,
+				i_email	: this.i_email,
+				i_pw	: this.i_pw,
+				i_date	: this.i_date,
+				i_phone	: this.i_phone
+			}
+		},
+	},
 	methods: {
 		loginfn : async function () {
-				var self = this;
+			var self = this;
+			if (this.m_email != null && this.m_pw!= null) {
 				var result = await this.$axios.post('/moment/mem_logindb', {
 						m_email: this.m_email,
 						m_pw: this.m_pw,
 				})
+
 				if (result.data != "" && result.data != null) {
 					sessionStorage.setItem('m_email', this.m_email);
 					localStorage.setItem('m_email', this.m_email);
 					sessionStorage.setItem('m_no', result.data[0].m_no);
 					router.push({ path: 'home' })
-				} else {
-					alert("aaaaaaaaaaaa")
-				}
-				console.log(result.data)
-				console.log(result)
-		},
-		logoutfn : function () {
-			sessionStorage.removeItem('m_email')
-			console.log("aaaaaa")
-			//로컬스토리지 삭제
-			// router.push({ path: 'login' })
-		},
-		inittrrrr : function () {
-			console.log("aaaaaa")
-			this.dialog = false
+				} 
+			} 
 		},
 		signUp : async function () {
-				this.$axios.post('/moment/mem_insertdb',{
+				this.formHasErrors = false
+				console.log(this.form)
+				Object.keys(this.form).forEach(f => {
+					if (!this.form[f]) this.formHasErrors = true
+					this.$refs[f].validate(true)
+				})
+				if(this.formHasErrors == false ){
+					this.$axios.post('/moment/mem_insertdb',{
 						i_nick	: this.i_nick,
 						i_email	: this.i_email,
 						i_pw	: this.i_pw,
 						i_date	: this.i_date,
 						i_phone	: this.i_phone
-				}).then(response => {
-					console.log(response.data)
-					if (response.data =='success') {
-						router.push({ path: 'login' })
-					} else {
+					}).then(response => {
 						console.log(response.data)
-						console.log(response.data.sqlMessage)
-						const aa = _.includes(response.data.sqlMessage , "m_email");
-						if (aa == true) {
-							console.log("걸렸네!")
+						if (response.data =='success') {
+							router.push({ path: 'login' })
 						} else {
-							console.log("안걸렸네!")
+							console.log(response.data)
+							console.log(response.data.sqlMessage)
+							const aa = _.includes(response.data.sqlMessage , "m_email");
+							const bb = _.includes(response.data.sqlMessage , "m_nick");
+							if (aa == true || bb == true) {
+								console.log("걸렸네!")
+								if (aa == true) {
+									alert('email 중복되었습니다.')
+								} else {
+									alert('nick 중복되었습니다.')
+								}
+							} else {
+								console.log("안걸렸네!")
+								this.errorMessages = []
+								this.formHasErrors = false
+								Object.keys(this.form).forEach(f => {
+									this.$refs[f].reset()
+								})
+								this.dialog = false
+								alert('가입완료.')
+							}
 						}
-					}
-				}, function() {
-					console.log('failed')
-				})
+					}, function() {
+						console.log('failed')
+					})
+				}
+				
 		}
 	}
     

@@ -1,20 +1,45 @@
 <template>
-  <div>
+  <!-- <div>
     <div class="headtop">
-		<Slide>
-		<a id="home" href="#" @click="pupp">
-			<span>puppnaver</span>
-		</a>
-		<a id="skysc" href="#" @click="pupp">
-			<span>puppskysc</span>
-		</a>
-		</Slide>
 	</div>	
 	<div id="head" class="hj_head">	
-		<!-- <a @click="fnhome" class="head_moment">in the moment</a> -->
+		<a @click="fnhome" class="head_moment">in the moment</a>
 		<router-link to="/home"><a class="head_moment">in the moment</a></router-link>
-	</div>
-  </div>
+	</div> -->
+    <v-card>
+      <v-card-title class="text-center justify-center py-6">
+        	<Slide>
+            <a id="home" href="#" @click="pupp">
+              <span>puppnaver</span>
+            </a>
+            <a id="skysc" href="#" @click="pupp">
+              <span>puppskysc</span>
+            </a>
+          </Slide>
+        <!-- <h1 to="/home"><h1 class="font-weight-bold display-1">in the moment</h1></router-link> -->
+      <router-link to="/home"><a class="head_moment">in the moment</a></router-link>
+      </v-card-title>
+  
+      <v-tabs
+        v-model="tab"
+        grow
+      >
+        <v-tab
+          v-for="item in items"
+          :key="item"
+        >
+          {{ item }}
+        </v-tab>
+      </v-tabs>
+  
+      <v-tabs-items v-model="tab">
+        <v-tab-item
+          v-for="item in items"
+          :key="item"
+        >
+        </v-tab-item>
+      </v-tabs-items>
+    </v-card>
 </template>
  
 <script>
@@ -23,7 +48,10 @@ export default {
   name: 'top',
   data () {
     return {
-     
+        tab: null,
+        items: [
+                'ALL', 'EAT', 'BUY', 'ENJOY','ADDRESS'
+              ],
     }
   },
   components: {
@@ -51,7 +79,7 @@ export default {
    /* vertical-align: middle; */
 }
 .head_moment {
-   color: antiquewhite;
+   color: black;
    font-family: "Am";
    font-size: 25pt;
    vertical-align: middle;

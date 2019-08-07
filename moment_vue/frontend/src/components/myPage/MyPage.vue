@@ -37,7 +37,7 @@
 		</v-card>
 	</v-flex>
 </v-layout>
-
+<a href="#" @click="logoutfn"  class="btn btn-default lbtn"  id="mem_logout" value="로그아웃">로그아웃</a>
 <bottom></bottom>
 </div>
 </template>
@@ -72,6 +72,12 @@ export default {
 				}, function() {
 					console.log('failed')
 				})
+		},
+		logoutfn : function () {
+			sessionStorage.removeItem('m_email')
+			console.log("aaaaaa")
+			//로컬스토리지 삭제
+			router.push({ path: 'login' })
 		},
 		picview : function(evt){
 			console.log(evt)
