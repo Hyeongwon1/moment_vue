@@ -100,7 +100,7 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 #bottom_nav {
-  background-color: antiquewhite
+  /* background-color: antiquewhite */
 	/* width: 100%; */
 	/* position: sticky; */
 	/* background-color: black; */

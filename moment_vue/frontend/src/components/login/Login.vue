@@ -241,7 +241,6 @@ export default {
 						console.log('failed')
 					})
 				}
-				
 		}
 	}
     
@@ -269,12 +268,12 @@ export default {
 	src: url("/font/AmaticSC-Regular.ttf");
 }
 .loginbody{
-	background-color: antiquewhite;	
+	/* background-color: antiquewhite;	 */
 	height: 800px;
 }
 
 .loginf{
-	background-color: antiquewhite;
+	/* background-color: antiquewhite; */
 	font-family: "나눔고딕";
 	color: #007bff;
 	font-size: 20pt;

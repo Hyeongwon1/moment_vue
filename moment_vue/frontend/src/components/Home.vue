@@ -1,25 +1,23 @@
 <template>
 <body id="mybodyhtml">
-<div>
-	<div class="btn-group d-flex">
-		<button @click="initt" class="btn hbtn" id="0" >A L L</button>
-		<button @click="initt" class="btn hbtn" id="1" >E A T</button>
-		<button @click="initt" class="btn hbtn" id="2" >B U Y</button>
-		<button @click="initt" class="btn hbtn" id="3" >E N J O Y</button>
-		<button class="btn hbtn" id="myaddress" data-toggle="collapse" data-target="#myinput">A D D R E S S</button>
-	</div>
-	<div id="myinput" class="collapse">
-		<div class="input-group">
-			<input id="msearch" v-model="searchloc" type="text" class="form-control" placeholder="Search for location" >
-			<span class="input-group-btn">
-				<button class="btn btn-secondary myinputsearch"  @click="searchlocbtn" type="button"> Go!</button>
-			</span>
-		</div>
-	</div>
-	<button id="odbtn" class="ui-btn" @click="odbtn">{{newandlike}}</button>
-</div>
+		<v-tabs
+			v-model="tab"
+			grow
+		>
+			<v-tab
+			v-model="kinds"
+			@click="initt(item.id)"
+			v-for="item in items"
+			:key="item.id"
+			>
+			{{ item.name }}
+			</v-tab>
+		</v-tabs>
+		<v-btn 
+		id="odbtn"
+		@click="odbtn">{{newandlike}}</v-btn>
 	<v-layout justify-center>
-		<v-flex sm10 md10>
+		<v-flex sm12 md12>
 		<v-card>
 			<v-container
 			fluid
@@ -77,6 +75,7 @@ export default {
 	created(){
     this.$axios.get('/moment/home').then(response => {
 			this.datas = response.data.data;
+			console.log(this.datas)
 		})
 	},
 	components: {
@@ -88,50 +87,43 @@ export default {
 			pupps: "",
 			newandlike:"N E W ▼",
 			kinds:"",
+			ord:"",
 			searchloc:"",
 			d_no:"",
-			data_num:""
+			data_num:"",
+			tab: null,
+			items: [
+				{name:'ALL'  ,id:'0'},
+				{name:'EAT'  ,id:'1'},
+				{name:'BUY'	 ,id:'2'},
+				{name:'ENJOY',id:'3'}
+            ],
 		}
 	},
 	methods :{
-	initt : function(evt){
-		console.log(evt.target.id)
-		this.kinds = evt.target.id
-	
-		var anchList = document.getElementsByClassName("btn hbtn");
-			for (var i = 0; i < anchList.length; i++) {
-					if (i == this.kinds) {
-							var anchor = document.getElementsByClassName("btn hbtn")[i];
-							anchor.className ='btn hbtn active';
-					}else{
-						var anchor = document.getElementsByClassName("btn hbtn")[i];
-							anchor.className ='btn hbtn';
-					}
-				}		 
-		this.$axios.get('/moment/listinit?kind='+evt.target.id).then((response) => {
-								this.datas = response.data.data
-								this.newandlike="L I K E ▼"
+	initt : function(id){
+		this.$axios.get('/moment/listinit?kind='+id).then((response) => {
+			this.datas = response.data.data
+			this.newandlike="L I K E ▼"
         })
 	},
-	odbtn : function(evt){
-		var ord ;
-		if (evt.target.innerText =="N E W ▼") {
-				this.newandlike="L I K E ▼"
-				ord = "nw"
+	odbtn : function(){
+		if (this.newandlike =="N E W ▼") {
+			this.newandlike="L I K E ▼"
+			this.ord = "nw"
 		} else {
-				ord = "lk"
-		 		this.newandlike="N E W ▼"
+			this.ord = "lk"
+			this.newandlike="N E W ▼"
 		}
-		
 		if (this.searchloc) {
 			this.$axios.get('/moment/home_address_selectdb?ord='+this.ord+"&kind="+this.kinds+"&loc="+this.searchloc).then((response) => {
                 console.warn(response);
                 this.datas = response.data.data
-    	})
+			})
 		} else {
-			this.$axios.get('/moment/listinit?ord='+ord+"&kind="+this.kinds).then((response) => {
-									this.datas = response.data.data
-    	})
+			this.$axios.get(`/moment/listinit?ord=${this.ord}&kind=${this.tab}`).then((response) => {
+				this.datas = response.data.data
+			})
 		}
 	},
 	searchlocbtn : function(){
@@ -157,7 +149,7 @@ export default {
 				
 			}
 	}
-  }
+	}
 }
 </script>
 
@@ -176,57 +168,15 @@ export default {
 }
 
 div p.loctxt{
-  overflow: hidden; 
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-#myinput{
-	padding-left: 10px; 
-	padding-right: 10px;
-	background-color: antiquewhite;	
-}
-.data{
-	float:left; 
-	margin: 30px;
-	position: relative;
-}
-.data *{
-	font-family: "설렘";
-	font-size:20px;
-}
-.box {
-	box-shadow: 5px 5px 20px #ccc;
-	background-color: #e5e7e8;
-	padding: 15px;
-    width: 320px;
-}
-.mainimg {
-	vertical-align: middle; 
-	margin: auto; 
-	height: 230px; 
-	width:100%;
-}
-.ivdiv{
-	display:table-cell; 
-	vertical-align:middle; 
-	height: 320px;
-	background-color: black;
+	overflow: hidden; 
+	text-overflow: ellipsis;
+	white-space: nowrap;
 }
 .mynick{
 	font-family: "설렘";
 	float: left; 
 	margin-right: 15px; 
 	font-size:20px;
-}
-.mylike{
-	float: right; 
-	margin-right: 10px; 
-	font-size: 15px;
-}
-.mylikeimg{
-	width:20px;
-	float:left;
-	margin-right:5px;
 }
 .myage{
 	font-size: 15px;
@@ -236,42 +186,15 @@ div p.loctxt{
 	width:50px;
 	/* margin-top: 6px; */
 }
-.mytitle{
-	margin-top: 10px; 
-	text-decoration: underline; 
-}
-.btn.hbtn {
-	border-radius: 0rem;
-	background-color: antiquewhite;
-	font-family: "Am";
-	color: #007bff;
-	font-size: 14pt;
-}
-.btn-group {
-	width: 100%;
-}
-.btn.hbtn.active {
-	background-color: white;
-	font-family: "Am";
-	color: black;
-	font-size: 14pt;
-}
-
 #odbtn {
 	width: 100%;
-    background-color: antiquewhite;
+    /* background-color: antiquewhite; */
 	font-size: 12pt;
 	color: #007bff;
 	font-family: "Am";
 	margin: auto;
 	height: 40px;
 	border: 0px;  
-}
-.btn.fbtn {
-	background-color: black;
-	font-family: "Am";
-	color: white;
-	font-size: 14pt;
 }
 .myinputsearch{
     background-color: white;
