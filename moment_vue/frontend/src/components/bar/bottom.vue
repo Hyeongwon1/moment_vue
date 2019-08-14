@@ -1,14 +1,15 @@
 <template>
-  <v-bottom-nav
+  <v-bottom-navigation
       :active.sync="bottomNav"
       :value="true"
+      grow
+      horizontal
       fixed
-      color="color"
       id='bottom_nav'
     >
       <v-btn
         color="teal"
-        flat
+        text
         value="Home"
         @click="home" 
       >
@@ -18,7 +19,7 @@
 
       <v-btn
         color="teal"
-        flat
+        text
         value="favorites"
       >
         <span>Favorites</span>
@@ -27,7 +28,7 @@
 
       <v-btn
         color="teal"
-        flat
+        text
         value="Image"
         @click="myupload" 
       >
@@ -37,7 +38,7 @@
 
       <v-btn
         color="teal"
-        flat
+        text
         value="search"
         @click="myrecorcd"
       >
@@ -47,14 +48,14 @@
 
       <v-btn
         color="teal"
-        flat
+        text
         value="mypage"
         @click="mypage"
       >
         <span>mypage</span>
         <v-icon>perm_identity</v-icon>
       </v-btn>
-    </v-bottom-nav>
+    </v-bottom-navigation>
 </template>
 <script>
 export default {
@@ -96,13 +97,7 @@ export default {
   }
 }
 </script>
- 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-#bottom_nav {
-  /* background-color: antiquewhite */
-	/* width: 100%; */
-	/* position: sticky; */
-	/* background-color: black; */
-}
+
 </style>

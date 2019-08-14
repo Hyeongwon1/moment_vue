@@ -28,7 +28,7 @@
     "vue-router": "^3.0.5",
     "vuejs-daum-postcode": "^1.0.4",
     "vuelidate": "^0.7.4",
-    "vuetify": "^1.5.16"
+    "vuetify": "^2.0.0-alpha.10"
   },
   "devDependencies": {
     "autoprefixer": "^7.1.2",

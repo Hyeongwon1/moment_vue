@@ -1,6 +1,6 @@
 <template>
 <body id="mybodyhtml">
-		<v-tabs
+		<!-- <v-tabs
 			v-model="tab"
 			grow
 		>
@@ -12,7 +12,7 @@
 			>
 			{{ item.name }}
 			</v-tab>
-		</v-tabs>
+		</v-tabs> -->
 		<v-btn 
 		id="odbtn"
 		@click="odbtn">{{newandlike}}</v-btn>
@@ -189,11 +189,11 @@ div p.loctxt{
 #odbtn {
 	width: 100%;
     /* background-color: antiquewhite; */
-	font-size: 12pt;
+	font-size: 17pt;
 	color: #007bff;
 	font-family: "Am";
-	margin: auto;
-	height: 40px;
+	margin-top: 50px;
+	height: 55px;
 	border: 0px;  
 }
 .myinputsearch{
