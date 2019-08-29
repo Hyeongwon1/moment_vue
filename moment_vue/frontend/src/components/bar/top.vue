@@ -1,5 +1,6 @@
 <template>
 <div>
+  {{aaa}}
 <v-app-bar
     app
     grow
@@ -104,6 +105,13 @@ export default {
             ],
     }
   },
+  props:{
+    aaa:{
+      type:String,
+      // required:true
+      default:"aa"
+    }
+  },
   watch: {
 
   },
@@ -115,9 +123,10 @@ export default {
         this.$router.push({ path: 'pupp1' })
         },
         puppa: function(id){
-          console.log(id)
-          var id = id
-        this.$router.push({ path: `/home/${id}`})
+        this.$emit("aaarr",id)
+        },
+        initt: function(id){
+        this.$emit("aaarr",id)
         }
   }
 }

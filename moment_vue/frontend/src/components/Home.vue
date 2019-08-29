@@ -1,20 +1,8 @@
 <template>
 <body id="mybodyhtml">
-		<!-- <v-tabs
-			v-model="tab"
-			grow
-		>
-			<v-tab
-			v-model="kinds"
-			@click="initt(item.id)"
-			v-for="item in items"
-			:key="item.id"
-			>
-			{{ item.name }}
-			</v-tab>
-		</v-tabs> -->
-		<top></top>
-		
+		<navtop 
+		:id="id"
+		@aaarr="aaarr"></navtop>
 		<v-btn 
 		id="odbtn"
 		@click="odbtn">{{newandlike}}</v-btn>
@@ -69,16 +57,14 @@
 		</v-card>
 		</v-flex>
 	</v-layout>
-	<bottom></bottom>
+	<navbottom></navbottom>
 </body>
 </template>
 <script>
-import bottom from '@/components/bar/bottom.vue'
-import top from '@/components/bar/top.vue'
 export default {
 	created(){
 	console.log("this.$route.params.id")
-	console.log(this.$route.params.id)
+	console.log(this.datano)
 	this.id = this.$route.params.id
 	if (this.id == undefined) {
 		this.$axios.get('/moment/home').then(response => {
@@ -104,11 +90,10 @@ export default {
 		},
 	},
 	components: {
-		bottom,
-		top
 	},
 	data(){
 		return {
+			datano: "",
 			datas: [],
 			pupps: "",
 			id:"",
@@ -129,6 +114,14 @@ export default {
 	},
 	methods :{
 	initt : function(id){
+		this.$axios.get('/moment/listinit?kind='+id).then((response) => {
+			this.datas = response.data.data
+			this.newandlike="L I K E ▼"
+        })
+	},
+	aaarr: function(id){
+		console.log("asdasdasdasd")	
+		console.log(id)	
 		this.$axios.get('/moment/listinit?kind='+id).then((response) => {
 			this.datas = response.data.data
 			this.newandlike="L I K E ▼"

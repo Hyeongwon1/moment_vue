@@ -7,20 +7,17 @@ import 'vuetify/dist/vuetify.min.css'
 import VueLodash from 'vue-lodash'
 import router from './router'
 import axios from 'axios'
-
-// eslint-disable-next-line import/no-webpack-loader-syntax
-// import 'expose-loader?$!expose-loader?jQuery!jquery'
-
-// import 'bootstrap'
-// import 'bootstrap/dist/css/bootstrap.min.css'
-
+import bottom from '@/components/bar/bottom.vue'
+import top from '@/components/bar/top.vue'
 const opts = { }
 Vue.use(Vuetify)
 const options = { name: 'lodash' } // customize the way you want to call it
 Vue.use(VueLodash, options)
-// Vue.use(Vuelidate)
 Vue.config.productionTip = false
 Vue.prototype.$axios = axios
+
+Vue.component('navtop', top)
+Vue.component('navtbottom', bottom)
 
 /* eslint-disable no-new */
 new Vue({
