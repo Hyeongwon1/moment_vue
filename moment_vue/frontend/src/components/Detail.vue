@@ -57,6 +57,9 @@ export default {
 			datas: []
 		}	
 	},
+	props :{
+
+	},
 	components: {
 			
 	},

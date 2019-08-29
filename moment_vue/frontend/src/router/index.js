@@ -24,6 +24,14 @@ export default new Router({
       name: 'Home',
       component: MomentHome
     },
+    // {
+    //   path: '/home/:id',
+    //   name: 'Home',
+    //   component: MomentHome
+    //   // children: [
+    //   //   { path: ':id', component: MomentHome }
+    //   // ]
+    // },
     {
       path: '/upload',
       name: 'Upload',

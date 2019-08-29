@@ -1,6 +1,6 @@
 <template>
 <div>
- <v-app-bar
+<v-app-bar
     app
     grow
   >
@@ -45,7 +45,6 @@
       </v-layout>
     </v-container>
   </v-app-bar>
-  
       <v-navigation-drawer
         v-model="drawer"
         absolute
@@ -75,7 +74,7 @@
           <v-list-item
             v-for="item in items"
             :key="item.id"
-            link
+            @click="puppa(item.id)"
           >
             <v-list-item-icon>
               <v-icon>{{ item.icon}}</v-icon>
@@ -89,23 +88,9 @@
         </v-list>
       </v-navigation-drawer>
 </div>
-    <!-- <v-card>
-      <v-card-title class="text-center justify-center py-6">
-          <Slide>
-            <a id="home" href="#" @click="pupp">
-              <span>puppnaver</span>
-            </a>
-            <a id="skysc" href="#" @click="pupp">
-              <span>puppskysc</span>
-            </a>
-          </Slide>
-      <router-link to="/home"><a class="head_moment">in the moment</a></router-link>
-      </v-card-title>
-    </v-card> -->
 </template>
 
 <script>
-import { Slide } from 'vue-burger-menu' 
 export default {
   name: 'top',
   data () {
@@ -123,11 +108,16 @@ export default {
 
   },
   components: {
-    Slide, // Register your component
+  
   },
   methods: {
         pupp: function(){
         this.$router.push({ path: 'pupp1' })
+        },
+        puppa: function(id){
+          console.log(id)
+          var id = id
+        this.$router.push({ path: `/home/${id}`})
         }
   }
 }
@@ -135,22 +125,10 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style>
-.hj_head {
-   text-align: center;
-   /* height: 50px; */
-   background-color: antiquewhite;
-   /* font-family: "Am"; */
-   /* font-size: 25pt; */
-   /* vertical-align: middle; */
-}
 .head_moment {
-   color: black;
-   font-family: "Am";
-   font-size: 25pt;
-   vertical-align: middle;
-}
-.headtop{
-    height: 30px;
-    background: antiquewhite;
+  color: black;
+  font-family: "Am";
+  font-size: 25pt;
+  vertical-align: middle;
 }
 </style>

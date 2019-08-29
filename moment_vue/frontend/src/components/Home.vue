@@ -13,6 +13,8 @@
 			{{ item.name }}
 			</v-tab>
 		</v-tabs> -->
+		<top></top>
+		
 		<v-btn 
 		id="odbtn"
 		@click="odbtn">{{newandlike}}</v-btn>
@@ -67,24 +69,49 @@
 		</v-card>
 		</v-flex>
 	</v-layout>
+	<bottom></bottom>
 </body>
 </template>
 <script>
-
+import bottom from '@/components/bar/bottom.vue'
+import top from '@/components/bar/top.vue'
 export default {
 	created(){
-    this.$axios.get('/moment/home').then(response => {
+	console.log("this.$route.params.id")
+	console.log(this.$route.params.id)
+	this.id = this.$route.params.id
+	if (this.id == undefined) {
+		this.$axios.get('/moment/home').then(response => {
 			this.datas = response.data.data;
 			console.log(this.datas)
 		})
+	} else if (this.id == 'home') {
+		this.$axios.get('/moment/home').then(response => {
+			this.datas = response.data.data;
+			console.log(this.datas)
+		})
+	} else {
+		this.$axios.get('/moment/listinit?kind='+this.id).then((response) => {
+			this.datas = response.data.data
+			this.newandlike="L I K E ▼"
+			
+		})
+	}
+	},
+	watch: {
+            '$route': function(to, from) {
+            this.id = to.params.id;
+		},
 	},
 	components: {
-	
+		bottom,
+		top
 	},
 	data(){
 		return {
 			datas: [],
 			pupps: "",
+			id:"",
 			newandlike:"N E W ▼",
 			kinds:"",
 			ord:"",
