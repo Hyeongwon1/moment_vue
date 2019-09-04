@@ -1,9 +1,8 @@
 <template>
 <div>
-  {{aaa}}
 <v-app-bar
-    app
-    grow
+  app
+  
   >
     <v-app-bar-nav-icon
       class="hidden-md-and-up"
@@ -14,21 +13,13 @@
       py-0
     >
       <v-layout>
-        <!-- <v-img
-          :src="require('@/assets/logo.png')"
-          class="mr-5"
-          contain
-          height="48"
-          width="48"
-          max-width="48"
-          @click="$vuetify.goTo(0)"
-        /> -->
         <router-link to="/home"><a class="head_moment">in the moment</a></router-link>
         <v-spacer />
         <v-btn 
           v-for="item in items"
           :key="item.id"
           class="ml-0 hidden-sm-and-down"
+          style="height : 48px;"
           text
           @click="initt(item.id)"
         >
@@ -37,18 +28,25 @@
     
         <v-spacer />
         <v-text-field
-          append-icon="mdi-magnify"
           flat
           hide-details
           solo-inverted
-          style="max-width: 300px;"
+          style="max-width: 180px;"
         />
+        <v-btn
+        text
+        value="search"
+        style="height : 48px;"
+        @click="search"
+        >
+          <v-icon>search</v-icon>
+        </v-btn>
       </v-layout>
     </v-container>
   </v-app-bar>
       <v-navigation-drawer
         v-model="drawer"
-        absolute
+        fixed
         temporary
       >
         <v-list-item>
@@ -67,7 +65,7 @@
                   <span>puppnaver</span>
                 </a>
               </v-list-item-title>
-            </v-list-item-content>
+      </v-list-item-content>
 
       <v-divider></v-divider>
         <v-list dense>
@@ -106,11 +104,7 @@ export default {
     }
   },
   props:{
-    aaa:{
-      type:String,
-      // required:true
-      default:"aa"
-    }
+
   },
   watch: {
 
@@ -137,7 +131,7 @@ export default {
 .head_moment {
   color: black;
   font-family: "Am";
-  font-size: 25pt;
+  font-size: 22pt;
   vertical-align: middle;
 }
 </style>

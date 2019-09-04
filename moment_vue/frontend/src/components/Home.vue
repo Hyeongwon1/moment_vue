@@ -1,11 +1,8 @@
 <template>
 <body id="mybodyhtml">
-		<navtop 
+		<navtop
 		:id="id"
-		@aaarr="aaarr"></navtop>
-		<v-btn 
-		id="odbtn"
-		@click="odbtn">{{newandlike}}</v-btn>
+		@aaarr="initt"></navtop>
 	<v-layout justify-center>
 		<v-flex sm12 md12>
 		<v-card>
@@ -57,39 +54,23 @@
 		</v-card>
 		</v-flex>
 	</v-layout>
+	<footer></footer>
 	<navbottom></navbottom>
 </body>
 </template>
 <script>
 export default {
 	created(){
-	console.log("this.$route.params.id")
-	console.log(this.datano)
-	this.id = this.$route.params.id
-	if (this.id == undefined) {
 		this.$axios.get('/moment/home').then(response => {
 			this.datas = response.data.data;
 			console.log(this.datas)
 		})
-	} else if (this.id == 'home') {
-		this.$axios.get('/moment/home').then(response => {
-			this.datas = response.data.data;
-			console.log(this.datas)
-		})
-	} else {
-		this.$axios.get('/moment/listinit?kind='+this.id).then((response) => {
-			this.datas = response.data.data
-			this.newandlike="L I K E ▼"
-			
-		})
-	}
 	},
 	watch: {
-            '$route': function(to, from) {
-            this.id = to.params.id;
-		},
+
 	},
 	components: {
+
 	},
 	data(){
 		return {
@@ -103,25 +84,12 @@ export default {
 			searchloc:"",
 			d_no:"",
 			data_num:"",
-			tab: null,
-			items: [
-				{name:'ALL'  ,id:'0'},
-				{name:'EAT'  ,id:'1'},
-				{name:'BUY'	 ,id:'2'},
-				{name:'ENJOY',id:'3'}
-            ],
+			tab: null
 		}
 	},
 	methods :{
 	initt : function(id){
-		this.$axios.get('/moment/listinit?kind='+id).then((response) => {
-			this.datas = response.data.data
-			this.newandlike="L I K E ▼"
-        })
-	},
-	aaarr: function(id){
-		console.log("asdasdasdasd")	
-		console.log(id)	
+		this.id = id
 		this.$axios.get('/moment/listinit?kind='+id).then((response) => {
 			this.datas = response.data.data
 			this.newandlike="L I K E ▼"
@@ -136,18 +104,18 @@ export default {
 			this.newandlike="N E W ▼"
 		}
 		if (this.searchloc) {
-			this.$axios.get('/moment/home_address_selectdb?ord='+this.ord+"&kind="+this.kinds+"&loc="+this.searchloc).then((response) => {
+			this.$axios.get('/moment/home_address_selectdb?ord='+this.ord+"&kind="+this.id+"&loc="+this.searchloc).then((response) => {
                 console.warn(response);
                 this.datas = response.data.data
 			})
 		} else {
-			this.$axios.get(`/moment/listinit?ord=${this.ord}&kind=${this.tab}`).then((response) => {
+			this.$axios.get(`/moment/listinit?ord=${this.ord}&kind=${this.id}`).then((response) => {
 				this.datas = response.data.data
 			})
 		}
 	},
 	searchlocbtn : function(){
-			this.$axios.get('/moment/home_address_selectdb?ord='+this.ord+"&kind="+this.kinds+"&loc="+this.searchloc).then((response) => {
+			this.$axios.get('/moment/home_address_selectdb?ord='+this.ord+"&kind="+this.id+"&loc="+this.searchloc).then((response) => {
                 console.warn(response);
                 this.datas = response.data.data
     })

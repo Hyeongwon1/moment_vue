@@ -17,7 +17,7 @@ Vue.config.productionTip = false
 Vue.prototype.$axios = axios
 
 Vue.component('navtop', top)
-Vue.component('navtbottom', bottom)
+Vue.component('navbottom', bottom)
 
 /* eslint-disable no-new */
 new Vue({
