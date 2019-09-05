@@ -8,14 +8,14 @@ import MomentLogin from '@/components/login/Login'
 import MomentMyPage from '@/components/myPage/MyPage'
 
 Vue.use(Router)
-
-// const requireAuth = () => (to, from, next) => {
-//   if (store.state.accessToken !== '') {
-//     return next()
-//   }
-//   next('/login')
-// }
-
+const requireAuth = () => (to, from, next) => {
+  var semail = sessionStorage.getItem('m_email')
+  if (semail == null) {
+    alert('로그인이 필요합니다.')
+    return next('/login')
+  }
+  next()
+}
 export default new Router({
   mode: 'history',
   routes: [
@@ -36,33 +36,13 @@ export default new Router({
       path: '/upload',
       name: 'Upload',
       component: MomentUpload,
-      beforeEnter: function (to, from, next) {
-        console.log('aaaaaaaaaaaaaaaa')
-        var semail = sessionStorage.getItem('m_email')
-        console.log('semail')
-        console.log(semail)
-        if (semail == null) {
-          alert('로그인이 필요합니다.')
-        } else {
-          next()
-        }
-      }
+      beforeEnter: requireAuth()
     },
     {
       path: '/detail',
       name: 'Detail',
       component: MomentDetail,
-      beforeEnter: function (to, from, next) {
-        console.log('aaaaaaaaaaaaaaaa')
-        var semail = sessionStorage.getItem('m_email')
-        console.log('semail')
-        console.log(semail)
-        if (semail == null) {
-          alert('로그인이 필요합니다.')
-        } else {
-          next()
-        }
-      }
+      beforeEnter: requireAuth()
     },
     {
       path: '/login',
@@ -73,17 +53,7 @@ export default new Router({
       path: '/mypage',
       name: 'MyPage',
       component: MomentMyPage,
-      beforeEnter: function (to, from, next) {
-        console.log('aaaaaaaaaaaaaaaa')
-        var semail = sessionStorage.getItem('m_email')
-        console.log('semail')
-        console.log(semail)
-        if (semail == null) {
-          alert('로그인이 필요합니다.')
-        } else {
-          next()
-        }
-      }
+      beforeEnter: requireAuth()
     },
     {
       path: '/pupp1',

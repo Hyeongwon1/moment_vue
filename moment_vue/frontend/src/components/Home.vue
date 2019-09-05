@@ -2,7 +2,15 @@
 <body id="mybodyhtml">
 		<navtop
 		:id="id"
-		@aaarr="initt"></navtop>
+		:searchloc="searchloc"
+		@aaarr="initt"
+		@searchloc="searchlocbtn">
+		</navtop>
+		<v-btn 	
+		id="odbtn"	
+		@click="odbtn">
+		{{newandlike}}
+		</v-btn>		
 	<v-layout justify-center>
 		<v-flex sm12 md12>
 		<v-card>
@@ -114,9 +122,13 @@ export default {
 			})
 		}
 	},
-	searchlocbtn : function(){
-			this.$axios.get('/moment/home_address_selectdb?ord='+this.ord+"&kind="+this.id+"&loc="+this.searchloc).then((response) => {
-                console.warn(response);
+	searchlocbtn : function(searchloc){
+		console.log("여기탄거..?")
+		console.log(searchloc)
+		this.searchloc = searchloc
+		console.log(this.searchloc)
+			this.$axios.get(`/moment/home_address_selectdb?kind=${this.id}&loc=${this.searchloc}`).then((response) => {
+                // console.warn(response);
                 this.datas = response.data.data
     })
 	},

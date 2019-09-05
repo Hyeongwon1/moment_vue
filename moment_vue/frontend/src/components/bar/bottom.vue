@@ -1,10 +1,12 @@
 <template>
-  <v-bottom-navigation
+  <div>
+    <br>
+    <br>
+    <v-bottom-navigation
       :active.sync="bottomNav"
       :value="true"
-      grow
-      horizontal
       fixed
+      grow
       id='bottom_nav'
     >
       <v-btn
@@ -21,6 +23,7 @@
         color="teal"
         text
         value="favorites"
+        @click="favorites" 
       >
         <span>Favorites</span>
         <v-icon>favorite</v-icon>
@@ -56,6 +59,7 @@
         <v-icon>perm_identity</v-icon>
       </v-btn>
     </v-bottom-navigation>
+  </div>
 </template>
 <script>
 export default {
@@ -70,6 +74,9 @@ export default {
   },
   methods: {
       home : function(){
+          this.$router.push({ path: 'home' })
+      },
+      favorites : function(){
           this.$router.push({ path: 'home' })
       },
       myupload : function(){

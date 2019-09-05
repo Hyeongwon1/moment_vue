@@ -1,5 +1,8 @@
 <template>
 <div class="loginbody">
+	<navtop
+		:id="id"
+		@aaarr="initt"></navtop>
 	<v-layout column align-center persistent >
 		<v-form
 		ref="form"
@@ -132,7 +135,7 @@
 			</v-card>
 		</v-dialog>
 	</v-layout>
-
+<navbottom></navbottom>
 </div>
 </template>
 <script>

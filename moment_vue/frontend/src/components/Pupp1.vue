@@ -1,5 +1,6 @@
 <template lang="html">
-<body id="mybodyhtml">
+<div>
+	<navtop></navtop>
 	<div style="text-align: center">
 			<a href="#" @click="sendpupp" id="write_bt" class="btn hbtn" style="color: white;">
 				<img id="write_img" src="/image/pencil2.png"> g e t
@@ -18,7 +19,8 @@
             <div class="h1_pupp"></div>
 			<div>{{data.time}}</div>
 	</div>
-</body>
+	<navbottom></navbottom>
+</div>
 </template>
 <script>
 export default {
