@@ -7,25 +7,43 @@
       class="hidden-md-and-up"
       @click.stop="drawer = !drawer"
     />
-    <v-container
+    <!-- <v-container
       mx-auto
       py-0
-    >
+    > -->
       <v-layout>
-        <router-link to="/home"><a class="head_moment">in the moment</a></router-link>
         <v-spacer/>
+        <router-link to="/home"><a class="head_moment">in the moment</a></router-link>
         <v-spacer>
-        <v-btn 
-          v-for="item in items"
-          :key="item.id"
-          class="ml-1 hidden-sm-and-down"
-          style="height : 48px;"
-          text
-          @click="initt(item.id)"
-        >
-          {{ item.name }}
-        </v-btn>
+          <v-tabs
+            v-model="model"
+            align-with-title
+            background-color="transparent"
+            slider-color="pink"
+          >
+            <v-tab
+              v-for="item in items"
+              :key="item.id"
+              v-model="model"
+              align-with-title
+              background-color="transparent"
+              class="ml-2 hidden-sm-and-down"
+              style="height : 48px;"
+              text
+              @click="initt(item.id)"
+            >
+              {{ item.name }}
+            </v-tab>
+          </v-tabs>
         </v-spacer>
+        <v-btn
+        text
+        value="search"
+        style="height : 48px;"
+        @click="onEnter"
+        >
+        {{newandlike}}
+        </v-btn>
         <v-text-field
           flat
           v-model="searchloc"
@@ -33,13 +51,13 @@
           v-on:keyup.enter="onEnter"
           hide-details
           solo-inverted
-          style="max-width: 180px;"
+          style="max-width: 150px;"
         />
         <v-btn
         text
         value="search"
         style="height : 48px;"
-        @click="search"
+        @click="onEnter"
         >
           <v-icon>search</v-icon>
         </v-btn>
@@ -52,7 +70,7 @@
         LOGIN
         </v-btn>
       </v-layout>
-    </v-container>
+    <!-- </v-container> -->
   </v-app-bar>
       <v-navigation-drawer
         v-model="drawer"
@@ -68,7 +86,7 @@
           </v-list-item-content>
         </v-list-item>
 
-        <v-list dense>
+      <v-list dense>
       <v-list-item-content>
           <v-list-item
               v-for="title in titles"
@@ -86,6 +104,7 @@
       </v-list>
       <v-divider></v-divider>
         <v-list dense>
+          <v-list-item-group v-model="model" active-class="border" color="pink">
             <v-list-item
               v-for="item in items"
               :key="item.id"
@@ -98,6 +117,7 @@
               <v-list-item-title>{{ item.name }}</v-list-item-title>
             </v-list-item-content>
           </v-list-item>
+          </v-list-item-group>
         </v-list>
       </v-navigation-drawer>
 </div>
@@ -110,11 +130,13 @@ export default {
     return {
       drawer : false,
       searchloc: "",
+      newandlike:"NEW ▼",
+      model: 1,
       items: [
 				{name:'ALL'  ,id:'0' ,icon: 'dashboard'},
-				{name:'EAT'  ,id:'1' ,icon: 'dashboard'},
-				{name:'BUY'	 ,id:'2' ,icon: 'dashboard'},
-				{name:'ENJOY',id:'3' ,icon: 'dashboard'}
+				{name:'EAT'  ,id:'1' ,icon: 'restaurant_menu'},
+				{name:'BUY'	 ,id:'2' ,icon: 'money'},
+				{name:'ENJOY',id:'3' ,icon: 'map'}
             ],
         titles: [
 				{name:'LOGIN' ,id:'99' ,icon: 'dashboard'},
@@ -140,10 +162,11 @@ export default {
           }
         },
         initt: function(id){
+        this.$router.push({ path: 'home' })
         this.$emit("aaarr",id)
         },
         onEnter: function() {
-        console.log("navtop"+this.searchloc)
+        this.$router.push({ path: 'home' })
         this.$emit("searchloc",this.searchloc)
     }
   }
@@ -155,7 +178,7 @@ export default {
 .head_moment {
   color: black;
   font-family: "Am";
-  font-size: 22pt;
+  font-size: 20pt;
   vertical-align: middle;
 }
 </style>
