@@ -14,10 +14,9 @@
       <v-layout>
         <v-spacer/>
         <router-link to="/home"><a class="head_moment">in the moment</a></router-link>
-        <v-spacer>
+        <v-spacer/>
           <v-tabs
             v-model="model"
-            align-with-title
             background-color="transparent"
             slider-color="pink"
           >
@@ -35,12 +34,10 @@
               {{ item.name }}
             </v-tab>
           </v-tabs>
-        </v-spacer>
         <v-btn
         text
-        value="search"
         style="height : 48px;"
-        @click="onEnter"
+        @click="ordnwlk"
         >
         {{newandlike}}
         </v-btn>
@@ -51,11 +48,10 @@
           v-on:keyup.enter="onEnter"
           hide-details
           solo-inverted
-          style="max-width: 150px;"
+          style="max-width: 140px;"
         />
         <v-btn
         text
-        value="search"
         style="height : 48px;"
         @click="onEnter"
         >
@@ -130,7 +126,8 @@ export default {
     return {
       drawer : false,
       searchloc: "",
-      newandlike:"NEW ▼",
+      ord:"lk",
+      newandlike:"LIKE ▼",
       model: 1,
       items: [
 				{name:'ALL'  ,id:'0' ,icon: 'dashboard'},
@@ -168,7 +165,18 @@ export default {
         onEnter: function() {
         this.$router.push({ path: 'home' })
         this.$emit("searchloc",this.searchloc)
-    }
+        },
+        ordnwlk: function(){
+        this.$router.push({ path: 'home' })
+        this.$emit("ord",this.ord)
+          if (this.newandlike =="NEW ▼") {
+            this.newandlike="LIKE ▼"
+            this.ord = "nw"
+          } else {
+            this.ord = "lk"
+            this.newandlike="NEW ▼"
+          }
+        },
   }
 }
 </script>

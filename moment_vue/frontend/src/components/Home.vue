@@ -3,14 +3,18 @@
 		<navtop
 		:id="id"
 		:searchloc="searchloc"
+		:ord="ord"
 		@aaarr="initt"
+		@ord="odbtn"
 		@searchloc="searchlocbtn">
 		</navtop>
-		<v-btn 	
+		<!-- <v-btn 	
 		id="odbtn"	
 		@click="odbtn">
 		{{newandlike}}
-		</v-btn>		
+		</v-btn>		 -->
+		<br>
+		<br>
 	<v-layout justify-center>
 		<v-flex sm12 md12>
 		<v-card>
