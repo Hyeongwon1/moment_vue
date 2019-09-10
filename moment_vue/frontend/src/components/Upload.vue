@@ -67,7 +67,8 @@
          </table>
       </div>
       <br> <br>
-
+      <navbottom
+	></navbottom>
   </div>
       <div style="text-align: center; margin-bottom: 155px;">
          <a href="#" @click="sendPost" id="write_bt" class="btn hbtn" style="color: white;">

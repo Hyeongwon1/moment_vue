@@ -3,60 +3,20 @@
     <br>
     <br>
     <v-bottom-navigation
-      :active.sync="bottomNav"
-      :value="true"
+       v-model="bottomNav"
+      :value="activeBtn"
       fixed
+      color="pink"
       grow
-      id='bottom_nav'
     >
       <v-btn
-        color="teal"
+        v-for="bitem in bitems"
+        :key="bitem.id"
         text
-        value="Home"
-        @click="home" 
+        @click="nav(bitem.id)"
       >
-        <span>Home</span>
-        <v-icon>home</v-icon>
-      </v-btn>
-
-      <v-btn
-        color="teal"
-        text
-        value="favorites"
-        @click="favorites" 
-      >
-        <span>Favorites</span>
-        <v-icon>favorite</v-icon>
-      </v-btn>
-
-      <v-btn
-        color="teal"
-        text
-        value="Image"
-        @click="myupload" 
-      >
-        <span>Image Up</span>
-        <v-icon>image</v-icon>
-      </v-btn>
-
-      <v-btn
-        color="teal"
-        text
-        value="search"
-        @click="myrecorcd"
-      >
-        <span>search</span>
-        <v-icon>search</v-icon>
-      </v-btn>
-
-      <v-btn
-        color="teal"
-        text
-        value="mypage"
-        @click="mypage"
-      >
-        <span>mypage</span>
-        <v-icon>perm_identity</v-icon>
+        <span>{{bitem.name}}</span>
+        <v-icon>{{bitem.icon}}</v-icon>
       </v-btn>
     </v-bottom-navigation>
   </div>
@@ -66,18 +26,38 @@ export default {
   name: 'bottom',
   data () {
     return {
-    
+      activeBtn : 1,
+      id:"",
+      bitems: [
+				{name:'Home'       ,id:0 ,icon: 'home'},
+				{name:'Favorites'  ,id:1 ,icon: 'favorite'},
+				{name:'Image Up'	 ,id:2 ,icon: 'image'},
+				{name:'search'     ,id:3 ,icon: 'search'},
+				{name:'mypage'     ,id:4 ,icon: 'perm_identity'}
+            ],
     }
   },
   components: {
 
   },
   methods: {
+      nav : function(id){
+        console.log("asdsadsadasd")
+        console.log(id)
+        this.id=id
+        switch (this.id) {
+            case 0: return this.$router.push({ path: 'home' }) 
+            case 1: return "";
+            case 2: return this.$router.push({ path: 'upload' })
+            case 3: return "";
+            case 4: return mypage();
+          }
+      },
       home : function(){
           this.$router.push({ path: 'home' })
       },
       favorites : function(){
-          this.$router.push({ path: 'home' })
+          // this.$router.push({ path: 'home' })
       },
       myupload : function(){
           this.$router.push({ path: 'upload' })
@@ -98,13 +78,11 @@ export default {
       mypage : function(){
 			const s_no = sessionStorage.m_no
 			const m_no =sessionStorage.m_no
-      // location.href = `/mypage?m_no=${m_no}&s_no=${s_no}`;
       this.$router.push({ path: 'mypage', query: { m_no : m_no , s_no : s_no }})
       }
   }
 }
 </script>
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 
 </style>

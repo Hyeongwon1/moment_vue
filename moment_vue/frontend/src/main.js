@@ -2,6 +2,7 @@
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import Vue from 'vue'
 import App from './App'
+import 'material-design-icons-iconfont/dist/material-design-icons.css'
 import Vuetify from 'vuetify'
 import 'vuetify/dist/vuetify.min.css'
 import VueLodash from 'vue-lodash'
@@ -9,7 +10,11 @@ import router from './router'
 import axios from 'axios'
 import bottom from '@/components/bar/bottom.vue'
 import top from '@/components/bar/top.vue'
-const opts = { }
+const opts = {
+  icons: {
+    iconfont: 'md'
+  }
+}
 Vue.use(Vuetify)
 const options = { name: 'lodash' } // customize the way you want to call it
 Vue.use(VueLodash, options)

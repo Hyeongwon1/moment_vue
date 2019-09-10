@@ -1,5 +1,13 @@
 <template lang="html">
 <div id="mybodyhtml">
+	<navtop
+		:id="id"
+		:searchloc="searchloc"
+		:ord="ord"
+		@aaarr="initt"
+		@ord="odbtn"
+		@searchloc="searchlocbtn">
+		</navtop>
 	<div v-for="data in datas" :key="data.d_no" class="viewdata">
         <div class="headmargin">
 				<div id="date">{{data.d_regdate}}</div>
@@ -38,6 +46,8 @@
 				</div>
         </div>	
 	</div>
+	<navbottom
+	></navbottom>
 </div>
 </template>
 <script>

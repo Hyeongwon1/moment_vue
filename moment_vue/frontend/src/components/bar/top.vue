@@ -6,28 +6,18 @@
     <v-app-bar-nav-icon
       class="hidden-md-and-up"
       @click.stop="drawer = !drawer"
-    />
-    <!-- <v-container
-      mx-auto
-      py-0
-    > -->
-      <v-layout>
-        <v-spacer/>
-        <router-link to="/home"><a class="head_moment">in the moment</a></router-link>
-        <v-spacer/>
+    ></v-app-bar-nav-icon>
+          <div class="pa-5"></div>        
           <v-tabs
             v-model="model"
-            background-color="transparent"
             slider-color="pink"
           >
+          <router-link to="/home"><a class="head_moment">in the moment</a></router-link>
             <v-tab
               v-for="item in items"
               :key="item.id"
               v-model="model"
-              align-with-title
-              background-color="transparent"
-              class="ml-2 hidden-sm-and-down"
-              style="height : 48px;"
+              class="hidden-sm-and-down"
               text
               @click="initt(item.id)"
             >
@@ -47,8 +37,9 @@
           placeholder="search location"
           v-on:keyup.enter="onEnter"
           hide-details
+          class="md-auto"
           solo-inverted
-          style="max-width: 140px;"
+          style="max-width: 160px;"
         />
         <v-btn
         text
@@ -58,15 +49,13 @@
           <v-icon>search</v-icon>
         </v-btn>
         <v-btn 
-          class="ml-1 hidden-sm-and-down"
+          class="hidden-sm-and-down"
           style="height : 48px;"
           text
           @click="login('99')"
         >
         LOGIN
         </v-btn>
-      </v-layout>
-    <!-- </v-container> -->
   </v-app-bar>
       <v-navigation-drawer
         v-model="drawer"
@@ -159,15 +148,12 @@ export default {
           }
         },
         initt: function(id){
-        this.$router.push({ path: 'home' })
         this.$emit("aaarr",id)
         },
         onEnter: function() {
-        this.$router.push({ path: 'home' })
         this.$emit("searchloc",this.searchloc)
         },
         ordnwlk: function(){
-        this.$router.push({ path: 'home' })
         this.$emit("ord",this.ord)
           if (this.newandlike =="NEW ▼") {
             this.newandlike="LIKE ▼"

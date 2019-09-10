@@ -20,18 +20,14 @@ export default new Router({
   mode: 'history',
   routes: [
     {
+      path: '/',
+      redirect: '/home'
+    },
+    {
       path: '/home',
       name: 'Home',
       component: MomentHome
     },
-    // {
-    //   path: '/home/:id',
-    //   name: 'Home',
-    //   component: MomentHome
-    //   // children: [
-    //   //   { path: ':id', component: MomentHome }
-    //   // ]
-    // },
     {
       path: '/upload',
       name: 'Upload',

@@ -67,7 +67,8 @@
 		</v-flex>
 	</v-layout>
 	<footer></footer>
-	<navbottom></navbottom>
+	<navbottom
+	></navbottom>
 </body>
 </template>
 <script>
