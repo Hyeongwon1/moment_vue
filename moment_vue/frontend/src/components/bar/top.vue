@@ -7,18 +7,18 @@
       class="hidden-md-and-up"
       @click.stop="drawer = !drawer"
     ></v-app-bar-nav-icon>
-          <div class="pa-5"></div>        
+          <div class="sm-5"></div>        
           <v-tabs
             v-model="model"
             slider-color="pink"
           >
           <router-link to="/home"><a class="head_moment">in the moment</a></router-link>
+            <!-- <div class="pa-5"></div>  -->
             <v-tab
               v-for="item in items"
               :key="item.id"
               v-model="model"
               class="hidden-sm-and-down"
-              text
               @click="initt(item.id)"
             >
               {{ item.name }}
@@ -37,7 +37,6 @@
           placeholder="search location"
           v-on:keyup.enter="onEnter"
           hide-details
-          class="md-auto"
           solo-inverted
           style="max-width: 160px;"
         />
@@ -172,7 +171,6 @@ export default {
 .head_moment {
   color: black;
   font-family: "Am";
-  font-size: 20pt;
-  vertical-align: middle;
+  font-size: 25pt;
 }
 </style>
