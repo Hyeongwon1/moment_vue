@@ -2,18 +2,21 @@
 <div>
 <v-app-bar
   app
+  dense
   >
     <v-app-bar-nav-icon
       class="hidden-md-and-up"
       @click.stop="drawer = !drawer"
     ></v-app-bar-nav-icon>
-          <div class="sm-5"></div>        
+          <div class="pa-1"></div>        
+          <!-- <router-link to="/home"><a class="head_moment">{{title}}</a></router-link> -->
+          <router-link to="/home">
+          <v-toolbar-title class="head_moment">{{title}}</v-toolbar-title></router-link>
+            <div class="pa-12"></div>
           <v-tabs
             v-model="model"
             slider-color="pink"
           >
-          <router-link to="/home"><a class="head_moment">in the moment</a></router-link>
-            <!-- <div class="pa-5"></div>  -->
             <v-tab
               v-for="item in items"
               :key="item.id"
@@ -26,7 +29,7 @@
           </v-tabs>
         <v-btn
         text
-        style="height : 48px;"
+        style="margin-left: -320px;"
         @click="ordnwlk"
         >
         {{newandlike}}
@@ -37,19 +40,17 @@
           placeholder="search location"
           v-on:keyup.enter="onEnter"
           hide-details
-          solo-inverted
-          style="max-width: 160px;"
+          style="max-width: 210px;"
         />
         <v-btn
         text
-        style="height : 48px;"
         @click="onEnter"
+        style="margin-right: -15px;"
         >
           <v-icon>search</v-icon>
         </v-btn>
         <v-btn 
           class="hidden-sm-and-down"
-          style="height : 48px;"
           text
           @click="login('99')"
         >
@@ -116,6 +117,7 @@ export default {
       searchloc: "",
       ord:"lk",
       newandlike:"LIKE ▼",
+      title:"IN THE MOMENT",
       model: 1,
       items: [
 				{name:'ALL'  ,id:'0' ,icon: 'dashboard'},
@@ -171,6 +173,6 @@ export default {
 .head_moment {
   color: black;
   font-family: "Am";
-  font-size: 25pt;
+  font-size: 19pt;
 }
 </style>

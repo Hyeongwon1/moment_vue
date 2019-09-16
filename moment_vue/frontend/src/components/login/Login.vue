@@ -34,7 +34,8 @@
 			</v-layout >
 		</v-form>
 	</v-layout>
-
+	<br>
+	<br>
 	<v-layout justify-center>
 		<v-dialog v-model="dialog" persistent max-width="600px">
 			<template v-slot:activator="{ on }">
@@ -128,7 +129,6 @@
 				<small></small>
 			</v-card-text>
 			<v-card-actions>
-				<v-spacer></v-spacer>
 				<v-btn color="blue darken-1" text @click="dialog = false">Close</v-btn>
 				<v-btn color="blue darken-1" text @click="signUp">Save</v-btn>
 			</v-card-actions>
@@ -269,10 +269,6 @@ export default {
 @font-face {
 	font-family: "Am";
 	src: url("/font/AmaticSC-Regular.ttf");
-}
-.loginbody{
-	/* background-color: antiquewhite;	 */
-	height: 800px;
 }
 
 .loginf{

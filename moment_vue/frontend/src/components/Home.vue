@@ -15,19 +15,17 @@
 		</v-btn>		 -->
 		<br>
 		<br>
-	<v-layout justify-center>
+	<v-layout align-stretch>
 		<v-flex sm12 md12>
-		<v-card>
 			<v-container
-			fluid
 			grid-list-md
-			id='homecon'
+			sm12 md12
 			>
 			<v-layout row wrap>
 				<v-flex
 				v-for="data in datas"
 				:key="data.d_no"
-				sm6 md3 xs6
+				xs6 sm6 md4 lg3
 				>
 				<v-card>
 					<v-img
@@ -63,10 +61,9 @@
 				</v-flex>
 			</v-layout>
 			</v-container>
-		</v-card>
 		</v-flex>
 	</v-layout>
-	<footer></footer>
+	<!-- <footer></footer> -->
 	<navbottom
 	></navbottom>
 </body>
