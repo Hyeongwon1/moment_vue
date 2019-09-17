@@ -1,29 +1,22 @@
 <template>
-    <div>
+	<div>
 		<v-app>
-        <router-view></router-view>
+			<router-view></router-view>
 		</v-app>
-    </div>
+	</div>
 </template>
 
 <script>
 export default {
-	created(){
-		
-	},   
+	created() {},
 	data() {
 		return {
-			datas: []
-		}	
+			datas: [],
+		};
 	},
-	components: {
-	},
-	methods: {
-		
-	}
-}
+	components: {},
+	methods: {},
+};
 </script>
 
-<style>
-
-</style>
+<style></style>

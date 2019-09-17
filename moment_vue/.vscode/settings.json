@@ -1,3 +1,31 @@
 {
-    "svn.ignoreMissingSvnWarning": true
+    "svn.ignoreMissingSvnWarning": true,
+    //   "editor.formatOnSave": true,
+    //   "editor.formatOnType": true,
+    //   "javascript.format.enable": false,
+    //   "prettier.eslintIntegration": true
+    //   "eslint.validate": [
+    //     { "language": "vue", "autoFix": true }, //vue 체크
+    //     { "language": "javascript", "autoFix": true }, //자바스크립트 체크
+    //     { "language": "html", "autoFix": true } //HTML 체크 <div></div> -> <div />
+    //   ],
+    //   "eslint.autoFixOnSave": true,
+    //   "eslint.alwaysShowStatus": true
+    "editor.formatOnSave": true,
+    "eslint.autoFixOnSave": true,
+    "eslint.alwaysShowStatus": true,
+    "eslint.validate": [
+        {
+            "language": "vue",
+            "autoFix": true
+        },
+        {
+            "language": "javascript",
+            "autoFix": true
+        },
+        {
+            "language": "javascriptreact",
+            "autoFix": true
+        }
+    ]
 }
