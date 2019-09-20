@@ -9,19 +9,102 @@
 			@searchloc="searchlocbtn"
 		>
 		</navtop>
-		<br />
-		<br />
+		<div v-for="data in datas" :key="data.d_no" class="viewdata">
+			<div class="headmargin">
+				<div id="date">{{ data.d_regdate }}</div>
+				<div id="nickdiv">
+					<span style="color: orange" id="mem_nick">{{ data.m_nick }}</span>
+				</div>
+				<div class="h1_1"></div>
+				<div id="mainData" class="">
+					<img
+						class="img-responsive"
+						v-bind:src="'/' + data.d_path"
+						style="width:75%; margin:auto; display: block;"
+					/>
+				</div>
+				<div class="h1_1"></div>
+				<div id="icon" class="col-sm-12">
+					<img
+						v-if="data.d_kind == '1'"
+						id="kindimg"
+						class="img-responsive"
+						src="/image/kind/eat.png"
+					/>
+					<img
+						v-if="data.d_kind == '2'"
+						id="kindimg"
+						class="img-responsive "
+						src="/image/kind/buy.png"
+					/>
+					<img
+						v-if="data.d_kind == '3'"
+						id="kindimg"
+						class="img-responsive "
+						src="/image/kind/enjoy.png"
+					/>
+					<img
+						id="age"
+						class="img-responsive "
+						v-bind:src="'/image/age/' + data.m_age + '0s.png'"
+					/>
+					<div v-if="data.check_flag == '0'">
+						<img
+							src="/image/like/heart.png"
+							class="img-responsive hj_heart_img"
+							@click="checklike"
+							v-bind:value="0"
+							v-bind:aaa="data.d_no"
+						/>
+						<span class="likecnt">{{ data.d_like }}</span>
+						<img
+							id="starimg"
+							class="img-responsive hj_roll_img"
+							v-bind:src="'/image/roll/r' + data.d_star + '.png'"
+						/>
+					</div>
+					<div v-if="data.check_flag == '1'">
+						<img
+							src="/image/like/full_heart.png"
+							class="img-responsive hj_heart_img"
+							@click="checklike"
+							v-bind:value="data.check_flag"
+							v-bind:aaa="data.d_no"
+						/>
+						<span class="likecnt">{{ data.d_like }}</span>
+						<img
+							id="starimg"
+							class="img-responsive hj_roll_img"
+							v-bind:src="'/image/roll/r' + data.d_star + '.png'"
+						/>
+					</div>
+				</div>
+				<div id="row" style="margin-top: 10px;">
+					<div class=" h1_2"></div>
+					<div id="title" class=" col-sm-12  col-md-12 col-lg-12 ">
+						{{ data.d_title }}
+					</div>
+					<div id="content" class=" col-sm-12  col-md-12 col-lg-12">
+						{{ data.d_content }}
+					</div>
+					<div class="h1_1 "></div>
+					<div id="location">
+						<a id="mya" href="#">{{ data.d_location }}</a
+						>에서,
+					</div>
+				</div>
+			</div>
+		</div>
+
 		<v-card
 			v-for="data in datas"
 			:key="data.d_no"
 			:loading="loading"
 			class="mx-auto my-12"
-			max-width="874"
+			max-width="374"
 		>
-			<!-- <v-img :src="'/' + data.d_path"></v-img> -->
-			<v-carousel hide-delimiters>
-				<v-carousel-item :src="data.d_path"></v-carousel-item>
-			</v-carousel>
+			<v-img height="250" :src="'/' + data.d_path"></v-img>
+
 			<v-card-title>{{ data.d_title }}</v-card-title>
 			<v-card-text>
 				<v-row align="center">
@@ -38,11 +121,11 @@
 				</v-row>
 
 				<div class="my-4 subtitle-1 black--text">
-					{{ data.d_content }}
+					{{ data.d_location }}
 				</div>
 
 				<div>
-					{{ data.d_location }}
+					{{ data.d_content }}
 				</div>
 			</v-card-text>
 

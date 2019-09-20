@@ -49,7 +49,6 @@
 											color="teal"
 											>star</v-icon
 										>
-										<!-- <img id="starimg" class="img-responsive hj_roll_img" v-bind:src="'/image/roll/r'+data.d_star+'.png'"> -->
 									</v-spacer>
 									<v-btn icon>
 										<v-icon color="red">favorite</v-icon>

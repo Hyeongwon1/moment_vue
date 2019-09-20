@@ -1,12 +1,20 @@
 <template lang="html">
-	<body id="mybody">
+	<div>
+		<navtop
+			:id="id"
+			:searchloc="searchloc"
+			:ord="ord"
+			@aaarr="initt"
+			@ord="odbtn"
+			@searchloc="searchlocbtn"
+		></navtop>
 		<div style="margin-top: 100px;"></div>
 		<div style="text-align: center">
 			<table id="up_tb">
 				<tr>
 					<td colspan="2">
 						<!-- <div class="form-group kind_cl"> -->
-						<select
+						<!-- <v-select
 							class="form-control kind_cl"
 							id="d_kind"
 							name="d_kind"
@@ -15,7 +23,8 @@
 							<option value="1">EAT</option>
 							<option value="2">BUY</option>
 							<option value="3">ENJOY</option>
-						</select>
+						</v-select> -->
+						<v-select :items="selectItem" label="Kind"></v-select>
 						<!-- </div> -->
 					</td>
 				</tr>
@@ -137,13 +146,14 @@
 				</div>
 			</div>
 		</div>
-	</body>
+	</div>
 </template>
 <script>
 import DaumPostcode from 'vuejs-daum-postcode';
 export default {
 	data() {
 		return {
+			selectItem: ['EAT', 'BUY', 'ENJOY'],
 			d_title: '',
 			d_kind: '',
 			d_location: '',
