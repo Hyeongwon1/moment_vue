@@ -10,6 +10,7 @@ import router from './router';
 import axios from 'axios';
 import bottom from '@/components/bar/bottom.vue';
 import top from '@/components/bar/top.vue';
+import addimg from '@/components/bar/addimg.vue';
 const opts = {
 	icons: {
 		iconfont: 'md',
@@ -23,6 +24,7 @@ Vue.prototype.$axios = axios;
 
 Vue.component('navtop', top);
 Vue.component('navbottom', bottom);
+Vue.component('addimg', addimg);
 
 /* eslint-disable no-new */
 new Vue({

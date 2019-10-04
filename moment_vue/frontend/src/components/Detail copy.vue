@@ -103,9 +103,9 @@
 			class="mx-auto my-12"
 			max-width="374"
 		>
-			<v-img height="250" :src="'/' + data.d_path"></v-img>
+			<v-img height="250" :src="'/' + data.d_path"> </v-img>
 
-			<v-card-title>{{ data.d_title }}</v-card-title>
+			<v-card-title>{{ data.d_title }} </v-card-title>
 			<v-card-text>
 				<v-row align="center">
 					<v-rating
