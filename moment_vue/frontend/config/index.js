@@ -7,6 +7,8 @@ const path = require('path');
 module.exports = {
 	dev: {
 		// Paths
+		index: path.resolve(__dirname, '../../backend/public/index.html'),
+		assetsRoot: path.resolve(__dirname, '../../backend/public'),
 		assetsSubDirectory: 'static',
 		assetsPublicPath: '/',
 		proxyTable: {

@@ -1,6 +1,25 @@
 <template lang="html">
-	<body id="mybodyhtml">
-		<top></top>
+	<div>
+		<navtop></navtop>
+		<br />
+		<br />
+		<div class="rank" style="color: green">실시간순위</div>
+		<v-simple-table dense>
+			<thead>
+				<tr>
+					<th class="text-left">no</th>
+					<th class="text-left">검색어</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr v-for="data in pupps" :key="data.num">
+					<td>{{ data.num }}</td>
+					<td>{{ data.value }}</td>
+					<td>{{ data.time }}</td>
+				</tr>
+			</tbody>
+		</v-simple-table>
+
 		<div style="text-align: center">
 			<a
 				href="#"
@@ -20,24 +39,16 @@
 				<img id="cancel_img" src="/image/cancel_icon3.png" />Cancel
 			</a>
 		</div>
-		<div class="rank" style="color: green">실시간순위</div>
-		<div v-for="data in pupps" :key="data.num" class="viewdata">
-			<div id="date">{{ data.num }}</div>
-			<div id="nickdiv">
-				<span style="color: orange" id="mem_nick">{{ data.value }}</span>
-			</div>
-			<div class="h1_pupp"></div>
-			<div>{{ data.time }}</div>
-		</div>
-		<bottom></bottom>
-	</body>
+		<br />
+		<br />
+		<br />
+		<navbottom></navbottom>
+	</div>
 </template>
 <script>
-import bottom from './bar/bottom.vue';
-import top from './bar/top.vue';
 export default {
 	created() {
-		this.$axios.post('/moment/pupp2', {}).then(
+		this.$axios.post('/moment/pupp', {}).then(
 			response => {
 				console.log(response.data);
 				this.pupps = response.data;
@@ -52,10 +63,7 @@ export default {
 			pupps: [],
 		};
 	},
-	components: {
-		bottom,
-		top,
-	},
+	components: {},
 	methods: {
 		fnhome: function() {
 			location.href = '/home';

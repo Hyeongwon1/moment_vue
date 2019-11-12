@@ -9,28 +9,7 @@
 			@searchloc="searchlocbtn"
 		></navtop>
 		<div style="margin-top: 100px;"></div>
-		<v-layout>
-			<v-flex xs12 sm6 offset-sm3 fluid>
-				<v-card>
-					<v-container grid-list-sm fluid>
-						<v-layout row wrap>
-							<v-flex v-for="sel in sel_file" :key="sel.no" xs4 d-flex>
-								<v-card flat tile class="d-flex">
-									<img
-										:src="sel.img"
-										:value="sel.no"
-										height="250px"
-										aspect-ratio="1"
-										class="grey lighten-2"
-										@click="picview(sel.no)"
-									/>
-								</v-card>
-							</v-flex>
-						</v-layout>
-					</v-container>
-				</v-card>
-			</v-flex>
-		</v-layout>
+
 		<div style="text-align: center">
 			<table id="up_tb">
 				<tr>
@@ -51,11 +30,7 @@
 					</td>
 				</tr>
 				<tr>
-					<td>
-						<p id="title_p">
-							TITLE
-						</p>
-					</td>
+					<td><p id="title_p">TITLE</p></td>
 					<td colspan="2">
 						<input type="text" id="d_title" name="d_title" v-model="d_title" />
 					</td>
@@ -67,7 +42,7 @@
 					<td>
 						<v-btn class="replace" @click="chooseImage"> </v-btn>
 					</td>
-					<td colspan="4">
+					<td colspan="2">
 						<div
 							class="base-image-input"
 							:style="{ 'background-image': `url(${imageData})` }"
@@ -137,12 +112,6 @@
 				</tr>
 			</table>
 		</div>
-
-		<div
-			class="base-image-input"
-			:style="{ 'background-image': `url(${imageData})` }"
-			@click="chooseImage"
-		></div>
 		<br />
 		<br />
 		<navbottom></navbottom>
@@ -195,10 +164,6 @@ export default {
 			d_star: '',
 			imageData: '',
 			imageFiles: [],
-			// sel_file: [{ no: '', img: '' }],
-			sel_file: [],
-
-			sel_aaa: '',
 			customImageMaxSize: 3,
 		};
 	},
@@ -251,54 +216,11 @@ export default {
 				this.$refs.modalclose.click();
 			}
 		},
-		onSelectFile3: function(event) {
-			this.imageFiles = event.target.files;
-			var input = event.target;
-			console.log(input.files.length);
-
-			var filesArr = Array.prototype.slice.call(this.imageFiles);
-
-			filesArr.forEach(f => {
-				// if (!f.type.match('image/jpeg.*')) {
-				// 	alert('이미지 확장자만 가능');
-				// 	return;
-				// }
-				console.log(f);
-				this.sel_file.push(f);
-
-				var reader = new FileReader();
-				reader.onload = e => {
-					this.sel_file.push({ data: e.target.result, no: 1 });
-					console.log(this.sel_file[0].data);
-				};
-				reader.readAsDataURL(input.files[0]);
-			});
-		},
 		onSelectFile: function(event) {
-			this.imageFiles = event.target.files;
-			console.log(this.imageFiles);
-			var input = event.target;
-			console.log(input.files.length);
-			console.log(input.files);
-			if (input.files) {
-				var reader = new FileReader();
-				reader.onload = e => {
-					// var imagess =
-					this.sel_file.push({
-						no: this.sel_file.length,
-						img: e.target.result,
-					});
-				};
-				// Start the reader job - read file as a data url (base64 format)
-				reader.readAsDataURL(input.files[this.sel_file.length]);
-			}
-		},
-		onSelectFile2: function(event) {
 			this.imageFiles = event.target.files;
 			// Reference to the DOM input element
 			var input = event.target;
 			// Ensure that you have a file before attempting to read it
-			console.log(input.files.length);
 			if (input.files && input.files[0]) {
 				// create a new FileReader to read this image and convert to base64 format
 				var reader = new FileReader();
@@ -316,20 +238,20 @@ export default {
 		chooseImage() {
 			this.$refs.fileInput.click();
 		},
-		// onSelectFile2() {
-		// 	const input = this.$refs.fileInput;
-		// 	const files = input.files;
-		// 	if (files && files[0]) {
-		// 		const reader = new FileReader();
-		// 		reader.onload = e => {
-		// 			this.imageData = e.target.result;
-		// 		};
-		// 		reader.readAsDataURL(files[0]);
-		// 		this.$emit('input', files[0]);
-		// 	}
-		// },
-		picview: function(no) {
-			console.log(no);
+		onSelectFile2() {
+			const input = this.$refs.fileInput;
+			const files = input.files;
+			if (files && files[0]) {
+				const reader = new FileReader();
+				reader.onload = e => {
+					this.imageData = e.target.result;
+				};
+				reader.readAsDataURL(files[0]);
+				this.$emit('input', files[0]);
+			}
+		},
+		fnhome: function() {
+			location.href = '/home';
 		},
 	},
 };
