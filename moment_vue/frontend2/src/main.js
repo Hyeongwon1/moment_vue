@@ -10,7 +10,6 @@ import top from '@/components/bar/top.vue';
 import addimg from '@/components/bar/addimg.vue';
 import vuetify from '@/plugins/vuetify';
 import 'material-design-icons-iconfont/dist/material-design-icons.css'
-import '@mdi/font/css/materialdesignicons.css'
 const options = { name: 'lodash' }; // customize the way you want to call it
 Vue.use(VueLodash, options);
 Vue.use(vuetify);
