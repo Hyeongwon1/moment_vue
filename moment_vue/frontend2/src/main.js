@@ -9,9 +9,11 @@ import bottom from '@/components/bar/bottom.vue';
 import top from '@/components/bar/top.vue';
 import addimg from '@/components/bar/addimg.vue';
 import vuetify from '@/plugins/vuetify';
-
+import 'material-design-icons-iconfont/dist/material-design-icons.css'
+import '@mdi/font/css/materialdesignicons.css'
 const options = { name: 'lodash' }; // customize the way you want to call it
 Vue.use(VueLodash, options);
+Vue.use(vuetify);
 Vue.config.productionTip = false;
 Vue.prototype.$axios = axios;
 
@@ -21,8 +23,8 @@ Vue.component('addimg', addimg);
 
 /* eslint-disable no-new */
 new Vue({
+    vuetify,
     router,
     components: { App },
-    vuetify,
     render: h => h(App)
 }).$mount('#app')
