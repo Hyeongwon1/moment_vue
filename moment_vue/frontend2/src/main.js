@@ -9,6 +9,8 @@ import bottom from '@/components/bar/bottom.vue';
 import top from '@/components/bar/top.vue';
 import addimg from '@/components/bar/addimg.vue';
 import vuetify from '@/plugins/vuetify';
+import {store}  from './store'
+
 import 'material-design-icons-iconfont/dist/material-design-icons.css'
 const options = { name: 'lodash' }; // customize the way you want to call it
 Vue.use(VueLodash, options);
@@ -23,6 +25,7 @@ Vue.component('addimg', addimg);
 /* eslint-disable no-new */
 new Vue({
     vuetify,
+    store,
     router,
     components: { App },
     render: h => h(App)
