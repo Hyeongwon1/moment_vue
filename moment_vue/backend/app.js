@@ -4,6 +4,7 @@ var path            = require('path');
 var cookieParser    = require('cookie-parser');
 var logger          = require('morgan');
 var usersRouter     = require('./routes/users');
+var puppRouter     = require('./routes/pupp');
 var momentRouter    = require('./routes/moment');
 
 var app = express();
@@ -25,7 +26,8 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 // app.use('/', indexRouter);
-app.use('/users', usersRouter);
+app.use('/moment/users', usersRouter);
+app.use('/moment/pupp', puppRouter);
 app.use('/moment', momentRouter);
 
 // catch 404 and forward to error handler

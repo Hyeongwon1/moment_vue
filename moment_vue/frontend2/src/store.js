@@ -6,7 +6,7 @@ Vue.use(Vuex);
 
 export const store = new Vuex.Store({
   state:{
-      host:'http://127.0.0.1:8000',
+      host:'http://127.0.0.1:8000/moment',
       token:'',
       id_mail:'',
     },
@@ -21,7 +21,7 @@ export const store = new Vuex.Store({
       }
     },
     loginCheck: function (state){
-      axios.get(`/moment/loginCheck`,{
+      axios.get(`${this.$store.state.host}/users/loginCheck`,{
         headers:{
           "x-access-token":state.token
         }

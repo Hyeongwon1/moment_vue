@@ -5,11 +5,7 @@ var commons 	= require('./common');
 var express     = require('express');
 var router      = express.Router();
 var pool 		= require('./mysqlConn');
-var jwt = require('jsonwebtoken');
-const config	= require('./config')
-const puppeteer = require('puppeteer');
-const crypto 	= require('crypto');
-const secret 	= config.KEY.secret;
+
 var fs          = require('fs');
 //var upload = multer({ dest: 'uploads/', limits: { fileSize: 5 * 1024 * 1024 } });
 
@@ -31,85 +27,6 @@ class User {
         this.user_pwd = user_pwd;
     }
 }
-
-	router.post('/pupp', function(req,res,next){
-		console.log(moment().format('MMMM Do YYYY, h:mm:ss a'))
-		puppeteer.launch()
-		.then((browser) => {
-			return browser.newPage()
-			.then((page) => {
-				return page.goto('https://www.naver.com/', { waitUnitl: 'networkidle' })
-				.then(() => page.evaluate(() => {
-					let elements = Array.from(document.querySelectorAll('.ah_roll_area li'));
-					let res = [];
-					let rea = [];
-						// elements.map((li) => {
-						// 	let split =	li.textContent.trim().split('\n')
-						// 	res[split[0]] = split[1]
-						// });
-						elements.map((li) => {
-							let split =	li.textContent.trim().split('\n')
-							res.push({num:split[0],value:split[1]});		
-							rea.push([Number(split[0]),split[1]]);		
-						});
-					return {res,rea};
-				}))
-			})
-			.then((title) => {
-						browser.close();
-						title.rea.forEach(element => {
-							element.push(moment().format('YYYY/MM/DD HH:mm:ss'))
-						});
-						title.res.push({time:moment().format('YYYY/MM/DD HH:mm:ss')})
-						console.log(title.rea)
-						pool.getConnection(function (err, connection) {
-							var sql = `insert into 
-														TCM_RANK_MST 
-														(RANK_NUM,
-															RANK_VALUE,
-															INSERT_DATETIME) 
-															values ?`;
-							connection.query(sql,[title.rea], function (err, rows) {
-								console.log(rows)
-								if (err) console.error("err : " + err);
-								connection.release();
-							});
-						}); 
-						res.send(title.res);
-						// res.send(title);
-				return title;
-			});
-		});
-	// puppeteer.launch({
-	// 		headless : false	// 헤드리스모드의 사용여부를 묻는다
-	// , devtools : false	// 브라우저의 개발자 모드의 오픈 여부를 묻는다
-	// , executablePath : puppeteer.executablePath()	// 실행할 chromium 기반의 브라우저의 실행 경로를 지정한다.
-	// , ignoreDefaultArgs : false	// 배열이 주어진 경우 지정된 기본 인수를 필터링한다.(중요 : true사용금지)
-	// , timeout : 30000	// 브라우저 인스턴스가 시작될 때까지 대기하는 시간(밀리 초)
-	// , defaultViewport : { width : 800, height : 600 }	// 실행될 브라우저의 화면 크기를 지정한다.
-	// , args : [ "about:blank" ]
-	// }).then(async browser => {
-	// const page = await browser.newPage();
-	// // 새탭을 열고 작업을 수행할 페이지를 지정한다.
-	// await page.goto( "https://www.naver.com", { waitUntil : "networkidle2" } );
-	// // 5초간딜레이를 준다.
-	// // await delay(5000);
-	// // 스크린샷을 찍는다.
-	// 				// const element1 = await page.$('input[name="hakbun"]');
-	//         // student_id = await page.evaluate(element1 => element1.value, element1);
-	//         // //이름을 가져와라
-	//         // const element2 = await page.$('td[width="240"]');
-	//         // name = await page.evaluate(element2 => element2.textContent, element2);
-
-
-	// await page.screenshot( { path : "wickedBlog.png" } );
-	// // 모든 작업을 수행하면 브라우저를 닫고 퍼펫티어를 종료한다.
-	// await browser.close();
-
-	// });
-	});
-
-	
 
 	router.get('/list', function(req,res,next){
 		pool.getConnection(function (err, connection) {
@@ -419,34 +336,6 @@ router.post('/myrecord_selectdb', function(req,res,next){
 	}); 
 });
 
-router.post('/mem_searchdb', function(req,res,next){
-	var m_no =req.param('num');
-		pool.getConnection(function (err, connection) {
-			var sql = "SELECT * FROM TCM_MEMBER_MST WHERE m_no=?";
-
-			connection.query(sql,[m_no], function (err, rows) {
-	//	    	  console.log(rows)
-				if (err) console.error("err : " + err);
-				
-				res.send(rows);
-				connection.release();
-			});
-		}); 
-	});
-router.get('/mem_selectdb', function(req,res,next){
-		pool.getConnection(function (err, connection) {
-			var sql = "SELECT * FROM TCM_MEMBER_MST ";
-
-			connection.query(sql , function (err, rows) {
-	//	    	  console.log(rows)
-				if (err) console.error("err : " + err);
-				
-				res.send(rows);
-				connection.release();
-			});
-		}); 
-	});
-
 router.post('/imgup', upload.single('image'), function(req, res){
 	  res.send(req.file.path); // object를 리턴함
 	  console.log(req.file); // 콘솔(터미널)을 통해서 req.file Object 내용 확인 가능.
@@ -491,32 +380,6 @@ router.post('/uploaddb',upload.single('image'), function(req,res,next){
 	  }); 
 	});
 
-router.post('/mem_updatedb', function(req,res,next){
-	var m_no		= req.param('m_no');
-	var m_email    	= req.param("m_email");
-	var m_pw		= req.param("m_pw");
-	var m_nick    	= req.param("m_nick");
-	var m_birth   	= req.param("m_birth");
-	var m_phone   	= req.param("m_phone");
-	var count   = "";
-		pool.getConnection(function (err, connection) {
-				var sql = `update TCM_MEMBER_MST 
-															set 
-															m_nick=?,
-															m_pw=?,
-															m_phone=? 
-															where m_no=?`;
-		connection.query(sql,[m_nick,m_pw,m_phone,m_no], function (err, rows) {
-				if (err){
-					console.error("err : " + err)
-					res.send({ data : err });
-				}else{
-					res.send({ data : "success" });
-				} 
-				connection.release();
-			});
-		}); 
-	});
 
 router.get('/home_selectdblike', function(req,res,next){
 	
@@ -538,90 +401,6 @@ router.get('/home_selectdblike', function(req,res,next){
 				connection.release();
 			});
 		}); 
-});
-
-router.post('/mem_logindb', function(req,res,next){
-	var mail =req.body.m_email;
-  var pw =req.body.m_pw;
-  let jwt_secret = 'moment';
-  if(mail){
-		pool.getConnection(function (err, connection) {
-			var sql = `SELECT * FROM TCM_MEMBER_MST WHERE m_email=?`;
-			connection.query(sql,[mail], function (err, rows) {
-				if (err) console.error("err : " + err);
-        const hash = crypto.createHmac('sha256', secret)
-        .update(req.body.m_pw)
-        .digest('base64');
-
-        if (hash == rows[0].m_pw) {
-          console.log("aaaaaaaaaaaaa")
-          const getToken = new Promise((resolve, reject) => {
-            jwt.sign({
-                id_mail: mail
-              },
-              jwt_secret, {
-                expiresIn: '7d',
-                issuer: 'seo',
-                subject: 'userInfo'
-              }, (err, token) => {
-                if (err) reject(err)
-                resolve(token)
-              })
-            });
-            getToken.then(
-              token => {
-                res.status(200).json({
-                  'status': 200,
-                  'msg': 'login success',
-                  token
-                });
-              }
-            );
-        }else {
-          res.status(400).json({
-            'status': 400,
-            'msg': 'password 가 틀림'
-          });
-        }
-			});
-      connection.release();
-    }); 
-  } else {
-    res.status(400).json({
-      'status': 400,
-      'msg': 'id값이 없음'
-    });
-  }
-  // res.send(rows);
-});
-
-router.get('/logincheck', (req, res) => {
-  // 인증 확인
-  const token = req.headers['x-access-token'] || req.query.token;
-  let jwt_secret = 'moment';
-
-  if (!token) {
-    res.status(400).json({
-      'status': 400,
-      'msg': 'Token 없음'
-    });
-  }
-  const checkToken = new Promise((resolve, reject) => {
-    jwt.verify(token, jwt_secret, function (err, decoded) {
-      if (err) reject(err);
-      resolve(decoded);
-    });
-  });
-  checkToken.then(
-    token => {
-      console.log(token);
-      res.status(200).json({
-        'status': 200,
-        'msg': 'success',
-        token
-      });
-    }
-  )
 });
 
 router.post('/like', function(req,res,next){
@@ -679,46 +458,5 @@ router.get('/likecheck', function(req,res,next){
 			});
 		}); 
 	});
-	router.get('/mem_idcheckdb', function(req,res,next){
-		var m_email =req.param('m_email');
-		console.log("m_email")
-		console.log(m_email)
-			pool.getConnection(function (err, connection) {
-						var sql = `SELECT * 
-										FROM 
-										TCM_MEMBER_MST 
-										WHERE 
-										m_email=?`;
-				connection.query(sql,[m_email], function (err, rows) {
-		//	    	  console.log(rows)
-					if (err) console.error("err : " + err);
-					
-					res.send(rows);
-					connection.release();
-				});
-			}); 
-		});
-		
-		
-	router.post('/mem_insertdb', function(req,res,next){
-		const hash = crypto.createHmac('sha256', secret)
-		.update(req.body.i_pw)
-		.digest('base64')
-		var m_email    	= req.body.i_email;
-		var m_pw		= hash
-		var m_nick    	= req.body.i_nick;
-		var m_birth   	= req.body.i_date;
-		var m_phone   	= req.body.i_phone;
-		pool.getConnection(function (err, connection) {
-			var sql = `insert into TCM_MEMBER_MST(m_email,m_pw,m_nick,m_birth,m_phone)values(?,?,?,?,?)`;
-			connection.query(sql,[m_email,m_pw,m_nick,m_birth,m_phone], function (err, rows) {
-				if (err){
-					console.error("err : " + err)
-					res.send(err);
-				}else{
-					res.send({ data : "success" });
-				}
-			});
-		}); 
-	});
+
 module.exports = router;

@@ -47,70 +47,70 @@
 </template>
 <script>
 export default {
-	created() {
-		this.$axios.post('/moment/pupp', {}).then(
-			response => {
-				console.log(response.data);
-				this.pupps = response.data;
-			},
-			function() {
-				console.log('failed');
-			},
-		);
-	},
-	data() {
-		return {
-			pupps: [],
-		};
-	},
-	components: {},
-	methods: {
-		fnhome: function() {
-			location.href = '/home';
-		},
-		myupload: function() {
-			location.href = '/upload';
-		},
-		myrecorcd: function() {
-			var s_m_email = sessionStorage.m_email;
-			console.log(s_m_email);
-			this.$axios
-				.post('/moment/myrecord_selectdb', {
-					m_email: s_m_email,
-				})
-				.then(
-					response => {
-						this.datas = response.data;
-					},
-					function() {
-						console.log('failed');
-					},
-				);
-		},
-		mypage: function() {
-			location.href = '/mypage';
-		},
-		pupp: function() {
-			location.href = '/pupp1';
-		},
-		sendpupp: function() {
-			this.$axios.post('/moment/pupp', {}).then(
-				response => {
-					console.log(response);
-					console.log(response.data);
-					this.pupps = response.data;
-				},
-				function() {
-					console.log('failed');
-				},
-			);
-		},
-	},
+  created() {
+    this.$axios.post(`${this.$store.state.host}/pupp/pupp`, {}).then(
+      response => {
+        console.log(response.data);
+        this.pupps = response.data;
+      },
+      function() {
+        console.log("failed");
+      }
+    );
+  },
+  data() {
+    return {
+      pupps: []
+    };
+  },
+  components: {},
+  methods: {
+    fnhome: function() {
+      location.href = "/home";
+    },
+    myupload: function() {
+      location.href = "/upload";
+    },
+    myrecorcd: function() {
+      var s_m_email = sessionStorage.m_email;
+      console.log(s_m_email);
+      this.$axios
+        .post("/moment/myrecord_selectdb", {
+          m_email: s_m_email
+        })
+        .then(
+          response => {
+            this.datas = response.data;
+          },
+          function() {
+            console.log("failed");
+          }
+        );
+    },
+    mypage: function() {
+      location.href = "/mypage";
+    },
+    pupp: function() {
+      location.href = "/pupp1";
+    },
+    sendpupp: function() {
+      this.$axios.post(`${this.$store.state.host}/pupp/pupp`, {}).then(
+        response => {
+          console.log(response);
+          console.log(response.data);
+          this.pupps = response.data;
+        },
+        function() {
+          console.log("failed");
+        }
+      );
+    }
+  }
 };
 </script>
 
 <style>
 .h1_pupp {
-	border-top: 1px solid lightgray;
+  border-top: 1px solid lightgray;
 }
 </style>

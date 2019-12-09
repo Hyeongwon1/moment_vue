@@ -124,7 +124,9 @@
 <script>
 import router from "@/router";
 export default {
-  created() {},
+  created() {
+    this.$store.commit("logout");
+  },
   data() {
     return {
       datas: [],
@@ -167,12 +169,14 @@ export default {
       // var self = this
       if (this.m_email != null && this.m_pw != null) {
         this.$axios
-          .post(`/moment/mem_logindb`, {
+          .post(`${this.$store.state.host}/users/mem_logindb`, {
             m_email: this.m_email,
             m_pw: this.m_pw
           })
           .then(res => {
             console.log(res);
+            this.$store.commit("loginToken", res.data.token);
+            this.$router.push({ path: "home" });
           });
         // if (result.data !== "" && result.data != null) {
         //   sessionStorage.setItem("m_email", this.m_email);

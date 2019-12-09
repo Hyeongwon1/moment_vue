@@ -1,11 +1,12 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
+import Vuex from 'vuex'
 // import Home from '../views/Home.vue'
 
-Vue.use(VueRouter)
+Vue.use(VueRouter,Vuex)
 const requireAuth = () => (to, from, next) => {
-	var semail = sessionStorage.getItem('m_email');
-	if (semail == null) {
+  var token = this.$store.state.token;
+	if (token == null) {
 		alert('로그인이 필요합니다.');
 		return next('/login');
 	}
