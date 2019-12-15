@@ -3,14 +3,14 @@ import VueRouter from 'vue-router'
 import Vuex from 'vuex'
 // import Home from '../views/Home.vue'
 
-Vue.use(VueRouter,Vuex)
+Vue.use(VueRouter, Vuex)
 const requireAuth = () => (to, from, next) => {
-  var token = this.$store.state.token;
-	if (token == null) {
-		alert('로그인이 필요합니다.');
-		return next('/login');
-	}
-	next();
+  var token = localStorage.accessToken;
+  if (token == null) {
+    alert('로그인이 필요합니다.');
+    return next('/login');
+  }
+  next();
 };
 const routes = [
   {

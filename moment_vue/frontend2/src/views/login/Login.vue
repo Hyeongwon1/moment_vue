@@ -167,24 +167,33 @@ export default {
   methods: {
     loginfn: function() {
       // var self = this
-      if (this.m_email != null && this.m_pw != null) {
-        this.$axios
-          .post(`${this.$store.state.host}/users/mem_logindb`, {
-            m_email: this.m_email,
-            m_pw: this.m_pw
-          })
-          .then(res => {
-            console.log(res);
-            this.$store.commit("loginToken", res.data.token);
-            this.$router.push({ path: "home" });
-          });
-        // if (result.data !== "" && result.data != null) {
-        //   sessionStorage.setItem("m_email", this.m_email);
-        //   localStorage.setItem("m_email", this.m_email);
-        //   sessionStorage.setItem("m_no", result.data[0].m_no);
-        //   router.push({ path: "home" });
-        // }
+      const email = this.m_email;
+      const password = this.m_pw;
+      if (!email || !password) {
+        return false;
       }
+
+      this.$axios
+        .post(`${this.$store.state.host}/users/mem_logindb`, {
+          email,
+          password
+        })
+        .then(res => {
+          console.log(res);
+          this.$store.commit("loginToken", res.data.token);
+          this.$router.push({ path: "home" });
+        })
+        .catch(function(error) {
+          console.log(error.response);
+          console.log("여긴가?");
+        });
+
+      // if (result.data !== "" && result.data != null) {
+      //   sessionStorage.setItem("m_email", this.m_email);
+      //   localStorage.setItem("m_email", this.m_email);
+      //   sessionStorage.setItem("m_no", result.data[0].m_no);
+      //   router.push({ path: "home" });
+      // }
     },
     signUp: async function() {
       this.formHasErrors = false;
