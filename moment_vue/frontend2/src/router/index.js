@@ -6,7 +6,9 @@ import Vuex from 'vuex'
 Vue.use(VueRouter, Vuex)
 const requireAuth = () => (to, from, next) => {
   var token = localStorage.accessToken;
-  if (token == null) {
+  console.log("token")
+  console.log(token)
+  if (!token) {
     alert('로그인이 필요합니다.');
     return next('/login');
   }

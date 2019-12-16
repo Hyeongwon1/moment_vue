@@ -186,6 +186,7 @@ export default {
         .catch(function(error) {
           console.log(error.response);
           console.log("여긴가?");
+          alert("비밀번호 다름");
         });
 
       // if (result.data !== "" && result.data != null) {

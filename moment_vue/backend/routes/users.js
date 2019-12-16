@@ -25,14 +25,15 @@ router.post("/mem_logindb", function (req, res, next) {
 
         if (hash == results[0].m_pw) {
           const getToken = new Promise((resolve, reject) => {
+            //jwt 토큰생성
             jwt.sign(
               {
-                // id_no: results[0].m_no,
+                id_no: results[0].m_no,
                 id_mail: mail   //유저정보
               },
               jwt_secret,
               {
-                expiresIn: "7d",   //유효기간
+                expiresIn: 60*60*24 , // expires in 24 hours 유효기간
                 issuer: "seo",     //발급자
                 subject: "userInfo"//토큰명
               },
@@ -68,6 +69,8 @@ router.post("/mem_logindb", function (req, res, next) {
 
 // 인증 확인
 router.get("/logincheck", (req, res) => {
+  console.log("aaaaaaaaaaaaaaaaa")
+  console.log(req.headers["x-access-token"])
   const token = req.headers["x-access-token"] || req.query.token;
   let jwt_secret = "moment";
 
