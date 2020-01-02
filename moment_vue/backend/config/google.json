@@ -1,0 +1,13 @@
+{
+    "web": {
+        "client_id": "700588972202-4g2irf3snvncivm58jsk3bp0f7kku2uo.apps.googleusercontent.com",
+        "project_id": "aerial-mission-239810",
+        "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+        "token_uri": "https://oauth2.googleapis.com/token",
+        "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+        "client_secret": "09Dqnoqt8I8gl4wqT9fyQ7ls",
+        "redirect_uris": [
+            "http://127.0.0.1:3000/moment/users/auth/google/callback"
+        ]
+    }
+}

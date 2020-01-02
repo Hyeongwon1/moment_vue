@@ -4,11 +4,21 @@ import axios from 'axios';
 // import router from './router';
 Vue.use(Vuex);
 
+// const enhanceAccessToeken = () => {
+//   const {accessToken} = localStorage.accessToken
+//   if (!accessToken) return
+//   // axios.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
+// }
+// enhanceAccessToeken()
+
 export const store = new Vuex.Store({
   state: {
-    host: 'http://127.0.0.1:8000/moment',
+    host: 'http://127.0.0.1:3000/moment',
     token:"",
     id_mail: '',
+  },
+  getters: {
+    
   },
   mutations: {
     loginToken: function (state, payload) {
@@ -20,13 +30,13 @@ export const store = new Vuex.Store({
     logout: function (state) {
       if (state.token) {
         state.token = '';
-        localStorage.clear();
+        delete localStorage.accessToken
+        // axios.defaults.headers.common['Authorization'] = undefined
         alert('로그아웃')
       }
     },
     loginCheck: function (state) {
       console.log("state")
-      console.log(state)
       console.log(state.token)
       axios.get(`${state.host}/users/loginCheck`, {
         headers: {

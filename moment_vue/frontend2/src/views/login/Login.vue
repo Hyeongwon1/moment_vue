@@ -17,6 +17,12 @@
           <v-btn type="submit" class="mr-4 lbtn">:Login</v-btn>
         </v-layout>
       </v-form>
+      <div>
+        <v-btn @click="googleLogin">구글로그인</v-btn>
+      </div>
+      <div>
+        <v-btn @click="kakaoLogin">카카오로그인</v-btn>
+      </div>
     </v-layout>
     <br />
     <br />
@@ -181,6 +187,9 @@ export default {
         .then(res => {
           console.log(res);
           this.$store.commit("loginToken", res.data.token);
+          // this.$axios.defaults.headers.common[
+          //   "Authorization"
+          // ] = `Bearer ${res.data.token}`;
           this.$router.push({ path: "home" });
         })
         .catch(function(error) {
@@ -188,15 +197,8 @@ export default {
           console.log("여긴가?");
           alert("비밀번호 다름");
         });
-
-      // if (result.data !== "" && result.data != null) {
-      //   sessionStorage.setItem("m_email", this.m_email);
-      //   localStorage.setItem("m_email", this.m_email);
-      //   sessionStorage.setItem("m_no", result.data[0].m_no);
-      //   router.push({ path: "home" });
-      // }
     },
-    signUp: async function() {
+    signUp: function() {
       this.formHasErrors = false;
       console.log(this.form);
       Object.keys(this.form).forEach(f => {
@@ -246,6 +248,46 @@ export default {
             }
           );
       }
+    },
+    googleLogin: function() {
+      console.log("구글로그인 펑션");
+      this.$axios
+        .get(`${this.$store.state.host}/users/googleLogin`, {
+          headers: {
+            "Access-Control-Allow-Headers": "X-Requested-With",
+            "Access-Control-Allow-Origin": "*"
+          }
+        })
+        .then(
+          response => {
+            console.log(response);
+            console.log(response.data);
+            // this.pupps = response.data;
+          },
+          function() {
+            console.log("failed");
+          }
+        );
+    },
+    kakaoLogin: function() {
+      console.log("카카오로그인 펑션");
+      this.$axios
+        .get(`${this.$store.state.host}/users/auth/login/kakao`, {
+          headers: {
+            "Access-Control-Allow-Headers": "X-Requested-With",
+            "Access-Control-Allow-Origin": "*"
+          }
+        })
+        .then(
+          response => {
+            console.log(response);
+            console.log(response.data);
+            // this.pupps = response.data;
+          },
+          function() {
+            console.log("failed");
+          }
+        );
     }
   }
 };

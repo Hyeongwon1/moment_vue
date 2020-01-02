@@ -6,7 +6,7 @@ module.exports = {
 		port:'8000',
 		proxy: {
 			'/moment': {
-				target: 'http://localhost:3000/moment',
+				target: 'http://127.0.0.1:3000/moment',
 				changeOrigin: true,
 				pathRewrite: {
 					'^/moment': '',

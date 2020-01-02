@@ -8,13 +8,17 @@ import MomentLogin from '@/components/login/Login';
 import MomentMyPage from '@/components/myPage/MyPage';
 
 Vue.use(Router);
-const requireAuth = () => (to, from, next) => {
-	var semail = sessionStorage.getItem('m_email');
-	if (semail == null) {
-		alert('로그인이 필요합니다.');
-		return next('/login');
-	}
-	next();
+// const requireAuth = () => (to, from, next) => {
+// 	var semail = sessionStorage.getItem('m_email');
+// 	if (semail == null) {
+//
+// 	}
+// 	next();
+// };
+const requireAuth = () => (from, to, next) => {
+	if (localStorage.accessToken) return next();
+	alert('로그인이 필요합니다.');
+	return next('/login');
 };
 export default new Router({
 	mode: 'history',

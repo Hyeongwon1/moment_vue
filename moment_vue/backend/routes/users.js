@@ -1,10 +1,92 @@
 var express = require("express");
+var cors = require('cors')
 var router = express.Router();
 var pool = require("./mysqlConn");
 const jwt = require("jsonwebtoken");
 const crypto = require("crypto");
 const config = require("./config");
-const secret = config.KEY.secret; //비빌번호 해쉬키 
+const secret = config.secret; //비빌번호 해쉬키
+
+
+const passport = require('passport');
+const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
+var NaverStrategy = require('passport-naver').Strategy;
+var FacebookStrategy = require('passport-facebook').Strategy;
+var KakaoStrategy = require('passport-kakao').Strategy;
+router.use(cors());
+// router.all('/*', function(req, res, next) {
+//   res.header("Access-Control-Allow-Origin", "*");
+//   next();
+// });
+
+passport.serializeUser((user, done) => {
+  done(null, user); // user객체가 deserializeUser로 전달됨.
+});
+passport.deserializeUser((user, done) => {
+  done(null, user); // 여기의 user가 req.user가 됨
+});
+
+
+passport.use(new GoogleStrategy({
+    clientID: config.federation.google.client_id,
+    clientSecret: config.federation.google.secret_id,
+    callbackURL: config.federation.google.callback_url
+  },
+  function(accessToken, refreshToken, profile, done) {
+      User.findOrCreate({ googleId: profile.id }, function (err, user) {
+        return done(err, user);
+      });
+  }
+));
+
+// google 로그인
+router.get('/googleLogin',
+      passport.authenticate('google', { scope: ['openid', 'email'] }),
+      function(req, res){
+        console.log("fffffffffffffffff")
+        // The request will be redirected to Google for authentication, so this
+        // function will not be called.
+      });
+
+// router.get('/googleLogin',
+//   passport.authenticate('google')
+// );
+
+router.get('/auth/google/callback',
+passport.authenticate('google', { failureRedirect: '/login' }),
+function(req, res) {
+  console.log(req.query);
+  res.redirect('/');
+});
+
+passport.use(new KakaoStrategy({
+  clientID: config.federation.kakao.client_id,
+  callbackURL: config.federation.kakao.callback_url
+},
+function (accessToken, refreshToken, profile, done) {
+  var _profile = profile._json;
+
+  loginByThirdparty({
+    'auth_type': 'kakao',
+    'auth_id': _profile.id,
+    'auth_name': _profile.properties.nickname,
+    'auth_email': _profile.id
+  }, done);
+}
+));
+
+router.get('/auth/login/kakao',
+  passport.authenticate('kakao')
+);
+// kakao 로그인 연동 콜백
+router.get('/auth/login/kakao/callback',
+  passport.authenticate('kakao', {
+    successRedirect: '/',
+    failureRedirect: '/login'
+  })
+);
+
+
 
 //로그인 부분
 router.post("/mem_logindb", function (req, res, next) {
@@ -69,7 +151,6 @@ router.post("/mem_logindb", function (req, res, next) {
 
 // 인증 확인
 router.get("/logincheck", (req, res) => {
-  console.log("aaaaaaaaaaaaaaaaa")
   console.log(req.headers["x-access-token"])
   const token = req.headers["x-access-token"] || req.query.token;
   let jwt_secret = "moment";
