@@ -8,8 +8,52 @@ var usersRouter     = require('./routes/users');
 var puppRouter     = require('./routes/pupp');
 var momentRouter    = require('./routes/moment');
 
+
+
 var app = express();
-app.use(cors());
+const isPreflight = (req) => {
+  return (
+    req.method === 'OPTIONS' &&
+    req.headers['origin'] &&
+    req.headers['access-control-request-method']
+  )
+}
+
+
+app.use((req, res, next) => {
+  res.set('Access-Control-Allow-Origin', '*')
+
+  if (isPreflight(req)) {
+    res.status(204).end()
+    return
+  }
+
+  next()
+})
+
+app.use(cors())
+// var corsOptions = {
+//   origin:  'http://127.0.0.1:8000', // 이 주소가 클라이언트가 동작하는 주소
+//   credentials: true,
+//   methods: ['POST', 'GET', 'DELETE', 'PUT', 'OPTIONS'],
+//   allowedHeaders: "Origin, X-Requested-With, X-AUTHENTICATION, X-IP, Content-Type, Accept, x-access-token"
+// };
+
+// app.options(/\.*/, cors(corsOptions), function(req, res) {
+//   return res.sendStatus(200);
+// });
+
+// app.all('*', cors(corsOptions), function(req, res, next) {
+//   next();
+// });
+
+// app.use(cors({
+//   origin:  'http://localhost:3000', // 이 주소가 클라이언트가 동작하는 주소
+//   credentials: false,
+//   methods: ['POST', 'GET', 'DELETE', 'PUT', 'OPTIONS'],
+//   allowedHeaders: "Origin, X-Requested-With, X-AUTHENTICATION, X-IP, Content-Type, Accept, x-access-token"
+// }));
+
 
 app.use(require('connect-history-api-fallback')());
 
@@ -29,6 +73,7 @@ app.use(cookieParser());
 app.use('/moment/users', usersRouter);
 app.use('/moment/pupp', puppRouter);
 app.use('/moment', momentRouter);
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

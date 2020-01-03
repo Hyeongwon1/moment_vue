@@ -12,6 +12,11 @@ import vuetify from '@/plugins/vuetify';
 import {store}  from './store'
 
 import 'material-design-icons-iconfont/dist/material-design-icons.css'
+axios.defaults.headers.common['Access-Control-Allow-Origin'] ='http://localhost:3000'
+// axios.defaults.headers.common = {
+//     'Accept': 'application/json',
+//     'Content-Type': 'application/json'
+//     };
 const options = { name: 'lodash' }; // customize the way you want to call it
 Vue.use(VueLodash, options);
 Vue.use(vuetify);

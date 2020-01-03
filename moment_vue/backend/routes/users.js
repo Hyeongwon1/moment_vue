@@ -1,5 +1,4 @@
 var express = require("express");
-var cors = require('cors')
 var router = express.Router();
 var pool = require("./mysqlConn");
 const jwt = require("jsonwebtoken");
@@ -13,11 +12,6 @@ const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
 var NaverStrategy = require('passport-naver').Strategy;
 var FacebookStrategy = require('passport-facebook').Strategy;
 var KakaoStrategy = require('passport-kakao').Strategy;
-router.use(cors());
-// router.all('/*', function(req, res, next) {
-//   res.header("Access-Control-Allow-Origin", "*");
-//   next();
-// });
 
 passport.serializeUser((user, done) => {
   done(null, user); // user객체가 deserializeUser로 전달됨.
@@ -61,9 +55,11 @@ function(req, res) {
 
 passport.use(new KakaoStrategy({
   clientID: config.federation.kakao.client_id,
+  clientSecret: config.federation.kakao.secret_id,
   callbackURL: config.federation.kakao.callback_url
 },
 function (accessToken, refreshToken, profile, done) {
+  console.log(profile)
   var _profile = profile._json;
 
   loginByThirdparty({
@@ -79,7 +75,7 @@ router.get('/auth/login/kakao',
   passport.authenticate('kakao')
 );
 // kakao 로그인 연동 콜백
-router.get('/auth/login/kakao/callback',
+router.get('/auth/kakao/callback',
   passport.authenticate('kakao', {
     successRedirect: '/',
     failureRedirect: '/login'

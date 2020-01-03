@@ -13,7 +13,7 @@ Vue.use(Vuex);
 
 export const store = new Vuex.Store({
   state: {
-    host: 'http://127.0.0.1:3000/moment',
+    host: 'http://localhost:3000/moment',
     token:"",
     id_mail: '',
   },

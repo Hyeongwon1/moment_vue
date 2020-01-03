@@ -254,8 +254,8 @@ export default {
       this.$axios
         .get(`${this.$store.state.host}/users/googleLogin`, {
           headers: {
-            "Access-Control-Allow-Headers": "X-Requested-With",
-            "Access-Control-Allow-Origin": "*"
+            // "Access-Control-Allow-Headers": "X-Requested-With",
+            // "Access-Control-Allow-Origin": "http://127.0.0.1:8000"
           }
         })
         .then(
@@ -273,13 +273,11 @@ export default {
       console.log("카카오로그인 펑션");
       this.$axios
         .get(`${this.$store.state.host}/users/auth/login/kakao`, {
-          headers: {
-            "Access-Control-Allow-Headers": "X-Requested-With",
-            "Access-Control-Allow-Origin": "*"
-          }
+          headers: {}
         })
         .then(
           response => {
+            console.log("aaaaaaaaaaaaaaaaa");
             console.log(response);
             console.log(response.data);
             // this.pupps = response.data;

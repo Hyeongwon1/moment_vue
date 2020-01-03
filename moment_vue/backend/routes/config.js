@@ -14,6 +14,7 @@ module.exports = {
     },
     'kakao' : {
       'client_id' : '112e16b2537b917677494eb1ca6ca7d6',
+      'secret_id' : 'eHluLIsfBeCkRo0nvWx22qpMLRGk1J4m',
       'callback_url' : '/moment/users/auth/kakao/callback'
     }
   }
