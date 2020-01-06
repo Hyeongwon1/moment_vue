@@ -13,13 +13,6 @@ var NaverStrategy = require('passport-naver').Strategy;
 var FacebookStrategy = require('passport-facebook').Strategy;
 var KakaoStrategy = require('passport-kakao').Strategy;
 
-passport.serializeUser((user, done) => {
-  done(null, user); // user객체가 deserializeUser로 전달됨.
-});
-passport.deserializeUser((user, done) => {
-  done(null, user); // 여기의 user가 req.user가 됨
-});
-
 
 passport.use(new GoogleStrategy({
     clientID: config.federation.google.client_id,
@@ -53,7 +46,19 @@ function(req, res) {
   res.redirect('/');
 });
 
-passport.use(new KakaoStrategy({
+
+router.get('/auth/login/kakao',
+  passport.authenticate('kakao-login')
+);
+
+passport.serializeUser((user, done) => {
+  done(null, user); // user객체가 deserializeUser로 전달됨.
+});
+passport.deserializeUser((user, done) => {
+  done(null, user); // 여기의 user가 req.user가 됨
+});
+
+passport.use("kakao-login",new KakaoStrategy({
   clientID: config.federation.kakao.client_id,
   clientSecret: config.federation.kakao.secret_id,
   callbackURL: config.federation.kakao.callback_url
@@ -71,12 +76,10 @@ function (accessToken, refreshToken, profile, done) {
 }
 ));
 
-router.get('/auth/login/kakao',
-  passport.authenticate('kakao')
-);
+
 // kakao 로그인 연동 콜백
 router.get('/auth/kakao/callback',
-  passport.authenticate('kakao', {
+  passport.authenticate('kakao-login', {
     successRedirect: '/',
     failureRedirect: '/login'
   })

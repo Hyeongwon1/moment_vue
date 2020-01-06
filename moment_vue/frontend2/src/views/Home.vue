@@ -31,7 +31,7 @@
                   </v-flex>
                 </v-layout>
                 <div class="myage" id="myage">
-                  <v-img class="myageimg" v-bind:src="'/image/age/' + data.m_age + '0s.png'" />
+                  <v-img class="myageimg" v-bind:src="'/age/' + data.m_age + '0s.png'" />
                 </div>
               </v-card-title>
               <v-card-actions>

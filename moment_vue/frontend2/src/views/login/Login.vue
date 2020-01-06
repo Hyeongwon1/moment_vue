@@ -18,11 +18,16 @@
         </v-layout>
       </v-form>
       <div>
-        <v-btn @click="googleLogin">구글로그인</v-btn>
+        <v-btn @click="googleLogin">구글로그인33123133</v-btn>
       </div>
       <div>
-        <v-btn @click="kakaoLogin">카카오로그인</v-btn>
+        <v-btn @click="kakaoLogin">카카오로그인1dddddddddd23123</v-btn>
       </div>
+      <!-- <a id="custom-login-btn" @click="kakaoLogin">
+        <img src="//mud-kage.kakao.com/14/dn/btqbjxsO6vP/KPiGpdnsubSq3a0PHEGUK1/o.jpg" width="300" />
+      </a>-->
+
+      <a href="http://localhost:3000/moment/users/auth/login/kakao">카카오 계정</a>
     </v-layout>
     <br />
     <br />
@@ -271,21 +276,17 @@ export default {
     },
     kakaoLogin: function() {
       console.log("카카오로그인 펑션");
-      this.$axios
-        .get(`${this.$store.state.host}/users/auth/login/kakao`, {
-          headers: {}
-        })
-        .then(
-          response => {
-            console.log("aaaaaaaaaaaaaaaaa");
-            console.log(response);
-            console.log(response.data);
-            // this.pupps = response.data;
-          },
-          function() {
-            console.log("failed");
-          }
-        );
+      this.$axios.get(`${this.$store.state.host}/users/auth/login/kakao`).then(
+        response => {
+          console.log("aaaaaaaaaaaaaaaaa");
+          console.log(response);
+          console.log(response.data);
+          // this.pupps = response.data;
+        },
+        function() {
+          console.log("failed");
+        }
+      );
     }
   }
 };

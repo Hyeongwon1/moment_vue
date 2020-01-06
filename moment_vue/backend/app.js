@@ -1,5 +1,8 @@
 var createError     = require('http-errors');
 var express         = require('express');
+var passport = require('passport');
+var session = require('express-session');
+var flash = require('connect-flash');
 var path            = require('path');
 var cookieParser    = require('cookie-parser');
 var logger          = require('morgan');
@@ -8,58 +11,12 @@ var usersRouter     = require('./routes/users');
 var puppRouter     = require('./routes/pupp');
 var momentRouter    = require('./routes/moment');
 
-
-
 var app = express();
-const isPreflight = (req) => {
-  return (
-    req.method === 'OPTIONS' &&
-    req.headers['origin'] &&
-    req.headers['access-control-request-method']
-  )
-}
-
-
-app.use((req, res, next) => {
-  res.set('Access-Control-Allow-Origin', '*')
-
-  if (isPreflight(req)) {
-    res.status(204).end()
-    return
-  }
-
-  next()
-})
-
-app.use(cors())
-// var corsOptions = {
-//   origin:  'http://127.0.0.1:8000', // 이 주소가 클라이언트가 동작하는 주소
-//   credentials: true,
-//   methods: ['POST', 'GET', 'DELETE', 'PUT', 'OPTIONS'],
-//   allowedHeaders: "Origin, X-Requested-With, X-AUTHENTICATION, X-IP, Content-Type, Accept, x-access-token"
-// };
-
-// app.options(/\.*/, cors(corsOptions), function(req, res) {
-//   return res.sendStatus(200);
-// });
-
-// app.all('*', cors(corsOptions), function(req, res, next) {
-//   next();
-// });
-
-// app.use(cors({
-//   origin:  'http://localhost:3000', // 이 주소가 클라이언트가 동작하는 주소
-//   credentials: false,
-//   methods: ['POST', 'GET', 'DELETE', 'PUT', 'OPTIONS'],
-//   allowedHeaders: "Origin, X-Requested-With, X-AUTHENTICATION, X-IP, Content-Type, Accept, x-access-token"
-// }));
-
-
+app.use(cors());
 app.use(require('connect-history-api-fallback')());
-
 // view engine setup
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'pug');
+// app.set('views', path.join(__dirname, 'views'));
+// app.set('view engine', 'pug');
 
 app.use(logger('dev'));
 app.use(express.static(path.join(__dirname, 'public/static')));
