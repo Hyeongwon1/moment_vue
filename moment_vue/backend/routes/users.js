@@ -7,83 +7,12 @@ const config = require("./config");
 const secret = config.secret; //비빌번호 해쉬키
 
 
-const passport = require('passport');
-const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
-var NaverStrategy = require('passport-naver').Strategy;
-var FacebookStrategy = require('passport-facebook').Strategy;
-var KakaoStrategy = require('passport-kakao').Strategy;
 
-
-passport.use(new GoogleStrategy({
-    clientID: config.federation.google.client_id,
-    clientSecret: config.federation.google.secret_id,
-    callbackURL: config.federation.google.callback_url
-  },
-  function(accessToken, refreshToken, profile, done) {
-      User.findOrCreate({ googleId: profile.id }, function (err, user) {
-        return done(err, user);
-      });
-  }
-));
-
-// google 로그인
-router.get('/googleLogin',
-      passport.authenticate('google', { scope: ['openid', 'email'] }),
-      function(req, res){
-        console.log("fffffffffffffffff")
-        // The request will be redirected to Google for authentication, so this
-        // function will not be called.
-      });
-
-// router.get('/googleLogin',
-//   passport.authenticate('google')
-// );
-
-router.get('/auth/google/callback',
-passport.authenticate('google', { failureRedirect: '/login' }),
-function(req, res) {
+router.post('/auth/google/callback',function(req, res) {
+  console.log("ffff")
   console.log(req.query);
-  res.redirect('/');
+  // res.redirect('/');
 });
-
-
-router.get('/auth/login/kakao',
-  passport.authenticate('kakao-login')
-);
-
-passport.serializeUser((user, done) => {
-  done(null, user); // user객체가 deserializeUser로 전달됨.
-});
-passport.deserializeUser((user, done) => {
-  done(null, user); // 여기의 user가 req.user가 됨
-});
-
-passport.use("kakao-login",new KakaoStrategy({
-  clientID: config.federation.kakao.client_id,
-  clientSecret: config.federation.kakao.secret_id,
-  callbackURL: config.federation.kakao.callback_url
-},
-function (accessToken, refreshToken, profile, done) {
-  console.log(profile)
-  var _profile = profile._json;
-
-  loginByThirdparty({
-    'auth_type': 'kakao',
-    'auth_id': _profile.id,
-    'auth_name': _profile.properties.nickname,
-    'auth_email': _profile.id
-  }, done);
-}
-));
-
-
-// kakao 로그인 연동 콜백
-router.get('/auth/kakao/callback',
-  passport.authenticate('kakao-login', {
-    successRedirect: '/',
-    failureRedirect: '/login'
-  })
-);
 
 
 

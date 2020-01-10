@@ -1,17 +1,12 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import VueAxios from 'vue-axios'
 import axios from 'axios';
 // import router from './router';
 Vue.use(Vuex);
+Vue.use(VueAxios, axios)
 
-// const enhanceAccessToeken = () => {
-//   const {accessToken} = localStorage.accessToken
-//   if (!accessToken) return
-//   // axios.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
-// }
-// enhanceAccessToeken()
-
-export const store = new Vuex.Store({
+export default({
   state: {
     host: 'http://localhost:3000/moment',
     token:"",
@@ -54,5 +49,8 @@ export const store = new Vuex.Store({
           // alert("비밀번호 다름");
         });
     }
+  },
+  actions: {
+    
   }
 });

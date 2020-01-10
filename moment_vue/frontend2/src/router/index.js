@@ -3,6 +3,8 @@ import VueRouter from 'vue-router'
 import Vuex from 'vuex'
 // import Home from '../views/Home.vue'
 
+// import vueAuthInstance from '../services/auth.js'
+
 Vue.use(VueRouter, Vuex)
 const requireAuth = () => (to, from, next) => {
   var token = localStorage.accessToken;

@@ -15,8 +15,8 @@ var app = express();
 app.use(cors());
 app.use(require('connect-history-api-fallback')());
 // view engine setup
-// app.set('views', path.join(__dirname, 'views'));
-// app.set('view engine', 'pug');
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'pug');
 
 app.use(logger('dev'));
 app.use(express.static(path.join(__dirname, 'public/static')));
@@ -26,7 +26,6 @@ app.use('/font', express.static('public/font'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
-// app.use('/', indexRouter);
 app.use('/moment/users', usersRouter);
 app.use('/moment/pupp', puppRouter);
 app.use('/moment', momentRouter);
