@@ -10,6 +10,7 @@ var cors	          = require('cors')
 var usersRouter     = require('./routes/users');
 var puppRouter     = require('./routes/pupp');
 var momentRouter    = require('./routes/moment');
+var socialRouter    = require('./routes/socialUser');
 
 var app = express();
 app.use(cors());
@@ -29,6 +30,7 @@ app.use(cookieParser());
 app.use('/moment/users', usersRouter);
 app.use('/moment/pupp', puppRouter);
 app.use('/moment', momentRouter);
+app.use('/', socialRouter);
 
 
 // catch 404 and forward to error handler

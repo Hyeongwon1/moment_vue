@@ -55,7 +55,7 @@
 <script>
 export default {
   created() {
-    this.$store.commit("loginCheck");
+    // this.$store.commit("loginCheck");
     this.$axios.get("/moment/home").then(response => {
       this.datas = response.data.data;
       console.log(this.datas);

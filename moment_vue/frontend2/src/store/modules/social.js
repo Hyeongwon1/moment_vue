@@ -1,4 +1,4 @@
-import vueAuthInstance from '../services/auth.js'
+import vueAuthInstance from '../../services/auth.js'
 
 export default {
   state: {
@@ -45,10 +45,15 @@ export default {
     },
 
     authenticate (context, payload) {
+      console.log("payload")
+      console.log(payload)
+      console.log("context")
+      console.log(context)
       payload = payload || {}
       return vueAuthInstance.authenticate(payload.provider, payload.userData, payload.requestOptions).then(function () {
         
-        
+        console.log("vueAuthInstance.isAuthenticated()")
+        console.log(vueAuthInstance.isAuthenticated())
         context.commit('isAuthenticated', {
           isAuthenticated: vueAuthInstance.isAuthenticated()
         })

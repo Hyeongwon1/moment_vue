@@ -8,7 +8,7 @@ const secret = config.secret; //비빌번호 해쉬키
 
 
 
-router.post('/auth/google/callback',function(req, res) {
+router.post('/auth/google',function(req, res) {
   console.log("ffff")
   console.log(req.query);
   // res.redirect('/');

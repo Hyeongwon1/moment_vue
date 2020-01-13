@@ -15,7 +15,7 @@ const vueAuthInstance = new VueAuthenticate(Vue.prototype.$http, {
   providers: {
     google: {
       clientId: config.auth.google.clientId,
-      redirectUri : 'http://127.0.0.1:3000/moment/users/auth/google/callback'
+      redirectUri : 'http://127.0.0.1:8000/auth/callback'
     }
     // kakao : {
     //   clientId : '112e16b2537b917677494eb1ca6ca7d6',

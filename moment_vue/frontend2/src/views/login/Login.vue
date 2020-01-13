@@ -27,7 +27,7 @@
         <img src="//mud-kage.kakao.com/14/dn/btqbjxsO6vP/KPiGpdnsubSq3a0PHEGUK1/o.jpg" width="300" />
       </a>-->
 
-      <a href="/moment/users/auth/logi">카카오 계정</a>
+      <!-- <a href="/moment/users/auth/logi">카카오 계정</a> -->
     </v-layout>
     <br />
     <br />
