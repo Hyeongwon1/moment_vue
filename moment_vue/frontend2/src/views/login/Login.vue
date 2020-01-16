@@ -277,7 +277,7 @@ export default {
       this.$store.dispatch("authenticate", { provider }).then(res => {
         console.log(res);
         // this.$store.commit('updateMessage', res.target.value)
-        this.$router.push("home");
+        this.$router.push("MyPage");
       });
     }
   }
