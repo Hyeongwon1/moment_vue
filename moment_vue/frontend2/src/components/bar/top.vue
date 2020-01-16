@@ -73,12 +73,11 @@
 export default {
   name: "top",
   created() {
-    console.log(localStorage.accessToken);
-    console.log(this.$store.state);
-    if (localStorage.accessToken != null) {
+    let authFlag = this.$store.state.socialauth.isAuthenticated;
+    if (authFlag != false) {
       this.loginout = "logout";
       this.titles[0].name = "Logout";
-      this.id_mail = this.$store.state.id_mail;
+      this.id_mail = this.$store.state.socialauth.profile;
     } else {
       this.loginout = "login";
       this.titles[0].name = "Login";
@@ -112,11 +111,20 @@ export default {
   watch: {},
   components: {},
   methods: {
-    login: function(id) {
-      if (id === "99") {
-        this.$router.push({ path: "login" });
+    login: function(id, authFlag) {
+      if (this.$store.state.socialauth.isAuthenticated != false) {
+        this.$store.dispatch("logout", { authFlag }).then(res => {
+          console.log(res);
+          // this.loginout = "Login";
+          // this.$store.commit('updateMessage', res.target.value)
+          this.$router.push("home");
+        });
       } else {
-        this.$router.push({ path: "pupp1" });
+        if (id === "99") {
+          this.$router.push({ path: "login" });
+        } else {
+          this.$router.push({ path: "pupp1" });
+        }
       }
     },
     initt: function(id) {

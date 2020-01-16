@@ -41,19 +41,13 @@ export default {
         context.commit('isAuthenticated', {
           isAuthenticated: vueAuthInstance.isAuthenticated()
         })
+        alert('로그아웃')
       })
     },
 
     authenticate (context, payload) {
-      console.log("payload")
-      console.log(payload)
-      console.log("context")
-      console.log(context)
       payload = payload || {}
       return vueAuthInstance.authenticate(payload.provider, payload.userData, payload.requestOptions).then(function () {
-        
-        console.log("vueAuthInstance.isAuthenticated()")
-        console.log(vueAuthInstance.isAuthenticated())
         context.commit('isAuthenticated', {
           isAuthenticated: vueAuthInstance.isAuthenticated()
         })

@@ -38,6 +38,7 @@ const vueAuthInstance = new VueAuthenticate(Vue.prototype.$http, {
   },
   bindResponseInterceptor: function () {
     this.$http.interceptors.response.use((response) => {
+      console.log("resp12312312312321onse")
       console.log(response)
       this.setToken(response)
       return response

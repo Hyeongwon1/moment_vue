@@ -254,26 +254,6 @@ export default {
           );
       }
     },
-    googleLogin: function() {
-      console.log("구글로그인 펑션");
-      this.$axios
-        .get(`${this.$store.state.host}/users/googleLogin`, {
-          headers: {
-            // "Access-Control-Allow-Headers": "X-Requested-With",
-            // "Access-Control-Allow-Origin": "http://127.0.0.1:8000"
-          }
-        })
-        .then(
-          response => {
-            console.log(response);
-            console.log(response.data);
-            // this.pupps = response.data;
-          },
-          function() {
-            console.log("failed");
-          }
-        );
-    },
     kakaoLogin: function() {
       console.log("카카오로그인 펑션");
       this.$axios
@@ -292,13 +272,11 @@ export default {
           }
         );
     },
-    // authenticate: function(provider) {
-    //   this.$auth.authenticate(provider).then(function() {
-    //     // Execute application logic after successful social authentication
-    //   });
-    // }
+
     authenticate(provider) {
-      this.$store.dispatch("authenticate", { provider }).then(() => {
+      this.$store.dispatch("authenticate", { provider }).then(res => {
+        console.log(res);
+        // this.$store.commit('updateMessage', res.target.value)
         this.$router.push("home");
       });
     }

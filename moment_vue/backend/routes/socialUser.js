@@ -1,6 +1,7 @@
 var express = require("express");
 var router = express.Router();
 var Request = require('request-promise-native')
+const axios = require("axios");
 var pool = require("./mysqlConn");
 const jwt = require("jsonwebtoken");
 const crypto = require("crypto");
@@ -35,15 +36,15 @@ router.post('/auth/:provider', function(req, res){
     // case 'live':
     //   liveAuth(req, res)
     //   break
-    // case 'login':
-    //   loginAuth(req, res)
-    //   break
-    // case 'register':
-    //   registerAuth(req, res)
-    //   break
-    // case 'logout':
-    //   logoutAuth(req, res)
-    //   break
+    case 'login':
+      loginAuth(req, res)
+      break
+    case 'register':
+      registerAuth(req, res)
+      break
+    case 'logout':
+      logoutAuth(req, res)
+      break
   }
 });
 
@@ -61,10 +62,18 @@ function googleAuth(req, res) {
     headers: {
       'content-type': 'application/x-www-form-urlencoded'
     }
-  }, function (err, response, body) {
+  },  async function (err, response, body) {
     try {
       if (!err && response.statusCode === 200) {
         var responseJson = JSON.parse(body)
+        // console.log("responseJson")
+        // console.log(responseJson)
+        // console.log(responseJson.scope)
+        // const url = "https://www.googleapis.com/auth/userinfo.profile";
+
+        // const decoded = await getData(url);
+        // getData(url);
+        // console.log(decoded)
         res.json(responseJson)
       } else {
         res.status(response.statusCode).json(err)
@@ -75,6 +84,19 @@ function googleAuth(req, res) {
   })
 }
 
+// const getData = async url => {
+//   console.log(url)
+//   try {
+//     const response = await axios.get(url);
+//     const data = response.data;
+//     console.log("response")
+//     console.log(response)
+//     console.log("d123131212312ata");
+//     console.log(data);
+//   } catch (error) {
+//     console.log(error);
+//   }
+// };
 
 
 module.exports = router;

@@ -25,19 +25,15 @@ export default({
     logout: function (state) {
       if (state.token) {
         state.token = '';
-        delete localStorage.accessToken
-        // axios.defaults.headers.common['Authorization'] = undefined
+        // delete localStorage.accecssToken
+        axios.defaults.headers.common['Authorization'] = undefined
         alert('로그아웃')
       }
     },
     loginCheck: function (state) {
       console.log("state")
       console.log(state.token)
-      axios.get(`${state.host}/users/loginCheck`, {
-        headers: {
-          "x-access-token": state.token
-        }
-      })
+      axios.get(`${state.host}/users/loginCheck`)
       .then(res => {
             console.log("sdaasdasd탄겨?");
             console.log(res);

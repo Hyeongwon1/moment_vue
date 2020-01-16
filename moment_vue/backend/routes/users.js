@@ -6,16 +6,6 @@ const crypto = require("crypto");
 const config = require("./config");
 const secret = config.secret; //비빌번호 해쉬키
 
-
-
-router.post('/auth/google',function(req, res) {
-  console.log("ffff")
-  console.log(req.query);
-  // res.redirect('/');
-});
-
-
-
 //로그인 부분
 router.post("/mem_logindb", function (req, res, next) {
   var mail = req.body.email;
@@ -79,9 +69,11 @@ router.post("/mem_logindb", function (req, res, next) {
 
 // 인증 확인
 router.get("/logincheck", (req, res) => {
-  console.log(req.headers["x-access-token"])
-  const token = req.headers["x-access-token"] || req.query.token;
-  let jwt_secret = "moment";
+  console.log("req")
+  // console.log(req)
+  console.log(req.headers.authorization)
+  const token = req.headers.authorization || req.query.token;
+  // let jwt_secret = "4/vQHv5Eh_8_nM-vw1pIGk46RvYJYjK-P82g-QkUtubTKWlbYUR6iy6sdkqB58-TxFjNe9I4rq8t6-E4cfAOunzRY";
 
   if (!token) {
     res.status(400).json({
@@ -90,7 +82,7 @@ router.get("/logincheck", (req, res) => {
     });
   }
   const checkToken = new Promise((resolve, reject) => {
-    jwt.verify(token, jwt_secret, function (err, decoded) {
+    jwt.verify(token , function (err, decoded) {
       if (err) reject(err);
       resolve(decoded);
     });
