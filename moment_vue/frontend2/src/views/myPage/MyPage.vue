@@ -50,11 +50,11 @@ export default {
     // arr = a.split('=');
     // var mno = arr[1];
     // var sno = arr[2];
-    this.$axios
-      .get(`https://www.googleapis.com/auth/userinfo.profile`)
-      .then(response => {
-        this.datas = response.data;
-      });
+    // this.$axios
+    //   .get(`https://www.googleapis.com/auth/userinfo.profile`)
+    //   .then(response => {
+    //     this.datas = response.data;
+    //   });
   },
   data() {
     return {

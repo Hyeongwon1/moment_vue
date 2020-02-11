@@ -1,7 +1,10 @@
 import vueAuthInstance from '../../services/auth.js'
+import axios from 'axios';
+const jwt = require("jsonwebtoken");
 
 export default {
   state: {
+    host: 'http://localhost:3000/moment',
     profile: null,
     isAuthenticated: vueAuthInstance.isAuthenticated()
   },
@@ -47,9 +50,31 @@ export default {
 
     authenticate (context, payload) {
       payload = payload || {}
-      return vueAuthInstance.authenticate(payload.provider, payload.userData, payload.requestOptions).then(function () {
+      return vueAuthInstance.authenticate(payload.provider, payload.userData, payload.requestOptions).then(function (res) {
         context.commit('isAuthenticated', {
           isAuthenticated: vueAuthInstance.isAuthenticated()
+        })
+        const decode = jwt.decode(res.data.id_token)
+
+        axios.post(`http://localhost:3000/moment/users/mem_idcheckdb`,{
+          m_email : decode.email
+        }).then(res => {
+              console.log(res);
+          if (res.data == '') {
+            return axios.post(`http://localhost:3000/moment/users/mem_insertdb`,{
+              i_email : decode.email,
+              social  : 'Y'
+            })
+          }else{
+            console.log("이미가입")
+          } 
+        }).catch(function(error) {
+            console.log("에러");
+            console.log(error.response);
+            // alert("비밀번호 다름");
+          });
+        context.commit('setProfile', {
+          profile: decode.email
         })
       })
     }

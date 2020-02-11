@@ -124,7 +124,7 @@ router.post("/mem_updatedb", function (req, res, next) {
   });
 });
 
-router.get("/mem_idcheckdb", function (req, res, next) {
+router.post("/mem_idcheckdb", function (req, res, next) {
   var m_email = req.param("m_email");
   console.log("m_email");
   console.log(m_email);
@@ -145,10 +145,14 @@ router.get("/mem_idcheckdb", function (req, res, next) {
 });
 
 router.post("/mem_insertdb", function (req, res, next) {
+  if (req.body.social=='Y') {
+    req.body.i_pw ='1234'
+  }
   const hash = crypto
     .createHmac("sha256", secret)
     .update(req.body.i_pw)
     .digest("base64");
+
   var m_email = req.body.i_email;
   var m_pw = hash;
   var m_nick = req.body.i_nick;

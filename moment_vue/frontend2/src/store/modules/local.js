@@ -37,6 +37,7 @@ export default({
       .then(res => {
             console.log("sdaasdasd탄겨?");
             console.log(res);
+            
             state.id_mail = res.data.token.id_mail
           }
         ).catch(function(error) {
