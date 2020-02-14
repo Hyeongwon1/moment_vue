@@ -18,16 +18,8 @@
         </v-layout>
       </v-form>
       <div>
-        <v-btn @click="authenticate('google')">구글로그인33123133</v-btn>
+        <v-btn @click="authenticate('google')">구글로그인</v-btn>
       </div>
-      <div>
-        <v-btn @click="authenticate('kakao')">카카오로그인1dddddddddd23123</v-btn>
-      </div>
-      <!-- <a id="custom-login-btn" @click="kakaoLogin">
-        <img src="//mud-kage.kakao.com/14/dn/btqbjxsO6vP/KPiGpdnsubSq3a0PHEGUK1/o.jpg" width="300" />
-      </a>-->
-
-      <!-- <a href="/moment/users/auth/logi">카카오 계정</a> -->
     </v-layout>
     <br />
     <br />
@@ -254,25 +246,6 @@ export default {
           );
       }
     },
-    kakaoLogin: function() {
-      console.log("카카오로그인 펑션");
-      this.$axios
-        .get(`moment/users/auth/login/kakao`, {
-          dataType: "jsonp"
-        })
-        .then(
-          response => {
-            console.log("aaaaaaaaaaaaaaaaa");
-            console.log(response);
-            console.log(response.data);
-            // this.pupps = response.data;
-          },
-          function() {
-            console.log("failed");
-          }
-        );
-    },
-
     authenticate(provider) {
       this.$store.dispatch("authenticate", { provider }).then(res => {
         console.log(res);

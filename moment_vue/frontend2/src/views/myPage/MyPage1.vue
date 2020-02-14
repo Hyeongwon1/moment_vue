@@ -1,6 +1,5 @@
 <template lang="html">
 	<div id="mybodyhtml">
-		<top></top>
 		<div class="container" id="mycon" style="height: 100%;">
 			<div class="row">
 				<form id="mypageform" style="margin-top: 60px;">
@@ -131,46 +130,43 @@
 	</div>
 </template>
 <script>
-import top from '../bar/top.vue';
 export default {
-	created() {},
-	data() {
-		return {
-			datas: [],
-			m_email: '',
-			m_pw: '',
-		};
-	},
-	components: {
-		top,
-	},
-	methods: {
-		loginfn: function() {
-			this.$axios
-				.post('/moment/mem_logindb', {
-					m_email: this.m_email,
-					m_pw: this.m_pw,
-				})
-				.then(
-					response => {
-						this.datas = response.data;
-						console.log(this.datas);
-						console.log(this.datas[0].m_no);
-						if (this.datas != null) {
-							sessionStorage.setItem('m_email', this.m_email);
-							sessionStorage.setItem('m_no', this.datas[0].m_no);
-							console.log(sessionStorage.m_email);
-							console.log(sessionStorage.m_no);
-							location.href = '/home';
-						}
-						console.log(response);
-					},
-					function() {
-						console.log('failed');
-					},
-				);
-		},
-	},
+  created() {},
+  data() {
+    return {
+      datas: [],
+      m_email: "",
+      m_pw: ""
+    };
+  },
+  components: {},
+  methods: {
+    loginfn: function() {
+      this.$axios
+        .post("/moment/mem_logindb", {
+          m_email: this.m_email,
+          m_pw: this.m_pw
+        })
+        .then(
+          response => {
+            this.datas = response.data;
+            console.log(this.datas);
+            console.log(this.datas[0].m_no);
+            if (this.datas != null) {
+              sessionStorage.setItem("m_email", this.m_email);
+              sessionStorage.setItem("m_no", this.datas[0].m_no);
+              console.log(sessionStorage.m_email);
+              console.log(sessionStorage.m_no);
+              location.href = "/home";
+            }
+            console.log(response);
+          },
+          function() {
+            console.log("failed");
+          }
+        );
+    }
+  }
 };
 </script>
 

@@ -16,7 +16,7 @@
           @click="initt(item.id)"
         >{{ item.name }}</v-tab>
       </v-tabs>
-      <v-btn text style="margin-left: -320px;" @click="ordnwlk">{{ newandlike }}</v-btn>
+      <v-btn text style="margin-left: -320px;" @click="ordnwlk">{{this.$store.state.newandlike}}</v-btn>
       <v-text-field
         flat
         v-model="searchloc"

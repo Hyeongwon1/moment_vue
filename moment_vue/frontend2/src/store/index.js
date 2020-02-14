@@ -5,11 +5,11 @@ Vue.use(Vuex)
 
 // Modules
 import socialauth from './modules/social.js'
-import localauth from './modules/local.js'
+import local from './modules/local.js'
 const store = new Vuex.Store({
   modules: {
     socialauth,
-    localauth
+    local
   }
 })
 export default store

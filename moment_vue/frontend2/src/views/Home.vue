@@ -14,7 +14,14 @@
     <v-flex sm12 md12>
       <v-container grid-list-md sm12 md12>
         <v-layout row wrap>
-          <v-flex v-for="data in datas" :key="data.d_no" xs6 sm6 md4 lg3>
+          <v-flex
+            v-for="data in this.$store.state.local.home_data"
+            :key="data.d_no"
+            xs6
+            sm6
+            md4
+            lg3
+          >
             <v-card>
               <v-img :src="data.d_path" height="250px" @click="picview">
                 <input id v-text="data.d_no" type="hidden" />
@@ -52,8 +59,9 @@ export default {
   created() {
     // this.$store.commit("loginCheck");
     this.$axios.get("/moment/home").then(response => {
-      this.datas = response.data.data;
-      console.log(this.datas);
+      this.$store.commit("setHomeData", {
+        home_data: response.data.data
+      });
     });
   },
   watch: {},
@@ -74,13 +82,13 @@ export default {
     };
   },
   methods: {
-    initt: function(id) {
-      this.id = id;
-      this.$axios.get("/moment/listinit?kind=" + id).then(response => {
-        this.datas = response.data.data;
-        this.newandlike = "L I K E ▼";
-      });
-    },
+    // initt: function(id) {
+    //   this.id = id;
+    //   this.$axios.get("/moment/listinit?kind=" + id).then(response => {
+    //     this.datas = response.data.data;
+    //     this.newandlike = "L I K E ▼";
+    //   });
+    // },
     odbtn: function() {
       if (this.newandlike === "N E W ▼") {
         this.newandlike = "L I K E ▼";

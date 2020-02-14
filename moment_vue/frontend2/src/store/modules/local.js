@@ -6,16 +6,22 @@ import axios from 'axios';
 Vue.use(Vuex);
 Vue.use(VueAxios, axios)
 
-export default({
+export default{
   state: {
     host: 'http://localhost:3000/moment',
     token:"",
     id_mail: '',
+    home_data:[],
+    newandlike:"L I K E ▼",
   },
   getters: {
     
   },
   mutations: {
+    setHomeData (state, payload) {
+      state.home_data = payload.home_data
+    },
+
     loginToken: function (state, payload) {
       state.token = payload;
       // 토큰을 로컬 스토리지에 저장
@@ -48,6 +54,13 @@ export default({
     }
   },
   actions: {
-    
+    homeSelect (context, payload) {
+      payload = payload || {}
+      return axios.get("/moment/listinit?kind=" + payload.id).then(response => {
+        context.commit('setHomeData', {
+          home_data: response.data.data
+        })
+      });
+    }
   }
-});
+};

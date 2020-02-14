@@ -4,18 +4,7 @@ import Vuex from 'vuex'
 // import Home from '../views/Home.vue'
 
 import vueAuthInstance from '../services/auth.js'
-
 Vue.use(VueRouter, Vuex)
-// const requireAuth = () => (to, from, next) => {
-//   var token = localStorage.accessToken;
-//   console.log("token")
-//   console.log(token)
-//   if (!token) {
-//     alert('로그인이 필요합니다.');
-//     return next('/login');
-//   }
-//   next();
-// };
 const routes = [
   {
     path: '/home',
