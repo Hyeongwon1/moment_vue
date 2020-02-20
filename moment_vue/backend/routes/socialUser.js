@@ -66,14 +66,6 @@ function googleAuth(req, res) {
     try {
       if (!err && response.statusCode === 200) {
         var responseJson = JSON.parse(body)
-        // console.log("responseJson")
-        // console.log(responseJson)
-        // console.log(responseJson.scope)
-        // const url = "https://www.googleapis.com/auth/userinfo.profile";
-
-        // const decoded = await getData(url);
-        // getData(url);
-        // console.log(decoded)
         res.json(responseJson)
       } else {
         res.status(response.statusCode).json(err)
@@ -83,20 +75,5 @@ function googleAuth(req, res) {
     }
   })
 }
-
-// const getData = async url => {
-//   console.log(url)
-//   try {
-//     const response = await axios.get(url);
-//     const data = response.data;
-//     console.log("response")
-//     console.log(response)
-//     console.log("d123131212312ata");
-//     console.log(data);
-//   } catch (error) {
-//     console.log(error);
-//   }
-// };
-
 
 module.exports = router;

@@ -1,6 +1,5 @@
-/* eslint-disable no-undef */ 2<template>
+<template>
   <div class="loginbody">
-    <navtop :id="id" @aaarr="initt"></navtop>
     <v-layout column align-center persistent>
       <v-form ref="form" @submit.prevent="loginfn" style="margin-top: 160px;">
         <v-text-field v-model="m_email" :counter="15" label="Email" :append-icon="'mail'" required></v-text-field>
@@ -121,7 +120,6 @@
         </v-card>
       </v-dialog>
     </v-layout>
-    <navbottom></navbottom>
   </div>
 </template>
 <script>
@@ -141,6 +139,7 @@ export default {
       i_pw: null,
       i_phone: null,
       errorMessages: "",
+      Remember: "",
       formHasErrors: false,
       success: false,
       rules: {
@@ -175,7 +174,6 @@ export default {
       if (!email || !password) {
         return false;
       }
-
       this.$axios
         .post(`${this.$store.state.host}/users/mem_logindb`, {
           email,
@@ -184,9 +182,6 @@ export default {
         .then(res => {
           console.log(res);
           this.$store.commit("loginToken", res.data.token);
-          // this.$axios.defaults.headers.common[
-          //   "Authorization"
-          // ] = `Bearer ${res.data.token}`;
           this.$router.push({ path: "home" });
         })
         .catch(function(error) {

@@ -4,63 +4,55 @@ var moment = require("moment");
 var pool = require("./mysqlConn");
 const puppeteer = require("puppeteer");
 
-router.post("/pupp", function(req, res, next) {
+router.post("/pupp2", function(req, res, next) {
   console.log(moment().format("MMMM Do YYYY, h:mm:ss a"));
-  puppeteer
-    .launch({
+  puppeteer.launch({
       args: ["--no-sandbox", "--disable-setuid-sandbox"]
-    })
-    .then(browser => {
-      return browser
-        .newPage()
-        .then(page => {
-          return page
-            .goto("https://www.naver.com/", { waitUnitl: "networkidle" })
-            .then(() =>
-              page.evaluate(() => {
-                let elements = Array.from(
-                  document.querySelectorAll(".ah_roll_area li")
-                );
+    }).then(browser => {
+      return browser.newPage()
+        .then( page => {
+          return page.goto("https://www.naver.com/", { waitUnitl: "networkidle" })
+            .then(() => page.evaluate(() => {
+                let elements = Array.from(document.querySelectorAll(".ah_roll ul li"));
                 let res = [];
                 let rea = [];
-                // elements.map((li) => {
-                // 	let split =	li.textContent.trim().split('\n')
-                // 	res[split[0]] = split[1]
-                // });
                 elements.map(li => {
-                  let split = li.textContent.trim().split("\n");
+                  let split = li.innerText.trim().split("\n");
                   res.push({ num: split[0], value: split[1] });
                   rea.push([Number(split[0]), split[1]]);
                 });
-                return { res, rea };
-              })
-            );
-        })
-        .then(title => {
-          browser.close();
+                console.log("adasd1111asd")
+                return {res,rea};
+              }));
+            }).then((title) => {
+              browser.close();
+          console.log(title)
           title.rea.forEach(element => {
             element.push(moment().format("YYYY/MM/DD HH:mm:ss"));
           });
           title.res.push({ time: moment().format("YYYY/MM/DD HH:mm:ss") });
+          console.log("asdasdasdasdas")
           console.log(title.rea);
-          pool.getConnection(function(err, connection) {
-            var sql = `insert into 
-                          TCM_RANK_MST 
-                          (RANK_NUM,
-                            RANK_VALUE,
-                            INSERT_DATETIME) 
-                            values ?`;
-            connection.query(sql, [title.rea], function(err, rows) {
-              console.log(rows);
-              if (err) console.error("err : " + err);
-              connection.release();
-            });
-          });
+          // pool.getConnection(function(err, connection) {
+          //   var sql = `insert into 
+          //                 TCM_RANK_MST 
+          //                 (RANK_NUM,
+          //                   RANK_VALUE,
+          //                   INSERT_DATETIME) 
+          //                   values ?`;
+          //   connection.query(sql, [title.rea], function(err, rows) {
+          //     console.log(rows);
+          //     if (err) console.error("err : " + err);
+          //     connection.release();
+          //   });
+          // });
           res.send(title.res);
           // res.send(title);
-          return title;
         });
-    });
+      });
+
+
+      return title;
   // puppeteer.launch({
   // 		headless : false	// 헤드리스모드의 사용여부를 묻는다
   // , devtools : false	// 브라우저의 개발자 모드의 오픈 여부를 묻는다
@@ -87,6 +79,54 @@ router.post("/pupp", function(req, res, next) {
   // await browser.close();
 
   // });
+});
+
+router.post("/pupp", function(req, res, next) {
+  console.log(moment().format("MMMM Do YYYY, h:mm:ss a"));
+  (async () => {  
+    const browser = await puppeteer.launch(); // headless 브라우저 실행
+    const page = await browser.newPage(); // 새로운 페이지 열기
+    // `https://www.naver.com/` URL에 접속
+    await page.goto("https://www.naver.com/", { waitUnitl: "networkidle" });
+    // evaluate() 함수를 이용해 History table을 선택하고 반복문으로 내용을 빈배열에 추가한다
+    await page.waitFor(1000)
+    const rank = await page.evaluate(() => {
+      let res = [];
+      let rea = [];
+      let elements = Array.from(document.querySelectorAll(".ah_roll ul li"));
+      elements.map(li => {
+            let split = li.innerText.trim().split("\n");
+            res.push({ num: split[0], value: split[1] });
+            rea.push([Number(split[0]), split[1]]);
+          });
+          return {res,rea};
+    });
+    rank.rea.forEach(element => {
+      element.push(moment().format("YYYY/MM/DD HH:mm:ss"));
+    });
+    rank.res.push({ time: moment().format("YYYY/MM/DD HH:mm:ss") });
+    
+    console.log("rank")
+    console.log(rank)
+    // pool.getConnection(function(err, connection) {
+    //           var sql = `insert into 
+    //                         TCM_RANK_MST 
+    //                         (RANK_NUM,
+    //                           RANK_VALUE,
+    //                           INSERT_DATETIME) 
+    //                           values ?`;
+    //           connection.query(sql, [title.rea], function(err, rows) {
+    //             console.log(rows);
+    //             if (err) console.error("err : " + err);
+    //             connection.release();
+    //           });
+    //         });
+    res.send(rank.res);
+    // 모든 스크래핑 작업을 마치고 브라우저 닫기
+    await browser.close();
+  })();
+
+
 });
 
 module.exports = router;

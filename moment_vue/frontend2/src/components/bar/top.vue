@@ -16,7 +16,11 @@
           @click="initt(item.id)"
         >{{ item.name }}</v-tab>
       </v-tabs>
-      <v-btn text style="margin-left: -320px;" @click="ordnwlk">{{this.$store.state.newandlike}}</v-btn>
+      <v-btn
+        text
+        style="margin-left: -320px;"
+        @click="ordnwlk"
+      >{{this.$store.state.local.newandlike}}</v-btn>
       <v-text-field
         flat
         v-model="searchloc"
@@ -55,7 +59,7 @@
       <v-divider></v-divider>
       <v-list dense>
         <v-list-item-group v-model="model" active-class="border" color="pink">
-          <v-list-item v-for="item in items" :key="item.id" @click="initt(item.id)">
+          <v-list-item v-for="item in items" :key="item.id" @click="homeselect(item.id)">
             <v-list-item-icon>
               <v-icon>{{ item.icon }}</v-icon>
             </v-list-item-icon>
@@ -87,11 +91,9 @@ export default {
   data() {
     return {
       drawer: false,
-      searchloc: "",
-      ord: "lk",
-      newandlike: "LIKE ▼",
       title: "IN THE MOMENT",
       loginout: "Login",
+      searchloc: "",
       id_mail: "",
       model: 1,
       items: [
@@ -115,8 +117,6 @@ export default {
       if (this.$store.state.socialauth.isAuthenticated != false) {
         this.$store.dispatch("logout", { authFlag }).then(res => {
           console.log(res);
-          // this.loginout = "Login";
-          // this.$store.commit('updateMessage', res.target.value)
           this.$router.push("home");
         });
       } else {
@@ -127,21 +127,26 @@ export default {
         }
       }
     },
-    initt: function(id) {
-      this.$emit("aaarr", id);
+    homeselect: function(id) {
+      this.$store.commit("setHomeKind", {
+        kind: id
+      });
+      this.$store.dispatch("homeSelect", { id });
     },
     onEnter: function() {
-      this.$emit("searchloc", this.searchloc);
+      console.log(this.searchloc);
+      this.$store.commit("setloc", { loc: this.searchloc });
+      this.$store.dispatch("homeSelect");
     },
     ordnwlk: function() {
-      this.$emit("ord", this.ord);
-      if (this.newandlike === "NEW ▼") {
-        this.newandlike = "LIKE ▼";
-        this.ord = "nw";
+      if (this.$store.state.local.newandlike === "NEW ▼") {
+        this.$store.commit("setLike", { newandlike: "LIKE ▼" });
+        this.$store.commit("setOrdby", { ord: "nw" });
       } else {
-        this.ord = "lk";
-        this.newandlike = "NEW ▼";
+        this.$store.commit("setLike", { newandlike: "NEW ▼" });
+        this.$store.commit("setOrdby", { ord: "lk" });
       }
+      this.$store.dispatch("homeSelect");
     }
   }
 };

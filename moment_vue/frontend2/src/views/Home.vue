@@ -1,13 +1,6 @@
 <template>
 <body id="mybodyhtml">
-  <navtop
-    :id="id"
-    :searchloc="searchloc"
-    :ord="ord"
-    @aaarr="initt"
-    @ord="odbtn"
-    @searchloc="searchlocbtn"
-  ></navtop>
+  <!-- <navtop></navtop> -->
   <br />
   <br />
   <v-layout align-stretch>
@@ -51,18 +44,13 @@
       </v-container>
     </v-flex>
   </v-layout>
-  <navbottom></navbottom>
+  <!-- <navbottom></navbottom> -->
 </body>
 </template>
 <script>
 export default {
   created() {
-    // this.$store.commit("loginCheck");
-    this.$axios.get("/moment/home").then(response => {
-      this.$store.commit("setHomeData", {
-        home_data: response.data.data
-      });
-    });
+    this.$store.dispatch("homeSelect");
   },
   watch: {},
   components: {},
@@ -72,67 +60,12 @@ export default {
       datas: [],
       pupps: "",
       id: "",
-      newandlike: "N E W ▼",
-      kinds: "",
-      ord: "",
-      searchloc: "",
       d_no: "",
       data_num: "",
       tab: null
     };
   },
   methods: {
-    // initt: function(id) {
-    //   this.id = id;
-    //   this.$axios.get("/moment/listinit?kind=" + id).then(response => {
-    //     this.datas = response.data.data;
-    //     this.newandlike = "L I K E ▼";
-    //   });
-    // },
-    odbtn: function() {
-      if (this.newandlike === "N E W ▼") {
-        this.newandlike = "L I K E ▼";
-        this.ord = "nw";
-      } else {
-        this.ord = "lk";
-        this.newandlike = "N E W ▼";
-      }
-      if (this.searchloc) {
-        this.$axios
-          .get(
-            "/moment/home_address_selectdb?ord=" +
-              this.ord +
-              "&kind=" +
-              this.id +
-              "&loc=" +
-              this.searchloc
-          )
-          .then(response => {
-            console.warn(response);
-            this.datas = response.data.data;
-          });
-      } else {
-        this.$axios
-          .get(`/moment/listinit?ord=${this.ord}&kind=${this.id}`)
-          .then(response => {
-            this.datas = response.data.data;
-          });
-      }
-    },
-    searchlocbtn: function(searchloc) {
-      console.log("여기탄거..?");
-      console.log(searchloc);
-      this.searchloc = searchloc;
-      console.log(this.searchloc);
-      this.$axios
-        .get(
-          `/moment/home_address_selectdb?kind=${this.id}&loc=${this.searchloc}`
-        )
-        .then(response => {
-          // console.warn(response);
-          this.datas = response.data.data;
-        });
-    },
     picview: function(evt) {
       const sNo = sessionStorage.m_no;
       const mNo = evt.target.firstChild.innerText;

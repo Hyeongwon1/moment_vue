@@ -1,5 +1,6 @@
 <template lang="html">
 	<div id="mybodyhtml">
+    <br>
 		<v-layout>
 			<v-flex xs12 sm6 offset-sm3 fluid>
 				<v-card>
@@ -39,7 +40,6 @@
 			value="로그아웃"
 			>로그아웃</a
 		>
-		<bottom></bottom>
 	</div>
 </template>
 <script>

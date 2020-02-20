@@ -1,6 +1,5 @@
 <template lang="html">
 	<div>
-		<navtop></navtop>
 		<br />
 		<br />
 		<div class="rank" style="color: green">실시간순위</div>
@@ -42,13 +41,12 @@
 		<br />
 		<br />
 		<br />
-		<navbottom></navbottom>
 	</div>
 </template>
 <script>
 export default {
   created() {
-    this.$axios.post(`${this.$store.state.host}/pupp/pupp`, {}).then(
+    this.$axios.post(`${this.$store.state.local.host}/pupp/pupp`, {}).then(
       response => {
         console.log(response.data);
         this.pupps = response.data;
@@ -94,7 +92,7 @@ export default {
       location.href = "/pupp1";
     },
     sendpupp: function() {
-      this.$axios.post(`${this.$store.state.host}/pupp/pupp`, {}).then(
+      this.$axios.post(`${this.$store.state.local.host}/pupp/pupp`, {}).then(
         response => {
           console.log(response);
           console.log(response.data);

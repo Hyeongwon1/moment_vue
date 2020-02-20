@@ -28,165 +28,43 @@ class User {
     }
 }
 
-	router.get('/list', function(req,res,next){
-		pool.getConnection(function (err, connection) {
-				var sql = `SELECT *
-								FROM 
-								TCM_DATA_MST as data 
-								LEFT JOIN 
-								TCM_MEMBER_MST as mem 
-								ON mem.m_no = data.m_no
-								where data.d_no in(SELECT max(d_no) 
-													FROM TCM_DATA_MST 
-														group by m_no)
-							`;
-			connection.query(sql, function (err, rows) {
-						if (err) console.error("err : " + err);
-				
-							// console.log(rows)
-				res.render('./moment/home', {data: rows});
-				connection.release();
-			});
-		}); 
-	});
-
-router.get('/listinit', function(req,res,next){
-	var d_kind =req.param('kind');
-	var ord =req.param('ord');
+router.post('/homeSelect', function(req,res,next){
+	var kind =req.body.kind.toString();
+	var ord = req.body.ord;
+	var loc = req.body.loc.toString();
+	
 	pool.getConnection(function (err, connection) {
-			var orderby
-			// param = {
-			// 	column : 'd_regdate desc , d_like desc , dcjd'
-			// }
-				// ord.split("nw").join('d_regdate')	
-			// orderby = " order by [column]";
-
-			// var string a = "[a] 아랑 [a]"
-			// orderby.split("[a]").join('안')	
-			if (ord == "nw") {
-				orderby = " d_regdate desc";
-			}else if(ord == "lk"){
-				orderby = " d_like desc";
-			}else{
-				orderby = " d_regdate desc";
-			}
-		if (d_kind == 0 || d_kind== "") {
-				const sql = `SELECT * 
-									FROM TCM_DATA_MST as data 
-									LEFT OUTER JOIN 
-									TCM_MEMBER_MST as mem 
-									ON data.m_no = mem.m_no
-									order by ${orderby}`;
-
+			var param =['d_regdate desc' , 'd_like desc']
+      var kinds =[`AND data.d_kind = ${kind}`]
+      var locs =`AND data.d_location like '%${loc}%'`
+			ord = ord.split("nw").join(param[0]);	
+      ord = ord.split("lk").join(param[1]);
+      kind = kind.split("0").join('');
+      kind = kind.split("1").join(kinds[0]);
+      kind = kind.split("2").join(kinds[0]);
+      kind = kind.split("3").join(kinds[0]);
+      // locs = loc.split(" ").join('');
+			const sql = `SELECT * 
+                      FROM TCM_DATA_MST as data 
+                      LEFT OUTER JOIN 
+                      TCM_MEMBER_MST as mem 
+                      ON data.m_no = mem.m_no
+                      WHERE data.d_use ='Y'
+                      ${kind}
+                      ${locs} 
+                      order by ${ord}`;
+      console.log(sql)
 			connection.query(sql, function (err, rows) {
-								commons.age(rows)	
+				// console.log(rows)
+					commons.age(rows)	
 					if (err) console.error("err : " + err);
 					res.send({data: rows});
 					connection.release();
-				});			
-			}else{
-				const sql = `SELECT * 
-									FROM TCM_DATA_MST as data 
-									LEFT OUTER JOIN 
-									TCM_MEMBER_MST as mem 
-									ON data.m_no = mem.m_no 
-									WHERE data.d_kind = ? 
-									order by ${orderby}`;
-		  	connection.query(sql,[d_kind], function (err, rows) {
-						commons.age(rows)
-	        	if (err) console.error("err : " + err);
-	        	res.send({data: rows});
-	        	connection.release();
-		  	});
-		}
+			});			
 	});
 });
-	router.get('/home', function(req,res,next){
-		const ord =req.param('ord');
-	  	pool.getConnection(function (err, connection) {
-			let orderby
-			if (ord == "nw") {
-				orderby = " d_regdate desc";
-			}else if(ord == "lk"){
-				orderby = " d_like desc";
-			}else{
-				orderby = " d_regdate desc";
-			}
-			const sql =`SELECT *
-							FROM 
-							TCM_DATA_MST as data 
-							LEFT JOIN 
-							TCM_MEMBER_MST as mem 
-							ON mem.m_no = data.m_no
-							where data.d_no in(SELECT max(d_no) 
-												FROM TCM_DATA_MST 
-													group by m_no)
-								order by  ${orderby}`
-			// var string a = "[a] 아랑 [a]"
-			// a.split("[a]").join('안')	
-			// ;
-	      	connection.query(sql, function (err, rows) {
-				commons.age(rows)
-				if (err) console.error("err : " + err);
-	    	  
-				res.send({data: rows});
-				connection.release();
-	      	});
-		}); 
-	});
-		
-	router.get('/home_address_selectdb', function(req,res,next){
-	
-		var d_location =req.param('loc');
-			d_location = `'%${d_location}%'`
-		var d_kind =req.param('kind');
-		var ord =req.param('ord');
-		var orderby
-			if (ord == "nw") {
-				orderby = " order by d_regdate desc";
-			}else if(ord == "lk"){
-				orderby = " order by d_like desc";
-			}else{
-				orderby = " order by d_regdate desc";
-			}
-			pool.getConnection(function (err, connection) {
-				if (d_kind == 0 && d_kind== "") {
-					var sql = `SELECT * 
-									FROM 
-									TCM_DATA_MST as data 
-									LEFT OUTER JOIN 
-									TCM_MEMBER_MST as mem 
-									ON data.m_no = mem.m_no 
-									WHERE data.d_location like ${d_location} ${orderby}`;
-						console.log(sql)
-					connection.query(sql,function (err, rows) {
-						commons.age(rows)
-						if (err) console.error("err : " + err);
-						res.send({data: rows});
-						connection.release();
-					});
-				}else{
-					var sql = `SELECT * 
-									FROM 
-									TCM_DATA_MST as data 
-									LEFT OUTER JOIN 
-									TCM_MEMBER_MST as mem 
-									ON data.m_no = mem.m_no 
-									where data.d_kind = ${d_kind}
-									and data.d_location like ${d_location} ${orderby}`;
-							console.log(sql)
-					connection.query(sql, function (err, rows) {
-						commons.age(rows)
-						if (err) console.error("err : " + err);
-						res.send({data: rows});
-						connection.release();
-					});
-				}
-			}); 
-		});
 
-
-	router.get('/data_view', function(req,res,next){
+router.get('/data_view', function(req,res,next){
 		var mnum =req.param('mnum');
 		var snum =req.param('snum');
 			pool.getConnection(function (err, connection) {
