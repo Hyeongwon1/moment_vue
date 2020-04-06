@@ -1,7 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Vuex from 'vuex'
-// import Home from '../views/Home.vue'
 
 import vueAuthInstance from '../services/auth.js'
 Vue.use(VueRouter, Vuex)
@@ -43,10 +42,13 @@ const routes = [
     path: '/pupp1',
     name: 'PuppTest',
     component: () => import('../views/pupp/Pupp1.vue'),
+  },
+  {
+    path: '/mask',
+    name: 'MaskTest',
+    component: () => import('../views/pupp/masktest.vue'),
   }
 ]
-
-
 
 const router = new VueRouter({
   mode: 'history',

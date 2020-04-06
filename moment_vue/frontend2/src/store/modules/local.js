@@ -39,8 +39,7 @@ export default{
     // loginToken: function (state, payload) {
     //   state.token = payload;
     //   // 토큰을 로컬 스토리지에 저장
-    //   localStorage.accessToken = state.token;
-      
+    //   // localStorage.accessToken = state.token;
     // },
     // logout: function (state) {
     //   if (state.token) {

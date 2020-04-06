@@ -32,7 +32,11 @@
       <v-btn text @click="onEnter" style="margin-right: -15px;">
         <v-icon>search</v-icon>
       </v-btn>
-      <v-btn class="hidden-sm-and-down" text @click="login('99')">{{ loginout }}</v-btn>
+      <v-btn
+        class="hidden-sm-and-down"
+        text
+        @click="login()"
+      >{{ this.$store.state.socialauth.loginyn }}</v-btn>
     </v-app-bar>
     <v-navigation-drawer v-model="drawer" fixed temporary>
       <v-list-item>
@@ -40,13 +44,13 @@
           <!-- <v-img src="https://randomuser.me/api/portraits/men/78.jpg"></v-img> -->
         </v-list-item-avatar>
         <v-list-item-content>
-          <v-list-item-title>{{id_mail}}</v-list-item-title>
+          <v-list-item-title>{{this.$store.state.socialauth.profile.email}}</v-list-item-title>
         </v-list-item-content>
       </v-list-item>
 
       <v-list dense>
         <v-list-item-content>
-          <v-list-item v-for="title in titles" :key="title.id" @click="login(title.id)">
+          <v-list-item v-for="title in titles" :key="title.id" @click="test(title.id)">
             <v-list-item-icon>
               <v-icon>{{ title.icon }}</v-icon>
             </v-list-item-icon>
@@ -69,6 +73,19 @@
           </v-list-item>
         </v-list-item-group>
       </v-list>
+      <v-divider></v-divider>
+      <v-list dense>
+        <v-list-item-content>
+          <v-list-item @click="login(title.id)">
+            <v-list-item-icon>
+              <v-icon>map</v-icon>
+            </v-list-item-icon>
+            <v-list-item-content>
+              <v-list-item-title>{{ this.$store.state.socialauth.loginyn}}</v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
+        </v-list-item-content>
+      </v-list>
     </v-navigation-drawer>
   </div>
 </template>
@@ -76,25 +93,14 @@
 <script>
 export default {
   name: "top",
-  created() {
-    let authFlag = this.$store.state.socialauth.isAuthenticated;
-    if (authFlag != false) {
-      this.loginout = "logout";
-      this.titles[0].name = "Logout";
-      this.id_mail = this.$store.state.socialauth.profile;
-    } else {
-      this.loginout = "login";
-      this.titles[0].name = "Login";
-      this.id_mail = "";
-    }
-  },
+  created() {},
   data() {
     return {
       drawer: false,
       title: "IN THE MOMENT",
-      loginout: "Login",
+      // loginout: this.$store.state.socialauth.loginyn,
       searchloc: "",
-      id_mail: "",
+      // id_mail: "",
       model: 1,
       items: [
         { name: "ALL", id: "0", icon: "dashboard" },
@@ -103,8 +109,8 @@ export default {
         { name: "ENJOY", id: "3", icon: "map" }
       ],
       titles: [
-        { name: "", id: "99", icon: "dashboard" },
-        { name: "PUPP", id: "88", icon: "dashboard" }
+        { name: "PUPP", id: "88", icon: "dashboard" },
+        { name: "MaskTest", id: "77", icon: "dashboard" }
       ]
     };
   },
@@ -113,6 +119,13 @@ export default {
   watch: {},
   components: {},
   methods: {
+    test: function(id) {
+      if (id === "88") {
+        this.$router.push({ path: "pupp1" });
+      } else {
+        this.$router.push({ path: "mask" });
+      }
+    },
     login: function(id, authFlag) {
       if (this.$store.state.socialauth.isAuthenticated != false) {
         this.$store.dispatch("logout", { authFlag }).then(res => {
@@ -120,14 +133,13 @@ export default {
           this.$router.push("home");
         });
       } else {
-        if (id === "99") {
-          this.$router.push({ path: "login" });
-        } else {
-          this.$router.push({ path: "pupp1" });
-        }
+        this.$router.push("login");
       }
     },
     homeselect: function(id) {
+      const path = `/home`;
+      if (this.$route.path !== path) this.$router.push(path);
+
       this.$store.commit("setHomeKind", {
         kind: id
       });
@@ -157,6 +169,6 @@ export default {
 .head_moment {
   color: black;
   font-family: "Am";
-  font-size: 19pt;
+  /* font-size: 1.55rem; */
 }
 </style>

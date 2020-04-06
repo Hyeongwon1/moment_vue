@@ -126,7 +126,7 @@
 // import router from "@/routerC";
 export default {
   created() {
-    this.$store.commit("logout");
+    // this.$store.commit("logout");
   },
   data() {
     return {
@@ -175,7 +175,7 @@ export default {
         return false;
       }
       this.$axios
-        .post(`${this.$store.state.host}/users/mem_logindb`, {
+        .post(`${this.$store.state.local.host}/users/mem_logindb`, {
           email,
           password
         })

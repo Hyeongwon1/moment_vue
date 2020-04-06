@@ -5,7 +5,8 @@ const jwt = require("jsonwebtoken");
 export default {
   state: {
     host: 'http://localhost:3000/moment',
-    profile: null,
+    profile: {},
+    loginyn: 'Login',
     isAuthenticated: vueAuthInstance.isAuthenticated()
   },
 
@@ -15,7 +16,12 @@ export default {
     },
 
     setProfile (state, payload) {
-      state.profile = payload.profile
+      state.profile.email = payload.profile.email
+      state.profile.m_no = payload.profile.m_no
+    },
+
+    setLoginyn (state, payload) {
+      state.loginyn = payload.loginyn
     }
   },
 
@@ -23,9 +29,11 @@ export default {
     login (context, payload) {
       payload = payload || {}
       return vueAuthInstance.login(payload.user, payload.requestOptions).then(function () {
+        
         context.commit('isAuthenticated', {
           isAuthenticated: vueAuthInstance.isAuthenticated()
         })
+        
       })
     },
 
@@ -44,6 +52,12 @@ export default {
         context.commit('isAuthenticated', {
           isAuthenticated: vueAuthInstance.isAuthenticated()
         })
+        context.commit('setLoginyn', {
+          loginyn: "Login"
+        })
+        context.commit('setProfile', {
+          profile: ""
+        })
         alert('로그아웃')
       })
     },
@@ -51,6 +65,9 @@ export default {
     authenticate (context, payload) {
       payload = payload || {}
       return vueAuthInstance.authenticate(payload.provider, payload.userData, payload.requestOptions).then(function (res) {
+        
+        console.log("resddd")
+        console.log(res)
         context.commit('isAuthenticated', {
           isAuthenticated: vueAuthInstance.isAuthenticated()
         })
@@ -66,16 +83,20 @@ export default {
               social  : 'Y'
             })
           }else{
+            context.commit('setProfile', {
+              profile: {email : res.data[0].m_email, m_no: res.data[0].m_no}
+            })
+            context.commit('setLoginyn', {
+              loginyn: "Logout"
+            }) 
             console.log("이미가입")
-          } 
+          }
         }).catch(function(error) {
             console.log("에러");
             console.log(error.response);
             // alert("비밀번호 다름");
           });
-        context.commit('setProfile', {
-          profile: decode.email
-        })
+        
       })
     }
   }

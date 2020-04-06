@@ -1,12 +1,10 @@
 <template>
-  <div>
-    <v-bottom-navigation :value="activeBtn" fixed color="pink" grow>
-      <v-btn v-for="bitem in bitems" :key="bitem.id" text @click="nav(bitem.id)">
-        <span>{{ bitem.name }}</span>
-        <v-icon>{{ bitem.icon }}</v-icon>
-      </v-btn>
-    </v-bottom-navigation>
-  </div>
+  <v-bottom-navigation :value="activeBtn" color="pink" fixed grow>
+    <v-btn v-for="bitem in bitems" :key="bitem.id" text @click="nav(bitem.id)" height="55">
+      <span>{{ bitem.name }}</span>
+      <v-icon>{{ bitem.icon }}</v-icon>
+    </v-btn>
+  </v-bottom-navigation>
 </template>
 <script>
 export default {
@@ -37,7 +35,8 @@ export default {
           return this.$router.push({ path: "upload" });
         case 3:
           return "";
-        // case 4: return mypage()
+        case 4:
+        // return mypage();
       }
     },
     home: function() {
@@ -73,4 +72,5 @@ export default {
   }
 };
 </script>
-<style scoped></style>
+<style scoped>
+</style>
