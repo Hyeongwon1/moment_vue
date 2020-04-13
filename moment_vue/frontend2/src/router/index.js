@@ -1,83 +1,91 @@
-import Vue from 'vue'
-import VueRouter from 'vue-router'
-import Vuex from 'vuex'
+import Vue from "vue";
+import VueRouter from "vue-router";
+import Vuex from "vuex";
 
-import vueAuthInstance from '../services/auth.js'
-Vue.use(VueRouter, Vuex)
+import vueAuthInstance from "@/services/auth.js";
+Vue.use(VueRouter, Vuex);
 const routes = [
   {
-    path: '/home',
-    name: 'home',
-    component: () => import('../views/Home.vue'),
-    meta: { title: 'home' }
+    path: "/",
+    redirect: "/home",
   },
   {
-    path: '/upload',
-    name: 'Upload',
-    component: () => import('../views/upload/Upload.vue'),
+    path: "/home",
+    name: "home",
+    component: () => import("@/views/Home.vue"),
+    meta: { title: "home" },
+  },
+  {
+    path: "/upload",
+    name: "Upload",
+    component: () => import("@/views/upload/Upload.vue"),
     // beforeEnter: requireAuth(),
-    meta: { auth: true, title: 'Login to existing account' }
+    meta: { auth: true, title: "Login to existing account" },
   },
   {
-    path: '/detail',
-    name: 'Detail',
-    component: () => import('../views/detail/Detail.vue'),
+    path: "/detail",
+    name: "Detail",
+    component: () => import("@/views/detail/Detail.vue"),
     // beforeEnter: requireAuth(),
-    meta: { auth: true, title: 'Detail' }
+    meta: { auth: true, title: "Detail" },
   },
   {
-    path: '/login',
-    name: 'Login',
-    component: () => import('../views/login/Login.vue'),
-    meta: { auth: false, title: 'Login' }
+    path: "/login",
+    name: "Login",
+    component: () => import("@/views/login/Login.vue"),
+    meta: { auth: false, title: "Login" },
   },
   {
-    path: '/mypage',
-    name: 'MyPage',
-    component: () => import('../views/myPage/MyPage.vue'),
+    path: "/mypage",
+    name: "MyPage",
+    component: () => import("@/views/myPage/MyPage.vue"),
     // beforeEnter: requireAuth(),
-    meta: { auth: true, title: 'My profile' }
+    meta: { auth: true, title: "My profile" },
   },
   {
-    path: '/pupp1',
-    name: 'PuppTest',
-    component: () => import('../views/pupp/Pupp1.vue'),
+    path: "/pupp1",
+    name: "PuppTest",
+    component: () => import("@/views/pupp/Pupp1.vue"),
   },
   {
-    path: '/mask',
-    name: 'MaskTest',
-    component: () => import('../views/pupp/masktest.vue'),
-  }
-]
+    path: "/mask",
+    name: "MaskTest",
+    component: () => import("@/views/pupp/masktest.vue"),
+  },
+  {
+    path: "*",
+    component: () => import("@/views/notFound.vue"),
+  },
+];
 
 const router = new VueRouter({
-  mode: 'history',
+  mode: "history",
   base: process.env.BASE_URL,
-  routes
-})
+  routes,
+});
 
-router.beforeEach(function (to, from, next) {
+router.beforeEach(function(to, from, next) {
   if (to.meta && to.meta.title) {
-    document.title = to.meta.title
+    document.title = to.meta.title;
   }
 
   if (to.meta && to.meta.auth !== undefined) {
     if (to.meta.auth) {
       if (vueAuthInstance.isAuthenticated()) {
-        next()
+        next();
       } else {
-        router.push({ name: 'Login' })
+        router.push({ name: "Login" });
       }
     } else {
       if (vueAuthInstance.isAuthenticated()) {
-        router.push({ name: 'home' })
-        alert('로그인이 필요합니다.')
+        router.push({ name: "home" });
+        alert("로그인이 필요합니다.");
       } else {
-        next()
+        next();
       }
     }
   } else {
-    next()
+    next();
   }
-})
-export default router
+});
+export default router;
