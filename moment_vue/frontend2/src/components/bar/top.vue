@@ -114,7 +114,11 @@ export default {
       ]
     };
   },
-  computed: {},
+  computed: {
+    islogin() {
+      return this.$store.getters.islogin;
+    }
+  },
   props: {},
   watch: {},
   components: {},

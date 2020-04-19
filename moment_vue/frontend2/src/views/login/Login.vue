@@ -124,6 +124,7 @@
 </template>
 <script>
 // import router from "@/routerC";
+import { localLoginUser } from "@/api/index";
 export default {
   created() {
     // this.$store.commit("logout");
@@ -167,28 +168,44 @@ export default {
     }
   },
   methods: {
-    loginfn: function() {
+    async loginfn() {
       // var self = this
-      const email = this.m_email;
-      const password = this.m_pw;
-      if (!email || !password) {
-        return false;
-      }
-      this.$axios
-        .post(`${this.$store.state.local.host}/users/mem_logindb`, {
-          email,
-          password
-        })
-        .then(res => {
-          console.log(res);
-          this.$store.commit("loginToken", res.data.token);
-          this.$router.push({ path: "home" });
-        })
-        .catch(function(error) {
-          console.log(error.response);
-          console.log("여긴가?");
-          alert("비밀번호 다름");
+      try {
+        const loginData = {
+          email: this.m_email,
+          password: this.m_pw
+        };
+        if (!loginData.email || !loginData.password) {
+          return false;
+        }
+        const { data } = await localLoginUser(loginData);
+        // const { data } 이렇게 활용할시는 꺼내오는 데이터의 이름과 같아야한다.
+        console.log(data);
+
+        this.$store.commit("setProfile", {
+          profile: { email: data.data.m_email, m_no: data.data.m_no }
         });
+        this.$store.commit("loginToken", data.token);
+        this.$router.push({ path: "home" });
+      } catch (error) {
+        console.log(error);
+        alert("비밀번호 다름");
+      }
+      // this.$axios
+      //   .post(`${this.$store.state.local.host}/users/mem_logindb`, {
+      //     email,
+      //     password
+      //   })
+      //   .then(res => {
+      //     console.log(res);
+      //     this.$store.commit("loginToken", res.data.token);
+      //     this.$router.push({ path: "home" });
+      //   })
+      //   .catch(function(error) {
+      //     console.log(error.response);
+      //     console.log("여긴가?");
+      //     alert("비밀번호 다름");
+      //   });
     },
     signUp: function() {
       this.formHasErrors = false;

@@ -14,9 +14,8 @@ router.post("/mem_logindb", function (req, res, next) {
   let jwt_secret = "moment";
   if (mail) {
     pool.getConnection(function (err, connection) {
-      var sql = `SELECT m_no,m_pw,m_nick FROM TCM_MEMBER_MST WHERE m_email="${mail}"`;
+      var sql = `SELECT * FROM TCM_MEMBER_MST WHERE m_email="${mail}"`;
       connection.query(sql, function (err, results, fields) {
-
         if (err) console.error("err : " + err);
         const hash = crypto
           .createHmac("sha256", secret)
@@ -29,13 +28,13 @@ router.post("/mem_logindb", function (req, res, next) {
             jwt.sign(
               {
                 id_no: results[0].m_no,
-                id_mail: mail   //유저정보
+                id_mail: mail, //유저정보
               },
               jwt_secret,
               {
-                expiresIn: 60*60*24 , // expires in 24 hours 유효기간
-                issuer: "seo",     //발급자
-                subject: "userInfo"//토큰명
+                expiresIn: 60 * 60 * 24, // expires in 24 hours 유효기간
+                issuer: "seo", //발급자
+                subject: "userInfo", //토큰명
               },
               (err, token) => {
                 if (err) reject(err);
@@ -43,17 +42,22 @@ router.post("/mem_logindb", function (req, res, next) {
               }
             );
           });
-          getToken.then(token => {
+          getToken.then((token) => {
             res.status(200).json({
               status: 200,
               msg: "login success",
-              token
+              data: {
+                m_no: results[0].m_no,
+                m_email: results[0].m_email,
+                m_nick: results[0].m_nick,
+                token,
+              },
             });
           });
         } else {
           res.status(400).json({
             status: 400,
-            msg: "password 가 틀림"
+            msg: "password 가 틀림",
           });
         }
         connection.release();
@@ -62,37 +66,37 @@ router.post("/mem_logindb", function (req, res, next) {
   } else {
     res.status(400).json({
       status: 400,
-      msg: "id값이 없음"
+      msg: "id값이 없음",
     });
   }
 });
 
 // 인증 확인
 router.get("/logincheck", (req, res) => {
-  console.log("req")
+  console.log("req");
   // console.log(req)
-  console.log(req.headers.authorization)
+  console.log(req.headers.authorization);
   const token = req.headers.authorization || req.query.token;
   // let jwt_secret = "4/vQHv5Eh_8_nM-vw1pIGk46RvYJYjK-P82g-QkUtubTKWlbYUR6iy6sdkqB58-TxFjNe9I4rq8t6-E4cfAOunzRY";
 
   if (!token) {
     res.status(400).json({
       status: 400,
-      msg: "Token 없음"
+      msg: "Token 없음",
     });
   }
   const checkToken = new Promise((resolve, reject) => {
-    jwt.verify(token , function (err, decoded) {
+    jwt.verify(token, function (err, decoded) {
       if (err) reject(err);
       resolve(decoded);
     });
   });
-  checkToken.then(token => {
+  checkToken.then((token) => {
     console.log(token);
     res.status(200).json({
       status: 200,
       msg: "success",
-      token
+      token,
     });
   });
 });
@@ -145,8 +149,8 @@ router.post("/mem_idcheckdb", function (req, res, next) {
 });
 
 router.post("/mem_insertdb", function (req, res, next) {
-  if (req.body.social=='Y') {
-    req.body.i_pw ='1234'
+  if (req.body.social == "Y") {
+    req.body.i_pw = "1234";
   }
   const hash = crypto
     .createHmac("sha256", secret)

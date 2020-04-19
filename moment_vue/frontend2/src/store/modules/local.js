@@ -1,40 +1,36 @@
-import Vue from 'vue'
-import Vuex from 'vuex'
-import VueAxios from 'vue-axios'
-import axios from 'axios';
+import Vue from "vue";
+import Vuex from "vuex";
+import VueAxios from "vue-axios";
+import axios from "axios";
 // import router from './router';
 Vue.use(Vuex);
-Vue.use(VueAxios, axios)
+Vue.use(VueAxios, axios);
 
-export default{
+export default {
   state: {
-    host: 'http://localhost:3000/moment',
-    token:"",
-    id_mail: "",
-    home_data:[],
-    newandlike:"LIKE ▼",
-    kind: "0" ,
-    ord:"nw",
-    loc:""
+    host: "http://localhost:3000/moment",
+    home_data: [],
+    newandlike: "LIKE ▼",
+    kind: "0",
+    ord: "nw",
+    loc: "",
   },
-  getters: {
-    
-  },
+  getters: {},
   mutations: {
-    setHomeData (state, payload) {
-      state.home_data = payload.home_data
+    setHomeData(state, payload) {
+      state.home_data = payload.home_data;
     },
-    setHomeKind (state, payload) {
-      state.kind = payload.kind
+    setHomeKind(state, payload) {
+      state.kind = payload.kind;
     },
-    setLike (state, payload) {
-      state.newandlike = payload.newandlike
+    setLike(state, payload) {
+      state.newandlike = payload.newandlike;
     },
-    setOrdby (state, payload) {
-      state.ord = payload.ord
+    setOrdby(state, payload) {
+      state.ord = payload.ord;
     },
-    setloc (state, payload) {
-      state.loc = payload.loc
+    setloc(state, payload) {
+      state.loc = payload.loc;
     },
     // loginToken: function (state, payload) {
     //   state.token = payload;
@@ -56,7 +52,7 @@ export default{
     //   .then(res => {
     //         console.log("sdaasdasd탄겨?");
     //         console.log(res);
-            
+
     //         state.id_mail = res.data.token.id_mail
     //       }
     //     ).catch(function(error) {
@@ -67,22 +63,24 @@ export default{
     // }
   },
   actions: {
-    homeSelect (context, payload) {
-      payload = payload || {}
-      console.log(payload)
-      console.log(context.state.ord)
-      console.log(context.state.kind)
-      console.log(context.state.loc)
+    homeSelect(context, payload) {
+      payload = payload || {};
+      console.log(payload);
+      console.log(context.state.ord);
+      console.log(context.state.kind);
+      console.log(context.state.loc);
 
-      return axios.post(`/moment/homeSelect`,{
-                          kind : context.state.kind,
-                          ord  : context.state.ord,
-                          loc : context.state.loc
-                        }).then(response => {
-                          context.commit('setHomeData', {
-                            home_data: response.data.data
-                          })
-                        });
-    }
-  }
+      return axios
+        .post(`/moment/homeSelect`, {
+          kind: context.state.kind,
+          ord: context.state.ord,
+          loc: context.state.loc,
+        })
+        .then((response) => {
+          context.commit("setHomeData", {
+            home_data: response.data.data,
+          });
+        });
+    },
+  },
 };
