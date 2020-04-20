@@ -7,7 +7,7 @@ import config from '../authConfig.json'
 Vue.use(VueAxios, axios)
 
 const vueAuthInstance = new VueAuthenticate(Vue.prototype.$http, {
-  baseUrl: 'http://localhost:3000',
+  baseUrl: process.env.VUE_APP_API_URL,
   tokenName: 'access_token',
   requestDataKey: 'data',
   responseDataKey: 'data',
@@ -23,25 +23,25 @@ const vueAuthInstance = new VueAuthenticate(Vue.prototype.$http, {
     //   redirectUri : '/moment/users/auth/kakao/callback'
     // }
   }
-  ,
-  bindRequestInterceptor: function () {
-    this.$http.interceptors.request.use((config) => {
-      if (this.isAuthenticated()) {
-        config.headers['Authorization'] = [
-          this.options.tokenType, this.getToken()
-        ].join(' ')
-      } else {
-        delete config.headers['Authorization']
-      }
-      return config
-    })
-  },
-  bindResponseInterceptor: function () {
-    this.$http.interceptors.response.use((response) => {
-      this.setToken(response)
-      return response
-    })
-  }
+  // bindRequestInterceptor: function () {
+  //   this.$http.interceptors.request.use((config) => {
+  //     if (this.isAuthenticated()) {
+  //       config.headers['Authorization'] = [
+  //         this.options.tokenType, this.getToken()
+  //       ].join(' ')
+  //     } else {
+  //       delete config.headers['Authorization']
+  //     }
+  //     return config
+  //   })
+  // },
+  // bindResponseInterceptor: function () {
+  //   console.log("adasdadasdasdasdsadsadasd")
+  //   this.$http.interceptors.response.use((response) => {
+  //     this.setToken(response)
+  //     return response
+  //   })
+  // }
 })
 
 export default vueAuthInstance

@@ -6,41 +6,39 @@ export default {
   state: {
     host: "http://localhost:3000/moment",
     profile: {},
-    loginyn: "Login",
     isAuthenticated: vueAuthInstance.isAuthenticated(),
   },
   getters: {
     islogin(state) {
       return state.profile !== {};
     },
+    // isAuthenticated () {
+    //   return vueAuthInstance.isAuthenticated()
+    // }
   },
   mutations: {
     isAuthenticated(state, payload) {
       state.isAuthenticated = payload.isAuthenticated;
     },
-
     setProfile(state, payload) {
       state.profile.email = payload.profile.email;
       state.profile.m_no = payload.profile.m_no;
     },
-
-    setLoginyn(state, payload) {
-      state.loginyn = payload.loginyn;
-    },
   },
-
   actions: {
     login(context, payload) {
       payload = payload || {};
-      return vueAuthInstance
-        .login(payload.user, payload.requestOptions)
-        .then(function() {
+      return vueAuthInstance.login(payload, payload.requestOptions)
+        .then(function(res) {
+          console.log(res)
+          context.commit("setProfile", {
+            profile: { email: res.data.data.email, m_no: res.data.data.id }
+          });
           context.commit("isAuthenticated", {
             isAuthenticated: vueAuthInstance.isAuthenticated(),
           });
         });
     },
-
     register(context, payload) {
       payload = payload || {};
       return vueAuthInstance
@@ -70,22 +68,15 @@ export default {
 
     authenticate(context, payload) {
       payload = payload || {};
-      return vueAuthInstance
-        .authenticate(
-          payload.provider,
-          payload.userData,
-          payload.requestOptions
-        )
-        .then(function(res) {
-          console.log("resddd");
+      console.log(payload.requestOptions)
+      return vueAuthInstance.authenticate(payload.provider,payload.userData,payload.requestOptions).then(function(res) {
           console.log(res);
           context.commit("isAuthenticated", {
             isAuthenticated: vueAuthInstance.isAuthenticated(),
           });
           const decode = jwt.decode(res.data.id_token);
 
-          axios
-            .post(`http://localhost:3000/moment/users/mem_idcheckdb`, {
+          axios.post(`http://localhost:3000/moment/users/mem_idcheckdb`, {
               m_email: decode.email,
             })
             .then((res) => {

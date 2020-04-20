@@ -1,7 +1,8 @@
 <template>
   <div class="loginbody">
     <v-layout column align-center persistent>
-      <v-form ref="form" @submit.prevent="loginfn" style="margin-top: 160px;">
+      <v-form ref="form" @submit.prevent="authLogin" style="margin-top: 160px;">
+        <!-- <v-form ref="form" @submit.prevent="loginfn" style="margin-top: 160px;"> -->
         <v-text-field v-model="m_email" :counter="15" label="Email" :append-icon="'mail'" required></v-text-field>
         <v-text-field
           v-model="m_pw"
@@ -181,7 +182,6 @@ export default {
         const { data } = await localLoginUser(loginData);
         // const { data } 이렇게 활용할시는 꺼내오는 데이터의 이름과 같아야한다.
         console.log(data);
-
         this.$store.commit("setProfile", {
           profile: { email: data.data.m_email, m_no: data.data.m_no }
         });
@@ -264,6 +264,25 @@ export default {
         // this.$store.commit('updateMessage', res.target.value)
         this.$router.push("MyPage");
       });
+    },
+    async authLogin() {
+      // var self = this
+      try {
+        const loginData = {
+          email: this.m_email,
+          password: this.m_pw
+        };
+        if (!loginData.email || !loginData.password) {
+          return false;
+        }
+        const aa = await this.$store.dispatch("login", loginData);
+        console.log("aa");
+        console.log(aa);
+        this.$router.push({ path: "home" });
+      } catch (error) {
+        console.log(error);
+        alert("비밀번호 다름");
+      }
     }
   }
 };
