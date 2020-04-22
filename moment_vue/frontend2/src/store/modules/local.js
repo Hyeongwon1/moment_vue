@@ -70,8 +70,7 @@ export default {
       console.log(context.state.kind);
       console.log(context.state.loc);
 
-      return axios
-        .post(`/moment/homeSelect`, {
+      return axios.post(`/moment/homeSelect`, {
           kind: context.state.kind,
           ord: context.state.ord,
           loc: context.state.loc,

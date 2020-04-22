@@ -132,10 +132,6 @@ export default {
             console.log("failed");
           }
         );
-      // var result = await this.$axios.poos
-      // var result = await this.$axios.poos
-      // var result = await this.$axios.poos
-      // var result = await this.$axios.poos
     }
   }
 };

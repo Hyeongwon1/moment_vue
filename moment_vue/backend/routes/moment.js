@@ -82,7 +82,6 @@ router.get('/data_view', function(req,res,next){
 								mem.m_nick,
 								mem.m_birth,
 								(case when likee.check_flag is null then 0 else likee.check_flag end) as check_flag 
-									
 									FROM TCM_DATA_MST as data 
 									LEFT JOIN 
 									TCM_MEMBER_MST as mem 

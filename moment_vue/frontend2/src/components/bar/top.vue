@@ -81,7 +81,10 @@
               <v-icon>map</v-icon>
             </v-list-item-icon>
             <v-list-item-content>
-              <v-list-item-title>{{ this.$store.state.socialauth.loginyn}}</v-list-item-title>
+              <v-list-item-title>
+                <span v-if="isLogin">Logout</span>
+                <span v-else>Login</span>
+              </v-list-item-title>
             </v-list-item-content>
           </v-list-item>
         </v-list-item-content>
@@ -115,8 +118,8 @@ export default {
     };
   },
   computed: {
-    islogin() {
-      return this.$store.getters.islogin;
+    isLogin() {
+      return this.$store.getters.isLogin;
     }
   },
   props: {},
@@ -131,13 +134,14 @@ export default {
       }
     },
     login: function(id, authFlag) {
-      if (this.$store.state.socialauth.isAuthenticated != false) {
+      if (this.isLogin) {
         this.$store.dispatch("logout", { authFlag }).then(res => {
           console.log(res);
-          this.$router.push("home");
+          this.$router.push("login");
         });
       } else {
-        this.$router.push("login");
+        const path = `/login`;
+        if (this.$route.path !== path) this.$router.push(path);
       }
     },
     homeselect: function(id) {

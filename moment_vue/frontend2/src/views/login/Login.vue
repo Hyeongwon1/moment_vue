@@ -183,7 +183,7 @@ export default {
         // const { data } 이렇게 활용할시는 꺼내오는 데이터의 이름과 같아야한다.
         console.log(data);
         this.$store.commit("setProfile", {
-          profile: { email: data.data.m_email, m_no: data.data.m_no }
+          profile: { email: data.m_email, m_no: data.data.m_no }
         });
         this.$store.commit("loginToken", data.token);
         this.$router.push({ path: "home" });

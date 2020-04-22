@@ -117,13 +117,11 @@ function loginAuth(req, res) {
             res.status(200).json({
               status: 200,
               msg: "login success",
-              data: {
-                id: results[0].m_no,
-                name: results[0].m_nick,
-                email: results[0].m_email,
-                created_at: new Date(),
-                access_token: token ,
-              },
+              id: results[0].m_no,
+              name: results[0].m_nick,
+              email: results[0].m_email,
+              created_at: new Date(),
+              access_token: token ,
             });
           });
         } else {

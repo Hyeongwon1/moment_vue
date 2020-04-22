@@ -5,12 +5,12 @@ const jwt = require("jsonwebtoken");
 export default {
   state: {
     host: "http://localhost:3000/moment",
-    profile: {},
+    profile: {email:'',m_no:''},
     isAuthenticated: vueAuthInstance.isAuthenticated(),
   },
   getters: {
-    islogin(state) {
-      return state.profile !== {};
+    isLogin(state) {
+      return state.profile.email !== '';
     },
     // isAuthenticated () {
     //   return vueAuthInstance.isAuthenticated()
@@ -32,7 +32,7 @@ export default {
         .then(function(res) {
           console.log(res)
           context.commit("setProfile", {
-            profile: { email: res.data.data.email, m_no: res.data.data.id }
+            profile: { email: res.data.email, m_no: res.data.id }
           });
           context.commit("isAuthenticated", {
             isAuthenticated: vueAuthInstance.isAuthenticated(),
@@ -56,11 +56,8 @@ export default {
         context.commit("isAuthenticated", {
           isAuthenticated: vueAuthInstance.isAuthenticated(),
         });
-        context.commit("setLoginyn", {
-          loginyn: "Login",
-        });
         context.commit("setProfile", {
-          profile: "",
+          profile: {email:'',m_no:''},
         });
         alert("로그아웃");
       });

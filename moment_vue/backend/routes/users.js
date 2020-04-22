@@ -46,12 +46,10 @@ router.post("/mem_logindb", function (req, res, next) {
             res.status(200).json({
               status: 200,
               msg: "login success",
-              data: {
                 m_no: results[0].m_no,
                 m_email: results[0].m_email,
                 m_nick: results[0].m_nick,
-                token,
-              },
+                access_token: token,
             });
           });
         } else {
