@@ -14,6 +14,7 @@ export default {
     kind: "0",
     ord: "nw",
     loc: "",
+    token: "",
   },
   getters: {},
   mutations: {
@@ -32,11 +33,11 @@ export default {
     setloc(state, payload) {
       state.loc = payload.loc;
     },
-    // loginToken: function (state, payload) {
-    //   state.token = payload;
-    //   // 토큰을 로컬 스토리지에 저장
-    //   // localStorage.accessToken = state.token;
-    // },
+    setLoginToken: function(state, payload) {
+      state.token = payload;
+      // 토큰을 로컬 스토리지에 저장
+      localStorage.access_Token = state.token;
+    },
     // logout: function (state) {
     //   if (state.token) {
     //     state.token = '';
@@ -70,7 +71,8 @@ export default {
       console.log(context.state.kind);
       console.log(context.state.loc);
 
-      return axios.post(`/moment/homeSelect`, {
+      return axios
+        .post(`/moment/homeSelect`, {
           kind: context.state.kind,
           ord: context.state.ord,
           loc: context.state.loc,

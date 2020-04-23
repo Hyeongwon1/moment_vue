@@ -1,8 +1,8 @@
 <template>
   <div class="loginbody">
     <v-layout column align-center persistent>
-      <v-form ref="form" @submit.prevent="authLogin" style="margin-top: 160px;">
-        <!-- <v-form ref="form" @submit.prevent="loginfn" style="margin-top: 160px;"> -->
+      <!-- <v-form ref="form" @submit.prevent="authLogin" style="margin-top: 160px;"> -->
+      <v-form ref="form" @submit.prevent="loginfn" style="margin-top: 160px;">
         <v-text-field v-model="m_email" :counter="15" label="Email" :append-icon="'mail'" required></v-text-field>
         <v-text-field
           v-model="m_pw"
@@ -182,10 +182,10 @@ export default {
         const { data } = await localLoginUser(loginData);
         // const { data } 이렇게 활용할시는 꺼내오는 데이터의 이름과 같아야한다.
         console.log(data);
+        this.$store.commit("setLoginToken", data.access_token);
         this.$store.commit("setProfile", {
-          profile: { email: data.m_email, m_no: data.data.m_no }
+          profile: { email: data.m_email, m_no: data.m_no }
         });
-        this.$store.commit("loginToken", data.token);
         this.$router.push({ path: "home" });
       } catch (error) {
         console.log(error);
@@ -275,10 +275,10 @@ export default {
         if (!loginData.email || !loginData.password) {
           return false;
         }
-        const aa = await this.$store.dispatch("login", loginData);
-        console.log("aa");
-        console.log(aa);
-        this.$router.push({ path: "home" });
+        this.$store.dispatch("login", loginData).then(res => {
+          console.log(res);
+          this.$router.push({ path: "home" });
+        });
       } catch (error) {
         console.log(error);
         alert("비밀번호 다름");

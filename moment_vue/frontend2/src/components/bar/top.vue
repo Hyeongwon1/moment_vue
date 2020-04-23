@@ -32,11 +32,10 @@
       <v-btn text @click="onEnter" style="margin-right: -15px;">
         <v-icon>search</v-icon>
       </v-btn>
-      <v-btn
-        class="hidden-sm-and-down"
-        text
-        @click="login()"
-      >{{ this.$store.state.socialauth.loginyn }}</v-btn>
+      <v-btn class="hidden-sm-and-down" text @click="login()">
+        <span v-if="isLogin">Logout</span>
+        <span v-else>Login</span>
+      </v-btn>
     </v-app-bar>
     <v-navigation-drawer v-model="drawer" fixed temporary>
       <v-list-item>
