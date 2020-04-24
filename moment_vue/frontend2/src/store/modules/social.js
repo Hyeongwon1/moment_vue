@@ -41,8 +41,7 @@ export default {
     },
     register(context, payload) {
       payload = payload || {};
-      return vueAuthInstance
-        .register(payload.user, payload.requestOptions)
+      return vueAuthInstance.register(payload.user, payload.requestOptions)
         .then(function() {
           context.commit("isAuthenticated", {
             isAuthenticated: vueAuthInstance.isAuthenticated(),
@@ -62,7 +61,6 @@ export default {
         alert("로그아웃");
       });
     },
-
     authenticate(context, payload) {
       payload = payload || {};
       console.log(payload.requestOptions)

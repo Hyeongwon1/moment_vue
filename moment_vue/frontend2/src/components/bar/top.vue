@@ -153,7 +153,6 @@ export default {
       this.$store.dispatch("homeSelect", { id });
     },
     onEnter: function() {
-      console.log(this.searchloc);
       this.$store.commit("setloc", { loc: this.searchloc });
       this.$store.dispatch("homeSelect");
     },

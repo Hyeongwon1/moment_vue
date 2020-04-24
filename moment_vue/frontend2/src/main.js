@@ -5,6 +5,7 @@ import App from './App';
 import router from './router';
 import store  from './store'
 import VueLodash from 'vue-lodash';
+import lodash from 'lodash'
 import VueAxios from 'vue-axios'
 import axios from 'axios';
 import bottom from '@/components/bar/bottom.vue';
@@ -15,7 +16,7 @@ import vuetify from '@/plugins/vuetify';
 import 'material-design-icons-iconfont/dist/material-design-icons.css'
 
 Vue.config.productionTip = false;
-const options = { name: 'lodash' }; // customize the way you want to call it
+const options = { name: 'custom' , lodash: lodash } // customize the way you want to call it
 Vue.use(VueLodash, options);
 Vue.use(vuetify);
 

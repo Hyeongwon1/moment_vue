@@ -16,7 +16,7 @@
             lg3
           >
             <v-card>
-              <v-img :src="data.d_path" height="250px" @click="picview">
+              <v-img :src="data.d_path" height="250px" @click="picview(data.d_no)">
                 <input id v-text="data.d_no" type="hidden" />
               </v-img>
               <v-card-title>
@@ -66,10 +66,8 @@ export default {
     };
   },
   methods: {
-    picview: function(evt) {
-      const sNo = sessionStorage.m_no;
-      const mNo = evt.target.firstChild.innerText;
-      this.$router.push({ path: "detail", query: { m_no: mNo, s_no: sNo } });
+    picview: function(no) {
+      this.$router.push({ name: "Detail", params: { id: no } });
     },
     checklike: function(evt) {
       console.log(evt.target.attributes.src);

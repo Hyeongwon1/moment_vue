@@ -168,7 +168,7 @@ router.post("/mem_insertdb", function (req, res, next) {
     ) {
       if (err) {
         console.error("err : " + err);
-        res.send(err);
+        res.send({data:err});
       } else {
         res.send({ data: "success" });
       }

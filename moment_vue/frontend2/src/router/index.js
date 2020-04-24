@@ -20,10 +20,10 @@ const routes = [
     name: "Upload",
     component: () => import("@/views/upload/Upload.vue"),
     // beforeEnter: requireAuth(),
-    meta: { auth: true, title: "Login to existing account" },
+    meta: { auth: true, title: "Upload" },
   },
   {
-    path: "/detail",
+    path: "/detail/:id",
     name: "Detail",
     component: () => import("@/views/detail/Detail.vue"),
     // beforeEnter: requireAuth(),

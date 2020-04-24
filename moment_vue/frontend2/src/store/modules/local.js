@@ -2,6 +2,7 @@ import Vue from "vue";
 import Vuex from "vuex";
 import VueAxios from "vue-axios";
 import axios from "axios";
+import { localLoginUser,homeSelect,localSignUp,dataView } from "@/api/index";
 // import router from './router';
 Vue.use(Vuex);
 Vue.use(VueAxios, axios);
@@ -64,24 +65,38 @@ export default {
     // }
   },
   actions: {
-    homeSelect(context, payload) {
+    async homeSelect(context) {
+      const homeData = {
+        kind: context.state.kind,
+        ord: context.state.ord,
+        loc: context.state.loc,
+      };
+      const {data} = await homeSelect(homeData) 
+      context.commit("setHomeData", { home_data: data.data});
+      return data ;
+    },
+    async LocalLogin(context, payload) {
       payload = payload || {};
-      console.log(payload);
-      console.log(context.state.ord);
-      console.log(context.state.kind);
-      console.log(context.state.loc);
-
-      return axios
-        .post(`/moment/homeSelect`, {
-          kind: context.state.kind,
-          ord: context.state.ord,
-          loc: context.state.loc,
-        })
-        .then((response) => {
-          context.commit("setHomeData", {
-            home_data: response.data.data,
-          });
+      const { data } = await localLoginUser(payload);
+        // const { data } 이렇게 활용할시는 꺼내오는 데이터의 이름과 같아야한다.
+        console.log(data);
+        context.commit("setLoginToken", data.access_token);
+        context.commit("setProfile", {
+          profile: { email: data.m_email, m_no: data.m_no }
         });
+      return data;
+    },
+    async localSignUp(context, payload) {
+      payload = payload || {};
+      const { data } = await localSignUp(payload);
+      return data;
+    },
+    async dataView(context, payload) {
+      payload = payload || {};
+      console.log("payload")
+      console.log(payload)
+      await dataView(payload);
+      return;
     },
   },
 };

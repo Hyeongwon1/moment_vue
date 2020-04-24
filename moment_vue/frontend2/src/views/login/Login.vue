@@ -1,8 +1,8 @@
 <template>
   <div class="loginbody">
     <v-layout column align-center persistent>
-      <!-- <v-form ref="form" @submit.prevent="authLogin" style="margin-top: 160px;"> -->
-      <v-form ref="form" @submit.prevent="loginfn" style="margin-top: 160px;">
+      <v-form ref="form" @submit.prevent="authLogin" style="margin-top: 160px;">
+        <!-- <v-form ref="form" @submit.prevent="loginfn" style="margin-top: 160px;"> -->
         <v-text-field v-model="m_email" :counter="15" label="Email" :append-icon="'mail'" required></v-text-field>
         <v-text-field
           v-model="m_pw"
@@ -125,7 +125,6 @@
 </template>
 <script>
 // import router from "@/routerC";
-import { localLoginUser } from "@/api/index";
 export default {
   created() {
     // this.$store.commit("logout");
@@ -179,35 +178,14 @@ export default {
         if (!loginData.email || !loginData.password) {
           return false;
         }
-        const { data } = await localLoginUser(loginData);
-        // const { data } 이렇게 활용할시는 꺼내오는 데이터의 이름과 같아야한다.
-        console.log(data);
-        this.$store.commit("setLoginToken", data.access_token);
-        this.$store.commit("setProfile", {
-          profile: { email: data.m_email, m_no: data.m_no }
-        });
+        await this.$store.dispatch("LocalLogin", loginData);
         this.$router.push({ path: "home" });
       } catch (error) {
         console.log(error);
         alert("비밀번호 다름");
       }
-      // this.$axios
-      //   .post(`${this.$store.state.local.host}/users/mem_logindb`, {
-      //     email,
-      //     password
-      //   })
-      //   .then(res => {
-      //     console.log(res);
-      //     this.$store.commit("loginToken", res.data.token);
-      //     this.$router.push({ path: "home" });
-      //   })
-      //   .catch(function(error) {
-      //     console.log(error.response);
-      //     console.log("여긴가?");
-      //     alert("비밀번호 다름");
-      //   });
     },
-    signUp: function() {
+    async signUp() {
       this.formHasErrors = false;
       console.log(this.form);
       Object.keys(this.form).forEach(f => {
@@ -215,51 +193,39 @@ export default {
         this.$refs[f].validate(true);
       });
       if (this.formHasErrors === false) {
-        this.$axios
-          .post("/moment/mem_insertdb", {
-            i_nick: this.i_nick,
-            i_email: this.i_email,
-            i_pw: this.i_pw,
-            i_date: this.i_date,
-            i_phone: this.i_phone
-          })
-          .then(
-            response => {
-              console.log(response.data);
-              if (response.data === "success") {
-                this.$router.push({ path: "login" });
-              } else {
-                console.log(response.data);
-                console.log(response.data.sqlMessage);
-                const aa = _.includes(response.data.sqlMessage, "m_email");
-                const bb = _.includes(response.data.sqlMessage, "m_nick");
-                if (aa === true || bb === true) {
-                  console.log("걸렸네!");
-                  if (aa === true) {
-                    alert("email 중복되었습니다.");
-                  } else {
-                    alert("nick 중복되었습니다.");
-                  }
-                } else {
-                  console.log("안걸렸네!");
-                  this.errorMessages = [];
-                  this.formHasErrors = false;
-                  Object.keys(this.form).forEach(f => {
-                    this.$refs[f].reset();
-                  });
-                  this.dialog = false;
-                  alert("가입완료.");
-                }
-              }
-            },
-            function() {
-              console.log("failed");
+        const signData = {
+          i_nick: this.i_nick,
+          i_email: this.i_email,
+          i_pw: this.i_pw,
+          i_date: this.i_date,
+          i_phone: this.i_phone
+        };
+        const res = await this.$store.dispatch("localSignUp", signData);
+        if (res.data === "success") {
+          this.errorMessages = [];
+          this.formHasErrors = false;
+          Object.keys(this.form).forEach(f => {
+            this.$refs[f].reset();
+          });
+          this.dialog = false;
+          alert("가입완료.");
+          this.$router.push({ path: "login" });
+        } else {
+          const aa = _.includes(res.data.sqlMessage, "m_email");
+          const bb = _.includes(res.data.sqlMessage, "m_nick");
+          if (aa === true || bb === true) {
+            console.log("걸렸네!");
+            if (aa === true) {
+              alert("email 중복되었습니다.");
+            } else {
+              alert("nick 중복되었습니다.");
             }
-          );
+          }
+        }
       }
     },
-    authenticate(provider) {
-      this.$store.dispatch("authenticate", { provider }).then(res => {
+    async authenticate(provider) {
+      await this.$store.dispatch("authenticate", { provider }).then(res => {
         console.log(res);
         // this.$store.commit('updateMessage', res.target.value)
         this.$router.push("MyPage");
@@ -275,10 +241,8 @@ export default {
         if (!loginData.email || !loginData.password) {
           return false;
         }
-        this.$store.dispatch("login", loginData).then(res => {
-          console.log(res);
-          this.$router.push({ path: "home" });
-        });
+        await this.$store.dispatch("login", loginData);
+        this.$router.push({ path: "home" });
       } catch (error) {
         console.log(error);
         alert("비밀번호 다름");

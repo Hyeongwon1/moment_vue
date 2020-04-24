@@ -64,16 +64,23 @@
 <script>
 export default {
   created() {
-    var a = window.location.href;
-    var arr = [];
-    arr = a.split("=");
-    var mno = arr[1];
-    var sno = arr[2];
-    this.$axios
-      .get(`/moment/data_view?mnum=${mno}&snum=${sno}`)
-      .then(response => {
-        this.datas = response.data;
-      });
+    // var a = window.location.href;
+    // var arr = [];
+    // arr = a.split("=");
+    // var mno = arr[1];
+    // var sno = arr[2];
+    // this.$axios
+    //   .get(`/moment/data_view?mnum=${mno}&snum=${sno}`)
+    //   .then(response => {
+    //     this.datas = response.data;
+    //   });
+    console.log("this.$route.params.id");
+    console.log(this.$route.params.id);
+    const viewData = {
+      dnum: this.$route.params.id,
+      mnum: this.$store.state.socialauth.profile.m_no
+    };
+    this.$store.dispatch("dataView", viewData);
   },
   data() {
     return {

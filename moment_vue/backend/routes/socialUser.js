@@ -62,7 +62,7 @@ function googleAuth(req, res) {
     headers: {
       'content-type': 'application/x-www-form-urlencoded'
     }
-  },  async function (err, response, body) {
+  }, function (err, response, body) {
     try {
       if (!err && response.statusCode === 200) {
         var responseJson = JSON.parse(body)
