@@ -44,18 +44,7 @@
 </template>
 <script>
 export default {
-  created() {
-    // var a = window.location.href;
-    // var arr = [];
-    // arr = a.split('=');
-    // var mno = arr[1];
-    // var sno = arr[2];
-    // this.$axios
-    //   .get(`https://www.googleapis.com/auth/userinfo.profile`)
-    //   .then(response => {
-    //     this.datas = response.data;
-    //   });
-  },
+  created() {},
   data() {
     return {
       datas: []

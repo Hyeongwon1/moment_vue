@@ -2,7 +2,8 @@ import Vue from "vue";
 import Vuex from "vuex";
 import VueAxios from "vue-axios";
 import axios from "axios";
-import { localLoginUser,homeSelect,localSignUp,dataView } from "@/api/index";
+import { homeSelect, dataView } from "@/api/moments";
+import { localLoginUser, localSignUp } from "@/api/auth";
 // import router from './router';
 Vue.use(Vuex);
 Vue.use(VueAxios, axios);
@@ -11,6 +12,7 @@ export default {
   state: {
     host: "http://localhost:3000/moment",
     home_data: [],
+    c: [],
     newandlike: "LIKE ▼",
     kind: "0",
     ord: "nw",
@@ -21,6 +23,9 @@ export default {
   mutations: {
     setHomeData(state, payload) {
       state.home_data = payload.home_data;
+    },
+    setDetailData(state, payload) {
+      state.detail_data = payload.detail_data;
     },
     setHomeKind(state, payload) {
       state.kind = payload.kind;
@@ -71,19 +76,19 @@ export default {
         ord: context.state.ord,
         loc: context.state.loc,
       };
-      const {data} = await homeSelect(homeData) 
-      context.commit("setHomeData", { home_data: data.data});
-      return data ;
+      const { data } = await homeSelect(homeData);
+      context.commit("setHomeData", { home_data: data.data });
+      return data;
     },
     async LocalLogin(context, payload) {
       payload = payload || {};
       const { data } = await localLoginUser(payload);
-        // const { data } 이렇게 활용할시는 꺼내오는 데이터의 이름과 같아야한다.
-        console.log(data);
-        context.commit("setLoginToken", data.access_token);
-        context.commit("setProfile", {
-          profile: { email: data.m_email, m_no: data.m_no }
-        });
+      // const { data } 이렇게 활용할시는 꺼내오는 데이터의 이름과 같아야한다.
+      console.log(data);
+      context.commit("setLoginToken", data.access_token);
+      context.commit("setProfile", {
+        profile: { email: data.m_email, m_no: data.m_no },
+      });
       return data;
     },
     async localSignUp(context, payload) {
@@ -93,10 +98,12 @@ export default {
     },
     async dataView(context, payload) {
       payload = payload || {};
-      console.log("payload")
-      console.log(payload)
-      await dataView(payload);
-      return;
+      console.log("payload");
+      console.log(payload);
+      const { data } = await dataView(payload);
+      console.log(data);
+      context.commit("setDetailData", { detail_data: data.data });
+      return data;
     },
   },
 };

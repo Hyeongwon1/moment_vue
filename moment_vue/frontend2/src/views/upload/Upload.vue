@@ -1,13 +1,5 @@
 <template lang="html">
 	<div>
-		<navtop
-			:id="id"
-			:searchloc="searchloc"
-			:ord="ord"
-			@aaarr="initt"
-			@ord="odbtn"
-			@searchloc="searchlocbtn"
-		></navtop>
 		<div style="margin-top: 100px;"></div>
 		<v-layout>
 			<v-flex xs12 sm6 offset-sm3 fluid>

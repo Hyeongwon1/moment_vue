@@ -13,7 +13,7 @@
           :key="item.id"
           v-model="model"
           class="hidden-sm-and-down"
-          @click="initt(item.id)"
+          @click="homeselect(item.id)"
         >{{ item.name }}</v-tab>
       </v-tabs>
       <v-btn
@@ -143,7 +143,7 @@ export default {
         if (this.$route.path !== path) this.$router.push(path);
       }
     },
-    homeselect: function(id) {
+    homeselect(id) {
       const path = `/home`;
       if (this.$route.path !== path) this.$router.push(path);
 

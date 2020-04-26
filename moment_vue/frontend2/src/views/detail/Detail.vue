@@ -1,9 +1,7 @@
 <template lang="html">
 	<div id="mybodyhtml">
-		<br />
-		<br />
 		<v-card
-			v-for="data in datas"
+			v-for="data in this.$store.state.local.detail_data"
 			:key="data.d_no"
 			:loading="loading"
 			class="mx-auto my-12"
@@ -11,7 +9,7 @@
 		>
 			<!-- <v-img :src="'/' + data.d_path"></v-img> -->
 			<v-carousel hide-delimiters>
-				<v-carousel-item :src="data.d_path"></v-carousel-item>
+				<v-carousel-item :src=" '/'+ data.d_path"></v-carousel-item>
 			</v-carousel>
 			<v-card-title>{{ data.d_title }}</v-card-title>
 			<v-card-text>
@@ -74,13 +72,13 @@ export default {
     //   .then(response => {
     //     this.datas = response.data;
     //   });
-    console.log("this.$route.params.id");
-    console.log(this.$route.params.id);
-    const viewData = {
-      dnum: this.$route.params.id,
-      mnum: this.$store.state.socialauth.profile.m_no
-    };
-    this.$store.dispatch("dataView", viewData);
+    // console.log("this.$route.params.id");
+    // console.log(this.$route.params.id);
+    // const viewData = {
+    //   dnum: this.$route.params.id,
+    //   mnum: this.$store.state.socialauth.profile.m_no
+    // };
+    // this.$store.dispatch("dataView", viewData);
   },
   data() {
     return {

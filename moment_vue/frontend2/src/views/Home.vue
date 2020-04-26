@@ -16,6 +16,7 @@
             lg3
           >
             <v-card>
+              <!--  여기 컴포넌트로 -->
               <v-img :src="data.d_path" height="250px" @click="picview(data.d_no)">
                 <input id v-text="data.d_no" type="hidden" />
               </v-img>
@@ -66,18 +67,13 @@ export default {
     };
   },
   methods: {
-    picview: function(no) {
+    async picview(no) {
+      const viewData = {
+        dnum: no,
+        mnum: this.$store.state.socialauth.profile.m_no
+      };
+      await this.$store.dispatch("dataView", viewData);
       this.$router.push({ name: "Detail", params: { id: no } });
-    },
-    checklike: function(evt) {
-      console.log(evt.target.attributes.src);
-      console.log(evt.target.attributes);
-      var heartflag = evt.target.attributes[1].value;
-      console.log(heartflag);
-      if (heartflag === "1") {
-        console.log("aaa");
-        evt.target.attributes.src = "/image/like/full_heart.png";
-      }
     }
   }
 };

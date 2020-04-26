@@ -28,7 +28,7 @@ export default {
       this.id = id;
       switch (this.id) {
         case 0:
-          return this.$router.push({ path: "home" });
+          return this.$router.push({ path: "/home" });
         case 1:
           return "";
         case 2:
@@ -41,6 +41,7 @@ export default {
     },
     home: function() {
       this.$router.push({ path: "home" });
+      this.$store.dispatch("homeSelect");
     },
     favorites: function() {
       // this.$router.push({ path: 'home' })
