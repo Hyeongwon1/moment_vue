@@ -1,4 +1,4 @@
-import vueAuthInstance from "../../services/auth.js";
+import vueAuthInstance from "../../plugins/auth.js";
 import axios from "axios";
 const jwt = require("jsonwebtoken");
 

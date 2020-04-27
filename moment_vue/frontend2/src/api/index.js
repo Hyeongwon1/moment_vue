@@ -10,7 +10,7 @@ function createInstance() {
 function createInstanceAuth() {
   const instance = axios.create({
     // baseURL: `${process.env.VUE_APP_API_URL}${url}`, api 수정후 적용예정
-    baseURL: `${process.env.VUE_APP_API_URL}`,
+    baseURL: `${process.env.VUE_APP_API_URL}moment`,
   });
   return setInterceptors(instance);
 }

@@ -2,7 +2,7 @@ import Vue from "vue";
 import VueRouter from "vue-router";
 import Vuex from "vuex";
 
-import vueAuthInstance from "@/services/auth.js";
+import vueAuthInstance from "@/plugins/auth.js";
 Vue.use(VueRouter, Vuex);
 const routes = [
   {

@@ -100,9 +100,7 @@ export default {
     return {
       drawer: false,
       title: "IN THE MOMENT",
-      // loginout: this.$store.state.socialauth.loginyn,
       searchloc: "",
-      // id_mail: "",
       model: 1,
       items: [
         { name: "ALL", id: "0", icon: "dashboard" },

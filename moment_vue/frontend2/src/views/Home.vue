@@ -1,6 +1,5 @@
 <template>
 <body id="mybodyhtml">
-  <!-- <navtop></navtop> -->
   <br />
   <br />
   <v-layout align-stretch>
