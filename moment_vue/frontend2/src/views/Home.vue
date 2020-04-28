@@ -1,59 +1,28 @@
 <template>
-<body id="mybodyhtml">
-  <br />
-  <br />
-  <v-layout align-stretch>
+  <v-layout class="homelayout" align-stretch>
     <v-flex sm12 md12>
       <v-container grid-list-md sm12 md12>
         <v-layout row wrap>
-          <v-flex
+          <HomeListItems
             v-for="data in this.$store.state.local.home_data"
             :key="data.d_no"
-            xs6
-            sm6
-            md4
-            lg3
-          >
-            <v-card>
-              <!--  여기 컴포넌트로 -->
-              <v-img :src="data.d_path" height="250px" @click="picview(data.d_no)">
-                <input id v-text="data.d_no" type="hidden" />
-              </v-img>
-              <v-card-title>
-                <v-layout fill-height>
-                  <v-flex xs12 align-end flexbox>
-                    <span id="mynick" class="mynick" v-text="data.m_nick"></span>
-                  </v-flex>
-                </v-layout>
-                <div class="myage" id="myage">
-                  <v-img class="myageimg" v-bind:src="'/image/age/' + data.m_age + '0s.png'" />
-                </div>
-              </v-card-title>
-              <v-card-actions>
-                <v-spacer>
-                  <v-icon v-for="data in data.d_star" :key="data.d_no" color="teal">star</v-icon>
-                </v-spacer>
-                <v-btn icon>
-                  <v-icon color="red">favorite</v-icon>
-                </v-btn>
-                <p class v-text="data.d_like"></p>
-              </v-card-actions>
-            </v-card>
-          </v-flex>
+            :data="data"
+          ></HomeListItems>
         </v-layout>
       </v-container>
     </v-flex>
   </v-layout>
-  <!-- <navbottom></navbottom> -->
-</body>
 </template>
 <script>
+import HomeListItems from "@/components/list/HomeListItems.vue";
 export default {
   created() {
     this.$store.dispatch("homeSelect");
   },
   watch: {},
-  components: {},
+  components: {
+    HomeListItems
+  },
   data() {
     return {
       datano: "",
@@ -65,16 +34,7 @@ export default {
       tab: null
     };
   },
-  methods: {
-    async picview(no) {
-      const viewData = {
-        dnum: no,
-        mnum: this.$store.state.socialauth.profile.m_no
-      };
-      await this.$store.dispatch("dataView", viewData);
-      this.$router.push({ name: "Detail", params: { id: no } });
-    }
-  }
+  methods: {}
 };
 </script>
 
@@ -111,16 +71,10 @@ div p.loctxt {
   width: 50px;
   /* margin-top: 6px; */
 }
-/* #odbtn {
-  width: 100%;
-  background-color: antiquewhite;
-  font-size: 17pt;
-  color: #007bff;
-  font-family: "Am";
-  margin-top: 50px;
-  height: 55px;
-  border: 0px;
-} */
+.homelayout {
+  margin-top: 55px;
+  margin-bottom: 65px;
+}
 .myinputsearch {
   background-color: white;
   color: black;

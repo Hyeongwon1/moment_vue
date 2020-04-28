@@ -12,7 +12,7 @@ export default {
   state: {
     host: "http://localhost:3000/moment",
     home_data: [],
-    c: [],
+    detail_data: [],
     newandlike: "LIKE ▼",
     kind: "0",
     ord: "nw",
@@ -102,7 +102,7 @@ export default {
       console.log(payload);
       const { data } = await dataView(payload);
       console.log(data);
-      context.commit("setDetailData", { detail_data: data.data });
+      context.commit("setDetailData", { detail_data: data });
       return data;
     },
   },
