@@ -12,12 +12,19 @@
           </v-flex>
         </v-layout>
         <div class="myage" id="myage">
-          <v-img class="myageimg" v-bind:src="'/image/age/' + data.m_age + '0s.png'" />
+          pre {{ "@/assets/image/age/" + data.m_age + "0s.png" }}
+          <v-img
+            class="myageimg"
+            :src="'@/assets/image/age/' + data.m_age + '0s.png'"
+          />
+          <!-- <v-img src="@/assets/image/age/30s.png" alt="" /> -->
         </div>
       </v-card-title>
       <v-card-actions>
         <v-spacer>
-          <v-icon v-for="data in data.d_star" :key="data.d_no" color="teal">star</v-icon>
+          <v-icon v-for="data in data.d_star" :key="data.d_no" color="teal"
+            >star</v-icon
+          >
         </v-spacer>
         <v-btn icon>
           <v-icon color="red">favorite</v-icon>
@@ -33,21 +40,20 @@ export default {
   props: {
     data: {
       type: Object,
-      required: true
-    }
+      required: true,
+    },
   },
   methods: {
     async picview(no) {
       const viewData = {
         dnum: no,
-        mnum: this.$store.state.socialauth.profile.m_no
+        mnum: this.$store.state.socialauth.profile.m_no,
       };
       await this.$store.dispatch("dataView", viewData);
-      this.$router.push({ name: "Detail", params: { id: no } });
-    }
-  }
+      this.$router.push({ name: "detail", params: { id: no } });
+    },
+  },
 };
 </script>
 
-<style>
-</style>
+<style></style>

@@ -3,14 +3,15 @@ import axios from "axios";
 const jwt = require("jsonwebtoken");
 
 export default {
+  namespace: true,
   state: {
     host: "http://localhost:3000/moment",
-    profile: {email:'',m_no:''},
+    profile: { email: "", m_no: "" },
     isAuthenticated: vueAuthInstance.isAuthenticated(),
   },
   getters: {
     isLogin(state) {
-      return state.profile.email !== '';
+      return state.profile.email !== "";
     },
     // isAuthenticated () {
     //   return vueAuthInstance.isAuthenticated()
@@ -28,11 +29,12 @@ export default {
   actions: {
     login(context, payload) {
       payload = payload || {};
-      return vueAuthInstance.login(payload, payload.requestOptions)
+      return vueAuthInstance
+        .login(payload, payload.requestOptions)
         .then(function(res) {
-          console.log(res)
+          console.log(res);
           context.commit("setProfile", {
-            profile: { email: res.data.email, m_no: res.data.id }
+            profile: { email: res.data.email, m_no: res.data.id },
           });
           context.commit("isAuthenticated", {
             isAuthenticated: vueAuthInstance.isAuthenticated(),
@@ -41,7 +43,8 @@ export default {
     },
     register(context, payload) {
       payload = payload || {};
-      return vueAuthInstance.register(payload.user, payload.requestOptions)
+      return vueAuthInstance
+        .register(payload.user, payload.requestOptions)
         .then(function() {
           context.commit("isAuthenticated", {
             isAuthenticated: vueAuthInstance.isAuthenticated(),
@@ -56,22 +59,29 @@ export default {
           isAuthenticated: vueAuthInstance.isAuthenticated(),
         });
         context.commit("setProfile", {
-          profile: {email:'',m_no:''},
+          profile: { email: "", m_no: "" },
         });
         alert("로그아웃");
       });
     },
     authenticate(context, payload) {
       payload = payload || {};
-      console.log(payload.requestOptions)
-      return vueAuthInstance.authenticate(payload.provider,payload.userData,payload.requestOptions).then(function(res) {
+      console.log(payload.requestOptions);
+      return vueAuthInstance
+        .authenticate(
+          payload.provider,
+          payload.userData,
+          payload.requestOptions
+        )
+        .then(function(res) {
           console.log(res);
           context.commit("isAuthenticated", {
             isAuthenticated: vueAuthInstance.isAuthenticated(),
           });
           const decode = jwt.decode(res.data.id_token);
 
-          axios.post(`http://localhost:3000/moment/users/mem_idcheckdb`, {
+          axios
+            .post(`http://localhost:3000/moment/users/mem_idcheckdb`, {
               m_email: decode.email,
             })
             .then((res) => {

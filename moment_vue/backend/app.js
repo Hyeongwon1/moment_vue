@@ -21,7 +21,7 @@ app.set("view engine", "pug");
 
 app.use(logger("dev"));
 app.use(express.static(path.join(__dirname, "public/static")));
-app.use("/uploads", express.static("public/uploads"));
+app.use("/front/uploads", express.static("public/uploads"));
 app.use("/image", express.static("public/image"));
 app.use("/font", express.static("public/font"));
 app.use(express.json());

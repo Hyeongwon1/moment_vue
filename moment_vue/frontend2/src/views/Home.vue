@@ -21,7 +21,7 @@ export default {
   },
   watch: {},
   components: {
-    HomeListItems
+    HomeListItems,
   },
   data() {
     return {
@@ -31,10 +31,10 @@ export default {
       id: "",
       d_no: "",
       data_num: "",
-      tab: null
+      tab: null,
     };
   },
-  methods: {}
+  methods: {},
 };
 </script>
 

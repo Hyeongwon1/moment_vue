@@ -1,9 +1,12 @@
 <template>
   <div>
     <v-app-bar app dense>
-      <v-app-bar-nav-icon class="hidden-md-and-up" @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
+      <v-app-bar-nav-icon
+        class="hidden-md-and-up"
+        @click.stop="drawer = !drawer"
+      ></v-app-bar-nav-icon>
       <div class="pa-1"></div>
-      <router-link to="/home">
+      <router-link to="/front/home">
         <v-toolbar-title class="head_moment">{{ title }}</v-toolbar-title>
       </router-link>
       <div class="pa-12"></div>
@@ -14,13 +17,12 @@
           v-model="model"
           class="hidden-sm-and-down"
           @click="homeselect(item.id)"
-        >{{ item.name }}</v-tab>
+          >{{ item.name }}</v-tab
+        >
       </v-tabs>
-      <v-btn
-        text
-        style="margin-left: -320px;"
-        @click="ordnwlk"
-      >{{this.$store.state.local.newandlike}}</v-btn>
+      <v-btn text style="margin-left: -320px;" @click="ordnwlk">{{
+        this.$store.state.local.newandlike
+      }}</v-btn>
       <v-text-field
         flat
         v-model="searchloc"
@@ -43,13 +45,19 @@
           <!-- <v-img src="https://randomuser.me/api/portraits/men/78.jpg"></v-img> -->
         </v-list-item-avatar>
         <v-list-item-content>
-          <v-list-item-title>{{this.$store.state.socialauth.profile.email}}</v-list-item-title>
+          <v-list-item-title>{{
+            this.$store.state.socialauth.profile.email
+          }}</v-list-item-title>
         </v-list-item-content>
       </v-list-item>
 
       <v-list dense>
         <v-list-item-content>
-          <v-list-item v-for="title in titles" :key="title.id" @click="test(title.id)">
+          <v-list-item
+            v-for="title in titles"
+            :key="title.id"
+            @click="test(title.id)"
+          >
             <v-list-item-icon>
               <v-icon>{{ title.icon }}</v-icon>
             </v-list-item-icon>
@@ -62,7 +70,11 @@
       <v-divider></v-divider>
       <v-list dense>
         <v-list-item-group v-model="model" active-class="border" color="pink">
-          <v-list-item v-for="item in items" :key="item.id" @click="homeselect(item.id)">
+          <v-list-item
+            v-for="item in items"
+            :key="item.id"
+            @click="homeselect(item.id)"
+          >
             <v-list-item-icon>
               <v-icon>{{ item.icon }}</v-icon>
             </v-list-item-icon>
@@ -93,6 +105,7 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
 export default {
   name: "top",
   created() {},
@@ -100,24 +113,26 @@ export default {
     return {
       drawer: false,
       title: "IN THE MOMENT",
+      // loginout: this.$store.state.socialauth.loginyn,
       searchloc: "",
+      // id_mail: "",
       model: 1,
       items: [
         { name: "ALL", id: "0", icon: "dashboard" },
         { name: "EAT", id: "1", icon: "restaurant_menu" },
         { name: "BUY", id: "2", icon: "money" },
-        { name: "ENJOY", id: "3", icon: "map" }
+        { name: "ENJOY", id: "3", icon: "map" },
       ],
       titles: [
         { name: "PUPP", id: "88", icon: "dashboard" },
-        { name: "MaskTest", id: "77", icon: "dashboard" }
-      ]
+        { name: "MaskTest", id: "77", icon: "dashboard" },
+      ],
     };
   },
   computed: {
-    isLogin() {
-      return this.$store.getters.isLogin;
-    }
+    ...mapGetters({
+      isLogin: "isLogin",
+    }),
   },
   props: {},
   watch: {},
@@ -125,28 +140,28 @@ export default {
   methods: {
     test: function(id) {
       if (id === "88") {
-        this.$router.push({ path: "pupp1" });
+        this.$router.push({ path: "/front/pupp1" });
       } else {
-        this.$router.push({ path: "mask" });
+        this.$router.push({ path: "/front/mask" });
       }
     },
     login: function(id, authFlag) {
       if (this.isLogin) {
-        this.$store.dispatch("logout", { authFlag }).then(res => {
+        this.$store.dispatch("logout", { authFlag }).then((res) => {
           console.log(res);
-          this.$router.push("login");
+          this.$router.push({ path: "/front/login" });
         });
       } else {
-        const path = `/login`;
+        const path = `/front/login`;
         if (this.$route.path !== path) this.$router.push(path);
       }
     },
     homeselect(id) {
-      const path = `/home`;
+      const path = `/front/home`;
       if (this.$route.path !== path) this.$router.push(path);
 
       this.$store.commit("setHomeKind", {
-        kind: id
+        kind: id,
       });
       this.$store.dispatch("homeSelect", { id });
     },
@@ -163,8 +178,8 @@ export default {
         this.$store.commit("setOrdby", { ord: "lk" });
       }
       this.$store.dispatch("homeSelect");
-    }
-  }
+    },
+  },
 };
 </script>
 

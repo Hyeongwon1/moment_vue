@@ -1,34 +1,34 @@
 <template lang="html">
-	<div>
-		<div style="margin-top: 100px;"></div>
-		<v-layout>
-			<v-flex xs12 sm6 offset-sm3 fluid>
-				<v-card>
-					<v-container grid-list-sm fluid>
-						<v-layout row wrap>
-							<v-flex v-for="sel in sel_file" :key="sel.no" xs4 d-flex>
-								<v-card flat tile class="d-flex">
-									<img
-										:src="sel.img"
-										:value="sel.no"
-										height="250px"
-										aspect-ratio="1"
-										class="grey lighten-2"
-										@click="picview(sel.no)"
-									/>
-								</v-card>
-							</v-flex>
-						</v-layout>
-					</v-container>
-				</v-card>
-			</v-flex>
-		</v-layout>
-		<div style="text-align: center">
-			<table id="up_tb">
-				<tr>
-					<td colspan="2">
-						<!-- <div class="form-group kind_cl"> -->
-						<!-- <v-select
+  <div>
+    <div style="margin-top: 100px;"></div>
+    <v-layout>
+      <v-flex xs12 sm6 offset-sm3 fluid>
+        <v-card>
+          <v-container grid-list-sm fluid>
+            <v-layout row wrap>
+              <v-flex v-for="sel in sel_file" :key="sel.no" xs4 d-flex>
+                <v-card flat tile class="d-flex">
+                  <img
+                    :src="sel.img"
+                    :value="sel.no"
+                    height="250px"
+                    aspect-ratio="1"
+                    class="grey lighten-2"
+                    @click="picview(sel.no)"
+                  />
+                </v-card>
+              </v-flex>
+            </v-layout>
+          </v-container>
+        </v-card>
+      </v-flex>
+    </v-layout>
+    <div style="text-align: center">
+      <table id="up_tb">
+        <tr>
+          <td colspan="2">
+            <!-- <div class="form-group kind_cl"> -->
+            <!-- <v-select
 							class="form-control kind_cl"
 							id="d_kind"
 							name="d_kind"
@@ -38,139 +38,139 @@
 							<option value="2">BUY</option>
 							<option value="3">ENJOY</option>
 						</v-select> -->
-						<v-select :items="selectItem" label="Kind"></v-select>
-						<!-- </div> -->
-					</td>
-				</tr>
-				<tr>
-					<td>
-						<p id="title_p">
-							TITLE
-						</p>
-					</td>
-					<td colspan="2">
-						<input type="text" id="d_title" name="d_title" v-model="d_title" />
-					</td>
-					<td id="mytd">
-						<div id="imgvideo" style="width: 56px; height: 56px;"></div>
-					</td>
-				</tr>
-				<tr>
-					<td>
-						<v-btn class="replace" @click="chooseImage"> </v-btn>
-					</td>
-					<td colspan="4">
-						<div
-							class="base-image-input"
-							:style="{ 'background-image': `url(${imageData})` }"
-							@click="chooseImage"
-						>
-							<span v-if="!imageData" class="placeholder">
-								Choose an Image
-							</span>
-							<input
-								class="file-input"
-								ref="fileInput"
-								type="file"
-								id="file"
-								@input="onSelectFile"
-							/>
-						</div>
-					</td>
-				</tr>
-				<tr>
-					<td>
-						<p @click="handleAddress">
-							<img id="location_img" src="/image/location1.png" />
-						</p>
-					</td>
-					<td colspan="2">
-						<input
-							@click="handleAddress"
-							type="text"
-							id="d_location"
-							name="d_location"
-							placeholder="주소"
-							v-model="d_location"
-							data-toggle="modal"
-							data-target="#myModal"
-						/>
-					</td>
-				</tr>
-				<tr>
-					<td><p id="comment_p">COMMENT</p></td>
-					<td colspan="2">
-						<textarea
-							type="text"
-							id="d_content"
-							name="d_content"
-							v-model="d_content"
-						></textarea>
-					</td>
-				</tr>
-				<tr>
-					<td><p id="star_p">별점</p></td>
-					<td colspan="2">
-						<div>
-							<select
-								id="d_star"
-								name="d_star"
-								v-model="d_star"
-								style="width: 30%;"
-							>
-								<option>1</option>
-								<option>2</option>
-								<option>3</option>
-								<option>4</option>
-								<option>5</option>
-							</select>
-						</div>
-					</td>
-				</tr>
-			</table>
-		</div>
+            <v-select :items="selectItem" label="Kind"></v-select>
+            <!-- </div> -->
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <p id="title_p">
+              TITLE
+            </p>
+          </td>
+          <td colspan="2">
+            <input type="text" id="d_title" name="d_title" v-model="d_title" />
+          </td>
+          <td id="mytd">
+            <div id="imgvideo" style="width: 56px; height: 56px;"></div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <v-btn class="replace" @click="chooseImage"> </v-btn>
+          </td>
+          <td colspan="4">
+            <div
+              class="base-image-input"
+              :style="{ 'background-image': `url(${imageData})` }"
+              @click="chooseImage"
+            >
+              <span v-if="!imageData" class="placeholder">
+                Choose an Image
+              </span>
+              <input
+                class="file-input"
+                ref="fileInput"
+                type="file"
+                id="file"
+                @input="onSelectFile"
+              />
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <p @click="handleAddress">
+              <img id="location_img" src="/image/location1.png" />
+            </p>
+          </td>
+          <td colspan="2">
+            <input
+              @click="handleAddress"
+              type="text"
+              id="d_location"
+              name="d_location"
+              placeholder="주소"
+              v-model="d_location"
+              data-toggle="modal"
+              data-target="#myModal"
+            />
+          </td>
+        </tr>
+        <tr>
+          <td><p id="comment_p">COMMENT</p></td>
+          <td colspan="2">
+            <textarea
+              type="text"
+              id="d_content"
+              name="d_content"
+              v-model="d_content"
+            ></textarea>
+          </td>
+        </tr>
+        <tr>
+          <td><p id="star_p">별점</p></td>
+          <td colspan="2">
+            <div>
+              <select
+                id="d_star"
+                name="d_star"
+                v-model="d_star"
+                style="width: 30%;"
+              >
+                <option>1</option>
+                <option>2</option>
+                <option>3</option>
+                <option>4</option>
+                <option>5</option>
+              </select>
+            </div>
+          </td>
+        </tr>
+      </table>
+    </div>
 
-		<div
-			class="base-image-input"
-			:style="{ 'background-image': `url(${imageData})` }"
-			@click="chooseImage"
-		></div>
-		<br />
-		<br />
-		<navbottom></navbottom>
+    <div
+      class="base-image-input"
+      :style="{ 'background-image': `url(${imageData})` }"
+      @click="chooseImage"
+    ></div>
+    <br />
+    <br />
+    <navbottom></navbottom>
 
-		<div style="text-align: center; margin-bottom: 155px;">
-			<a
-				href="#"
-				@click="sendPost"
-				id="write_bt"
-				class="btn hbtn"
-				style="color: white;"
-			>
-				<img id="write_img" src="/image/pencil2.png" /> Write
-			</a>
-			<a
-				href="/moment/home"
-				id="cancel_a"
-				class="btn hbtn"
-				style="color: white;"
-			>
-				<img id="cancel_img" src="/image/cancel_icon3.png" />Cancel
-			</a>
-		</div>
+    <div style="text-align: center; margin-bottom: 155px;">
+      <a
+        href="#"
+        @click="sendPost"
+        id="write_bt"
+        class="btn hbtn"
+        style="color: white;"
+      >
+        <img id="write_img" src="/image/pencil2.png" /> Write
+      </a>
+      <a
+        href="/moment/home"
+        id="cancel_a"
+        class="btn hbtn"
+        style="color: white;"
+      >
+        <img id="cancel_img" src="/image/cancel_icon3.png" />Cancel
+      </a>
+    </div>
 
-		<div class="modal fade" id="myModal" role="dialog">
-			<div class="modal-dialog">
-				<!-- Modal content-->
-				<div class="modal-content">
-					<DaumPostcode :on-complete="handleAddress"></DaumPostcode>
-					<button type="button" ref="modalclose" data-dismiss="modal">
-						Close
-					</button>
-				</div>
-			</div>
-		</div>
-	</div>
+    <div class="modal fade" id="myModal" role="dialog">
+      <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+          <DaumPostcode :on-complete="handleAddress"></DaumPostcode>
+          <button type="button" ref="modalclose" data-dismiss="modal">
+            Close
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
 </template>
 <script>
 import DaumPostcode from "vuejs-daum-postcode";
@@ -191,11 +191,11 @@ export default {
       sel_file: [],
 
       sel_aaa: "",
-      customImageMaxSize: 3
+      customImageMaxSize: 3,
     };
   },
   components: {
-    DaumPostcode
+    DaumPostcode,
   },
   methods: {
     sendPost: function() {
@@ -208,11 +208,11 @@ export default {
       formData.append("d_content", this.d_content);
       formData.append("d_star", this.d_star);
       const config = {
-        headers: { "content-type": "multipart/form-data" }
+        headers: { "content-type": "multipart/form-data" },
       };
       console.log(formData);
       this.$axios.post("/moment/uploaddb", formData, config).then(
-        response => {
+        (response) => {
           if (response.data.err) {
             alert(response.data.err.code);
           } else {
@@ -250,7 +250,7 @@ export default {
 
       var filesArr = Array.prototype.slice.call(this.imageFiles);
 
-      filesArr.forEach(f => {
+      filesArr.forEach((f) => {
         // if (!f.type.match('image/jpeg.*')) {
         // 	alert('이미지 확장자만 가능');
         // 	return;
@@ -259,7 +259,7 @@ export default {
         this.sel_file.push(f);
 
         var reader = new FileReader();
-        reader.onload = e => {
+        reader.onload = (e) => {
           this.sel_file.push({ data: e.target.result, no: 1 });
           console.log(this.sel_file[0].data);
         };
@@ -274,11 +274,11 @@ export default {
       console.log(input.files);
       if (input.files) {
         var reader = new FileReader();
-        reader.onload = e => {
+        reader.onload = (e) => {
           // var imagess =
           this.sel_file.push({
             no: this.sel_file.length,
-            img: e.target.result
+            img: e.target.result,
           });
         };
         // Start the reader job - read file as a data url (base64 format)
@@ -295,7 +295,7 @@ export default {
         // create a new FileReader to read this image and convert to base64 format
         var reader = new FileReader();
         // Define a callback function to run, when FileReader finishes its job
-        reader.onload = e => {
+        reader.onload = (e) => {
           // Note: arrow function used here, so that "this.imageData" refers to the imageData of Vue component
           // Read image as base64 and set to imageData
           this.imageData = e.target.result;
@@ -322,16 +322,16 @@ export default {
     // },
     picview: function(no) {
       console.log(no);
-    }
-  }
+    },
+  },
 };
 </script>
 
 <style lang="css">
-@font-face {
+/* @font-face {
   font-family: "Am";
   src: url("/font/AmaticSC-Regular.ttf");
-}
+} */
 
 .base-image-input {
   display: block;

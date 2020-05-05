@@ -9,6 +9,7 @@ Vue.use(Vuex);
 Vue.use(VueAxios, axios);
 
 export default {
+  namespace: true,
   state: {
     host: "http://localhost:3000/moment",
     home_data: [],
