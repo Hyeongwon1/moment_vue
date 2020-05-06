@@ -3,7 +3,7 @@ import axios from "axios";
 const jwt = require("jsonwebtoken");
 
 export default {
-  namespace: true,
+  namespaced: true,
   state: {
     host: "http://localhost:3000/moment",
     profile: { email: "", m_no: "" },
@@ -12,6 +12,9 @@ export default {
   getters: {
     isLogin(state) {
       return state.profile.email !== "";
+    },
+    profile(state) {
+      return state.profile;
     },
     // isAuthenticated () {
     //   return vueAuthInstance.isAuthenticated()

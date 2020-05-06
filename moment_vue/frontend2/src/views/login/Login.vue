@@ -3,13 +3,7 @@
     <v-layout column align-center persistent>
       <v-form ref="form" @submit.prevent="authLogin" style="margin-top: 160px;">
         <!-- <v-form ref="form" @submit.prevent="loginfn" style="margin-top: 160px;"> -->
-        <v-text-field
-          v-model="m_email"
-          :counter="15"
-          label="Email"
-          :append-icon="'mail'"
-          required
-        ></v-text-field>
+        <v-text-field v-model="m_email" :counter="15" label="Email" :append-icon="'mail'" required></v-text-field>
         <v-text-field
           v-model="m_pw"
           :counter="15"
@@ -99,9 +93,7 @@
                     <v-date-picker v-model="i_date" no-title scrollable>
                       <v-spacer></v-spacer>
                       <v-btn text color @click="menu = false">Cancel</v-btn>
-                      <v-btn text color @click="$refs.menu.save(i_date)"
-                        >OK</v-btn
-                      >
+                      <v-btn text color @click="$refs.menu.save(i_date)">OK</v-btn>
                     </v-date-picker>
                   </v-menu>
                 </v-flex>
@@ -123,9 +115,7 @@
             <small></small>
           </v-card-text>
           <v-card-actions>
-            <v-btn color="blue darken-1" text @click="dialog = false"
-              >Close</v-btn
-            >
+            <v-btn color="blue darken-1" text @click="dialog = false">Close</v-btn>
             <v-btn color="blue darken-1" text @click="signUp">Save</v-btn>
           </v-card-actions>
         </v-card>
@@ -154,15 +144,15 @@ export default {
       formHasErrors: false,
       success: false,
       rules: {
-        required: (value) => !!value || "Required.",
-        email: (value) => {
+        required: value => !!value || "Required.",
+        email: value => {
           const pattern = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
           return pattern.test(value) || "Invalid e-mail.";
-        },
+        }
       },
       dialog: false,
       date: new Date().toISOString().substr(0, 10),
-      menu: false,
+      menu: false
     };
   },
   components: {},
@@ -173,9 +163,9 @@ export default {
         i_email: this.i_email,
         i_pw: this.i_pw,
         i_date: this.i_date,
-        i_phone: this.i_phone,
+        i_phone: this.i_phone
       };
-    },
+    }
   },
   methods: {
     async loginfn() {
@@ -183,12 +173,12 @@ export default {
       try {
         const loginData = {
           email: this.m_email,
-          password: this.m_pw,
+          password: this.m_pw
         };
         if (!loginData.email || !loginData.password) {
           return false;
         }
-        await this.$store.dispatch("LocalLogin", loginData);
+        await this.$store.dispatch("local/LocalLogin", loginData);
         this.$router.push({ path: "home" });
       } catch (error) {
         console.log(error);
@@ -198,7 +188,7 @@ export default {
     async signUp() {
       this.formHasErrors = false;
       console.log(this.form);
-      Object.keys(this.form).forEach((f) => {
+      Object.keys(this.form).forEach(f => {
         if (!this.form[f]) this.formHasErrors = true;
         this.$refs[f].validate(true);
       });
@@ -208,13 +198,13 @@ export default {
           i_email: this.i_email,
           i_pw: this.i_pw,
           i_date: this.i_date,
-          i_phone: this.i_phone,
+          i_phone: this.i_phone
         };
         const res = await this.$store.dispatch("localSignUp", signData);
         if (res.data === "success") {
           this.errorMessages = [];
           this.formHasErrors = false;
-          Object.keys(this.form).forEach((f) => {
+          Object.keys(this.form).forEach(f => {
             this.$refs[f].reset();
           });
           this.dialog = false;
@@ -235,7 +225,7 @@ export default {
       }
     },
     async authenticate(provider) {
-      await this.$store.dispatch("authenticate", { provider }).then((res) => {
+      await this.$store.dispatch("authenticate", { provider }).then(res => {
         console.log(res);
         // this.$store.commit('updateMessage', res.target.value)
         this.$router.push("MyPage");
@@ -246,19 +236,19 @@ export default {
       try {
         const loginData = {
           email: this.m_email,
-          password: this.m_pw,
+          password: this.m_pw
         };
         if (!loginData.email || !loginData.password) {
           return false;
         }
-        await this.$store.dispatch("login", loginData);
+        await this.$store.dispatch("socialauth/login", loginData);
         this.$router.push({ path: "home" });
       } catch (error) {
         console.log(error);
         alert("비밀번호 다름");
       }
-    },
-  },
+    }
+  }
 };
 </script>
 

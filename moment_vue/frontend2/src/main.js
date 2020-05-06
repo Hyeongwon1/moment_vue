@@ -3,7 +3,8 @@
 import Vue from 'vue';
 import App from './App';
 import router from './router';
-import store  from './store'
+// import store  from './store'
+import store from '@/store/index.js'
 import VueLodash from 'vue-lodash';
 import lodash from 'lodash'
 import VueAxios from 'vue-axios'

@@ -8,8 +8,8 @@ import { localLoginUser, localSignUp } from "@/api/auth";
 Vue.use(Vuex);
 Vue.use(VueAxios, axios);
 
-export default {
-  namespace: true,
+const local = {
+  namespaced: true,
   state: {
     host: "http://localhost:3000/moment",
     home_data: [],
@@ -20,7 +20,11 @@ export default {
     loc: "",
     token: "",
   },
-  getters: {},
+  getters: {
+    homedata(state){
+      return state.home_data;
+    },
+  },
   mutations: {
     setHomeData(state, payload) {
       state.home_data = payload.home_data;
@@ -108,3 +112,5 @@ export default {
     },
   },
 };
+
+export default local;

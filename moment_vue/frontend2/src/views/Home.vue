@@ -1,40 +1,30 @@
 <template>
-  <v-layout class="homelayout" align-stretch>
-    <v-flex sm12 md12>
-      <v-container grid-list-md sm12 md12>
-        <v-layout row wrap>
-          <HomeListItems
-            v-for="data in this.$store.state.local.home_data"
-            :key="data.d_no"
-            :data="data"
-          ></HomeListItems>
-        </v-layout>
-      </v-container>
-    </v-flex>
-  </v-layout>
+  <HomeListItems :homedata="homedata"></HomeListItems>
 </template>
 <script>
 import HomeListItems from "@/components/list/HomeListItems.vue";
+import { mapGetters, mapActions } from "vuex";
 export default {
   created() {
-    this.$store.dispatch("homeSelect");
+    this.homeSelect();
   },
   watch: {},
+  computed: {
+    ...mapGetters({
+      homedata: "local/homedata"
+    })
+  },
   components: {
-    HomeListItems,
+    HomeListItems
   },
   data() {
-    return {
-      datano: "",
-      datas: [],
-      pupps: "",
-      id: "",
-      d_no: "",
-      data_num: "",
-      tab: null,
-    };
+    return {};
   },
-  methods: {},
+  methods: {
+    ...mapActions({
+      homeSelect: "local/homeSelect"
+    })
+  }
 };
 </script>
 

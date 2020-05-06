@@ -7,7 +7,6 @@ Vue.use(VueRouter, Vuex);
 const routes = [
   {
     path: "/front",
-    name: "front",
     component: () => import("@/layout/default.vue"),
     children: [
       { path: "", redirect: "home" },
