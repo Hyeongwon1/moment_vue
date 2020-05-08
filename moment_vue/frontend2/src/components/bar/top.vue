@@ -16,11 +16,8 @@
           @click="homeselect(item.id)"
         >{{ item.name }}</v-tab>
       </v-tabs>
-      <v-btn text style="margin-left: -320px;" @click="ordnwlk">
-        {{
-        this.$store.state.local.newandlike
-        }}
-      </v-btn>
+      <v-btn v-if="ordBy =='lk'" text style="margin-left: -320px;" @click="ordnwlk('nw')">NEW ▼</v-btn>
+      <v-btn v-else text style="margin-left: -320px;" @click="ordnwlk('lk')">LIKE ▼</v-btn>
       <v-text-field
         flat
         v-model="searchloc"
@@ -43,11 +40,7 @@
           <!-- <v-img src="https://randomuser.me/api/portraits/men/78.jpg"></v-img> -->
         </v-list-item-avatar>
         <v-list-item-content>
-          <v-list-item-title>
-            {{
-            this.$store.state.socialauth.profile.email
-            }}
-          </v-list-item-title>
+          <v-list-item-title>{{proFile.email}}</v-list-item-title>
         </v-list-item-content>
       </v-list-item>
 
@@ -93,11 +86,13 @@
         </v-list-item-content>
       </v-list>
     </v-navigation-drawer>
+    <!-- <snackbar :data="isLogin"></snackbar> -->
   </div>
 </template>
 
 <script>
 import { mapGetters, mapActions } from "vuex";
+// import snackbar from "@/components/bar/snackbar.vue";
 export default {
   name: "top",
   created() {},
@@ -105,9 +100,7 @@ export default {
     return {
       drawer: false,
       title: "IN THE MOMENT",
-      // loginout: this.$store.state.socialauth.loginyn,
       searchloc: "",
-      // id_mail: "",
       model: 1,
       items: [
         { name: "ALL", id: "0", icon: "dashboard" },
@@ -123,17 +116,21 @@ export default {
   },
   computed: {
     ...mapGetters({
-      isLogin: "socialauth/isLogin"
+      isLogin: "socialauth/isLogin",
+      proFile: "socialauth/profile",
+      ordBy: "local/ordby"
     })
   },
   props: {},
   watch: {},
-  components: {},
+  components: {
+    // snackbar
+  },
   methods: {
     ...mapActions({
-      logout: "socialauth/logout"
+      logout: "socialauth/logout",
+      homeSelect: "local/homeSelect"
     }),
-
     test(id) {
       if (id === "88") {
         this.$router.push({ path: "/front/pupp1" });
@@ -141,39 +138,25 @@ export default {
         this.$router.push({ path: "/front/mask" });
       }
     },
-    login(id, authFlag) {
+    async login(id, authFlag) {
+      const path = `/front/login`;
       if (this.isLogin) {
-        this.logout(authFlag).then(res => {
-          console.log(res);
-          this.$router.push({ path: "/front/login" });
-        });
+        await this.logout(authFlag);
+        this.$router.push({ path: "/front/login" });
       } else {
-        const path = `/front/login`;
         if (this.$route.path !== path) this.$router.push(path);
       }
     },
-    homeselect(id) {
+    async homeselect(id) {
       const path = `/front/home`;
       if (this.$route.path !== path) this.$router.push(path);
-
-      this.$store.commit("local/setHomeKind", {
-        kind: id
-      });
-      this.$store.dispatch("local/homeSelect", { id });
+      await this.homeSelect({ kind: id });
     },
     onEnter() {
-      this.$store.commit("setloc", { loc: this.searchloc });
-      this.$store.dispatch("homeSelect");
+      this.homeSelect({ loc: this.searchloc });
     },
-    ordnwlk() {
-      if (this.$store.state.local.newandlike === "NEW ▼") {
-        this.$store.commit("setLike", { newandlike: "LIKE ▼" });
-        this.$store.commit("setOrdby", { ord: "nw" });
-      } else {
-        this.$store.commit("setLike", { newandlike: "NEW ▼" });
-        this.$store.commit("setOrdby", { ord: "lk" });
-      }
-      this.$store.dispatch("homeSelect");
+    ordnwlk(param) {
+      this.homeSelect({ ord: param });
     }
   }
 };
@@ -184,6 +167,6 @@ export default {
 .head_moment {
   color: black;
   font-family: "Am";
-  /* font-size: 1.55rem; */
+  font-size: 29px;
 }
 </style>

@@ -20,4 +20,17 @@ export default {
 };
 </script>
 
-<style></style>
+<style>
+@font-face {
+  font-family: "Am";
+  src: url("assets/font/AmaticSC-Regular.ttf");
+}
+@font-face {
+  font-family: "설렘";
+  src: url("assets/font/210 설렘주의B.ttf");
+}
+@font-face {
+  font-family: "나눔고딕";
+  src: url("assets/font/NANUMBARUNGOTHIC.TTF");
+}
+</style>

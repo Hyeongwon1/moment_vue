@@ -14,7 +14,6 @@ const local = {
     host: "http://localhost:3000/moment",
     home_data: [],
     detail_data: [],
-    newandlike: "LIKE ▼",
     kind: "0",
     ord: "nw",
     loc: "",
@@ -24,6 +23,9 @@ const local = {
     homedata(state){
       return state.home_data;
     },
+    ordby(state){
+      return state.ord;
+    }
   },
   mutations: {
     setHomeData(state, payload) {
@@ -75,7 +77,18 @@ const local = {
     // }
   },
   actions: {
-    async homeSelect(context) {
+    async homeSelect(context, payload) {
+      // console.log(payload.kind)
+      payload = payload || {};
+      if (payload.kind) {
+        context.commit("setHomeKind", { kind: payload.kind });
+      } 
+      if(payload.loc) {
+        context.commit("setloc", { loc: payload.loc });
+      }
+      if(payload.ord) {
+        context.commit("setOrdby", { ord: payload.ord });
+      }
       const homeData = {
         kind: context.state.kind,
         ord: context.state.ord,
@@ -103,10 +116,7 @@ const local = {
     },
     async dataView(context, payload) {
       payload = payload || {};
-      console.log("payload");
-      console.log(payload);
       const { data } = await dataView(payload);
-      console.log(data);
       context.commit("setDetailData", { detail_data: data });
       return data;
     },

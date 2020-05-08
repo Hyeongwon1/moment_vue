@@ -14,11 +14,46 @@
                     <span id="mynick" class="mynick" v-text="data.m_nick"></span>
                   </v-flex>
                 </v-layout>
-                <div class="myage" id="myage">
-                  pre {{ "@/assets/image/age/" + data.m_age + "0s.png" }}
-                  <v-img class="myageimg" :src="'@/assets/image/age/' + data.m_age + '0s.png'" />
-                  <!-- <v-img src="@/assets/image/age/30s.png" alt="" /> -->
-                </div>
+                <v-spacer class="myage">
+                  <!-- <v-img class="myageimg" :src="'@/assets/image/age/' + data.m_age + '0s.png'" /> -->
+                  <v-img
+                    class="myageimg"
+                    v-if="data.m_age == '1'"
+                    src="@/assets/image/age/10s.png"
+                  />
+                  <v-img
+                    class="myageimg"
+                    v-else-if="data.m_age == '2'"
+                    src="@/assets/image/age/20s.png"
+                  />
+                  <v-img
+                    class="myageimg"
+                    v-else-if="data.m_age == '3'"
+                    src="@/assets/image/age/30s.png"
+                  />
+                  <v-img
+                    class="myageimg"
+                    v-else-if="data.m_age == '4'"
+                    src="@/assets/image/age/40s.png"
+                  />
+                </v-spacer>
+                <v-spacer class="mykind">
+                  <img
+                    v-if="data.d_kind == '1'"
+                    class="mykindimg"
+                    src="@/assets/image/kind/eat.png"
+                  />
+                  <img
+                    v-if="data.d_kind == '2'"
+                    class="mykindimg"
+                    src="@/assets/image/kind/buy.png"
+                  />
+                  <img
+                    v-if="data.d_kind == '3'"
+                    class="mykindimg"
+                    src="@/assets/image/kind/enjoy.png"
+                  />
+                </v-spacer>
               </v-card-title>
               <v-card-actions>
                 <v-spacer>
@@ -67,4 +102,40 @@ export default {
 };
 </script>
 
-<style></style>
+<style scoped>
+div p.loctxt {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.mynick {
+  font-family: "설렘";
+  float: left;
+  margin-right: 15px;
+  font-size: 20px;
+}
+.myage {
+  font-size: 15px;
+  margin-bottom: 10px;
+}
+.myageimg {
+  width: 50px;
+  /* margin-top: 6px; */
+}
+.mykindimg {
+  width: 50px;
+  height: 23px;
+  /* margin-top: 6px; */
+}
+.homelayout {
+  margin-top: 55px;
+  margin-bottom: 65px;
+}
+/* .myinputsearch {
+  background-color: white;
+  color: black;
+} */
+/* #msearch {
+  background-color: white;
+} */
+</style>

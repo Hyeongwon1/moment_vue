@@ -61,28 +61,10 @@
 </template>
 <script>
 export default {
-  created() {
-    // var a = window.location.href;
-    // var arr = [];
-    // arr = a.split("=");
-    // var mno = arr[1];
-    // var sno = arr[2];
-    // this.$axios
-    //   .get(`/moment/data_view?mnum=${mno}&snum=${sno}`)
-    //   .then(response => {
-    //     this.datas = response.data;
-    //   });
-    // console.log("this.$route.params.id");
-    // console.log(this.$route.params.id);
-    // const viewData = {
-    //   dnum: this.$route.params.id,
-    //   mnum: this.$store.state.socialauth.profile.m_no
-    // };
-    // this.$store.dispatch("dataView", viewData);
-  },
+  created() {},
   data() {
     return {
-      datas: [],
+      datas: []
     };
   },
   props: {},
@@ -93,10 +75,10 @@ export default {
       console.log(s_m_email);
       this.$axios
         .post("/moment/myrecord_selectdb", {
-          m_email: s_m_email,
+          m_email: s_m_email
         })
         .then(
-          (response) => {
+          response => {
             this.datas = response.data;
           },
           function() {
@@ -127,25 +109,25 @@ export default {
           d_no: evt.target.attributes[2].value,
           d_like: evt.target.nextSibling.nextSibling.innerText,
           sno: s_no,
-          flag: heartflag,
+          flag: heartflag
         })
         .then(
-          (response) => {
+          response => {
             console.log(response.data);
           },
           function() {
             console.log("failed");
           }
         );
-    },
-  },
+    }
+  }
 };
 </script>
 
-<style>
-@font-face {
+<style scoped>
+/* @font-face {
   font-family: "나눔고딕";
-  src: url("/font/NANUMBARUNGOTHIC.TTF");
+  src: url("@assets/font/NANUMBARUNGOTHIC.TTF");
 }
 
 @font-face {
@@ -161,11 +143,11 @@ export default {
 @font-face {
   font-family: "Am";
   src: url("/font/AmaticSC-Regular.ttf");
-}
-body {
-  /* font-family: "�굹�s닎怨좊뵓"; */
-  /* letter-spacing: -1px; */
-}
+} */
+/* body { */
+/* font-family: "�굹�s닎怨좊뵓"; */
+/* letter-spacing: -1px; */
+/* } */
 #date {
   text-align: left;
   margin-left: 8px;

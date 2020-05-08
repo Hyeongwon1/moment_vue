@@ -19,14 +19,14 @@ module.exports = {
         target: "http://localhost:3000",
         changeOrigin: true,
       },
-      "/image": {
-        target: "http://localhost:3000",
-        changeOrigin: true,
-      },
-      "/font": {
-        target: "http://localhost:3000",
-        changeOrigin: true,
-      },
+      // "/image": {
+      //   target: "http://localhost:3000",
+      //   changeOrigin: true,
+      // },
+      // "/font": {
+      //   target: "http://localhost:3000",
+      //   changeOrigin: true,
+      // },
     },
   },
   chainWebpack: (config) => {
