@@ -1,0 +1,89 @@
+1. vue 렌더링 원리
+
+cdn으로 vue 라이브러리 활용가능
+
+예제는 스크립트와 html을 분리해놓음
+
+
+var app = new Vue({ 
+    el: '#app',
+    data: {
+        message: 'Hello Vue!'
+    }
+});
+
+new vue로 선언되는 것에 이름은 상관없음.
+
+실제 랜더가 되는것은
+el: '#app' 와  html의 div태그의 id 값이 일치해야 한다.
+data: 에 선언된 key를 {{ }} 안에 작성하여 활용가능
+
+new vue를 선언한 값으로 얼마든지 외부에서 data : 안에 선언된 키를 활용하여 변경 해줄수 있음.
+
+
+2. v-if
+
+true false 로 제어 가능 하며 데이터 보여줄지안보여줄지 여부 결정가능. 
+
+
+3. 스크림바 메세지
+
+4. v-for-loop
+data: 안에 배열로 선언된 데이터의 키값을 활용하여 배열 전체 데이터를 뿌려줄수 있음
+
+v-for로 렌더시에는
+<li v-for=" '내가 정하고 싶은 값' in  'vue인스턴스 안(data:)에 선언된 data 키값' " >
+{{ '내가정하고싶은값  . (data:)안에 선언된배열의 키값 ' }}
+</li>
+
+이렇게 실행시 배열만큼의 루프를 돌면서  li 태그가 그만큼 생성.
+
+이역시 new vue를 선언한 값으로 얼마든지 외부에서 data : 안에 선언된 키를 활용하여 변경 해줄수 있음.
+
+
+5. v-on 지시자
+v-on:click=" (methods:)안에 선언된 펑션 명과 연결하여 활용가능 "
+
+methods:{
+ㅁㅁㅁㅁ()
+}
+
+
+6. v-model 양방향 바인딩 
+
+data: 에 선언된 값을 v-model에 연결하면 한쪽이 바뀌면 다른쪽도 자동으로 변경 됨
+
+
+{{  }} v-model 
+
+7. component
+
+vue app 안에 자식으로 기능들을 묶어서 넣을수있음
+
+하나를 만들어 놓으면 여러개로 활용가능
+
+
+8. component props
+
+작성된 컴포넌트로 데이터를 내려주고 싶을떄 사용
+<컴포넌트명 v-bind:'내려주고싶은 데이터'>
+
+Vue.component('todo-item', {
+    props: ['v- bind 뒤에 선언된 데이터명' ],
+    template: '<li>{{ todo.text }}</li>'
+})
+
+
+<todo-item
+        v-for="item in groceryList"
+        v-bind:todo="item"
+        v-bind:key="item.id">
+</todo-item>
+
+
+
+
+
+
+
+
