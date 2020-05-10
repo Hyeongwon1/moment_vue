@@ -1,5 +1,5 @@
 <template>
-  <HomeListItems :homedata="homedata"></HomeListItems>
+  <homeListItems :homedata="homedata"></homeListItems>
 </template>
 <script>
 import HomeListItems from "@/components/list/HomeListItems.vue";
@@ -11,22 +11,21 @@ export default {
   watch: {},
   computed: {
     ...mapGetters({
-      homedata: "local/homedata"
-    })
+      homedata: "local/homedata",
+    }),
   },
   components: {
-    HomeListItems
+    HomeListItems,
   },
   data() {
     return {};
   },
   methods: {
     ...mapActions({
-      homeSelect: "local/homeSelect"
-    })
-  }
+      homeSelect: "local/homeSelect",
+    }),
+  },
 };
 </script>
 
-<style>
-</style>
+<style></style>

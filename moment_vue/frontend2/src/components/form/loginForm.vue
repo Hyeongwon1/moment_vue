@@ -2,7 +2,13 @@
   <v-layout column align-center persistent>
     <v-form ref="form" @submit.prevent="authLogin" style="margin-top: 160px;">
       <!-- <v-form ref="form" @submit.prevent="loginfn" style="margin-top: 160px;"> -->
-      <v-text-field v-model="m_email" :counter="15" label="Email" :append-icon="'mail'" required></v-text-field>
+      <v-text-field
+        v-model="m_email"
+        :counter="15"
+        label="Email"
+        :append-icon="'mail'"
+        required
+      ></v-text-field>
       <v-text-field
         v-model="m_pw"
         :counter="15"
@@ -29,21 +35,22 @@ export default {
     return {
       m_email: null,
       m_pw: null,
-      Remember: ""
+      Remember: "",
     };
   },
   methods: {
     ...mapActions({
       localLogin: "local/LocalLogin",
       SocialLogin: "socialauth/login",
-      Sauthenticate: "socialauth/authenticate"
+      Sauthenticate: "socialauth/authenticate",
+      addSnackAction: "snackbar/addSnackAction",
     }),
     async loginfn() {
       // var self = this
       try {
         const loginData = {
           email: this.m_email,
-          password: this.m_pw
+          password: this.m_pw,
         };
         if (!loginData.email || !loginData.password) {
           return false;
@@ -64,21 +71,25 @@ export default {
       try {
         const loginData = {
           email: this.m_email,
-          password: this.m_pw
+          password: this.m_pw,
         };
         if (!loginData.email || !loginData.password) {
           return false;
         }
         await this.SocialLogin(loginData);
+        const alertdata = {
+          color: "info",
+          message: "로그인 되었습니다.",
+        };
+        await this.addSnackAction(alertdata);
         this.$router.push({ path: "home" });
       } catch (error) {
         console.log(error);
         alert("비밀번호 다름");
       }
-    }
-  }
+    },
+  },
 };
 </script>
 
-<style lang="scss" scoped>
-</style>
+<style lang="scss" scoped></style>

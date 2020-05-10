@@ -1,9 +1,11 @@
-import Vue from 'vue';
-import Vuetify from 'vuetify/lib';
-import 'vuetify/dist/vuetify.min.css'
+import Vue from "vue";
+import Vuetify from "vuetify/lib";
+import VuetifySnackbarQueue from "vuetify-snackbar-queue";
+import "vuetify/dist/vuetify.min.css";
 
-Vue.use(Vuetify)
+Vue.use(Vuetify);
+Vue.use(VuetifySnackbarQueue);
 
-const opts = {}
+const opts = {};
 
-export default new Vuetify(opts)
+export default new Vuetify(opts);

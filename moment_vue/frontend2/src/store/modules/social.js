@@ -64,7 +64,6 @@ export default {
         context.commit("setProfile", {
           profile: { email: "", m_no: "" },
         });
-        alert("로그아웃");
       });
     },
     authenticate(context, payload) {

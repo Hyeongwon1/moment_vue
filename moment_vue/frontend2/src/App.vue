@@ -12,11 +12,11 @@ export default {
   created() {},
   data() {
     return {
-      datas: []
+      datas: [],
     };
   },
   components: {},
-  methods: {}
+  methods: {},
 };
 </script>
 
