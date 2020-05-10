@@ -1,84 +1,193 @@
-1. vue 렌더링 원리
-
-cdn으로 vue 라이브러리 활용가능
-
-예제는 스크립트와 html을 분리해놓음
-
-
+# 1. vue 렌더링 원리
+script
+<pre>
 var app = new Vue({ 
     el: '#app',
     data: {
         message: 'Hello Vue!'
     }
 });
+</pre>
 
+html
+~~~
+ <div id="app">
+      {{ message }}
+ </div>
+~~~
 new vue로 선언되는 것에 이름은 상관없음.
 
-실제 랜더가 되는것은
-el: '#app' 와  html의 div태그의 id 값이 일치해야 한다.
-data: 에 선언된 key를 {{ }} 안에 작성하여 활용가능
+실제 렌더가 되는것은    
+el: '#app' 과  html의 div태그의 id 값이 일치해야 한다.  
+data: 에 선언된 key값를 {{ }} 안에 작성하여 활용가능    
+new vue를 선언한 값으로 얼마든지 외부에서 data : 안에 선언된 키를 활용하여 변경 해줄수 있음. 
 
-new vue를 선언한 값으로 얼마든지 외부에서 data : 안에 선언된 키를 활용하여 변경 해줄수 있음.
+ex) app.message = 'I have changed the data!';
+
+# 2. v-if
+
+<pre>
+var app = new Vue({ 
+    el: '#app',
+    data: {
+        seen: true
+    }
+});
+</pre>
+~~~
+<span v-if="seen">Now you see me</span>
+~~~
+v-if 의 값을 true false 로 제어 가능 하며 데이터 보여줄지 안보여줄지 여부 결정가능.
 
 
-2. v-if
+# 4. v-for-loop
+<pre>
+var app = new Vue({
+  el: '#app',
+  data: {
+    todos: [
+      { text: 'Learn JavaScript' },
+      { text: 'Learn Vue' },
+      { text: 'Build something awesome' }
+    ]
+  }
+});
+</pre>
 
-true false 로 제어 가능 하며 데이터 보여줄지안보여줄지 여부 결정가능. 
+~~~
+<li v-for="todo in todos">
+{{ todo.text }}
+</li>
+~~~
 
-
-3. 스크림바 메세지
-
-4. v-for-loop
-data: 안에 배열로 선언된 데이터의 키값을 활용하여 배열 전체 데이터를 뿌려줄수 있음
+data: 안에 배열로 선언된 데이터(todos)의 키값()을 활용하여 배열 전체 데이터를 뿌려줄수 있음
 
 v-for로 렌더시에는
-<li v-for=" '내가 정하고 싶은 값' in  'vue인스턴스 안(data:)에 선언된 data 키값' " >
-{{ '내가정하고싶은값  . (data:)안에 선언된배열의 키값 ' }}
+
+~~~
+<li v-for=" '내가정하고싶은이름'  in  '(data:)안에 선언된 data 키값' " >
+{{ '내가정하고싶은이름  . (data:)안에 선언된배열의 키값 ' }}
 </li>
+~~~
+이렇게 실행시 배열만큼의 루프를 돌면서  li 태그가 그만큼 생성.  
+이역시 new vue를 선언한 값으로 얼마든지 외부에서 data : 안에 선언된 키를 활용하여 변경 해줄수 있음.     
+ex)app.todos.push({ text: 'New item' })
 
-이렇게 실행시 배열만큼의 루프를 돌면서  li 태그가 그만큼 생성.
+# 5. v-on 지시자
 
-이역시 new vue를 선언한 값으로 얼마든지 외부에서 data : 안에 선언된 키를 활용하여 변경 해줄수 있음.
+<pre>
+var app = new Vue({
+  el: '#app',
+  data: {
+    message: 'Hello Vue.js!'
+  },
+  methods: {
+    reverseMessage: function () {
+      this.message = this.message.split('').reverse().join('')
+    }
+  }
+})
+
+</pre>
+~~~
+<div id="app">
+    <p>{{ message }}</p>
+    <button v-on:click="reverseMessage">Reverse Message</button>
+</div>
+~~~
+
+v-on:click=" (methods:)안에 선언된 펑션 명과 연결하여 활용가능"     
+methods의 funtion에서 data:에 접근하는 방법은 this. 으로 접근하여 활용가능
 
 
-5. v-on 지시자
-v-on:click=" (methods:)안에 선언된 펑션 명과 연결하여 활용가능 "
-
-methods:{
-ㅁㅁㅁㅁ()
-}
-
-
-6. v-model 양방향 바인딩 
+# 6. v-model 양방향 바인딩 
 
 data: 에 선언된 값을 v-model에 연결하면 한쪽이 바뀌면 다른쪽도 자동으로 변경 됨
+<pre>
+var app = new Vue({
+  el: '#app',
+  data: {
+    message: 'Hello Vue!'
+  }
+})
+</pre>
 
 
-{{  }} v-model 
+~~~
+<div id="app">
+    <p>{{ message }}</p>
+    <input v-model="message">
+</div>
+~~~
 
-7. component
 
+{{ 데이터 }}  와 data: 에 선언된 값과 v-model을 이어주면  한쪽에서 변경시 양쪽다 변경이 됨.
+
+# 7. component
+
+~~~
+Vue.component('todo-item', {
+  template: '<li>This is a todo</li>'
+})
+
+var app = new Vue({
+  el: '#app'
+})
+~~~
+
+~~~
+<div id="app">
+    <ol>
+        <todo-item></todo-item>
+    </ol>
+</div>
+~~~
 vue app 안에 자식으로 기능들을 묶어서 넣을수있음
 
-하나를 만들어 놓으면 여러개로 활용가능
+컴포넌트 명을 선언에서 넣으면 컴포넌트 템플릿 안에 구현해 놓은 html태그들이 구현이 됨.
+
+하나를 만들어 놓으면 여러개,다른곳에서도 활용가능
 
 
-8. component props
+# 8. component props
 
-작성된 컴포넌트로 데이터를 내려주고 싶을떄 사용
-<컴포넌트명 v-bind:'내려주고싶은 데이터'>
 
+~~~
 Vue.component('todo-item', {
-    props: ['v- bind 뒤에 선언된 데이터명' ],
+    props: ['todo'],
     template: '<li>{{ todo.text }}</li>'
 })
 
+var app = new Vue({
+    el: '#app',
+    data: {
+      groceryList: [
+        { id: 0, text: 'Vegetables' },
+        { id: 1, text: 'Cheese' },
+        { id: 2, text: 'Whatever else humans are supposed to eat' }
+      ]
+    }
+})
+~~~
 
-<todo-item
-        v-for="item in groceryList"
-        v-bind:todo="item"
-        v-bind:key="item.id">
-</todo-item>
+~~~
+<div id="app">
+    <ol>
+        <todo-item
+            v-for="item in groceryList"
+            v-bind:todo="item"
+            v-bind:key="item.id">
+        </todo-item>
+    </ol>
+</div>
+~~~
+
+작성된 컴포넌트로 데이터를 내려주고 싶을떄 사용     
+<컴포넌트명 v-bind:'내려주고싶은 데이터'>
+
+컴포넌트에서는 props:[' '] 에 v-bind로 내려주는 데이터 값과 동일한 값을 매칭 시켜준다.
+
+위의 데이터는 ('todo-item')컴포넌트롤 v-for를 활용하여 v-bind:key에 맞는 데이터 수만큼 루프 돌려서 생성해준다.
 
 
 
