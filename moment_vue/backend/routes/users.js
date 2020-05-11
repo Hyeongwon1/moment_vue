@@ -163,9 +163,7 @@ router.post("/mem_insertdb", function (req, res, next) {
   pool.getConnection(function (err, connection) {
     var sql = `insert into TCM_MEMBER_MST(m_email,m_pw,m_nick,m_birth,m_phone)values(?,?,?,?,?)`;
     connection.query(sql, [m_email, m_pw, m_nick, m_birth, m_phone], function (
-      err,
-      rows
-    ) {
+      err,rows) {
       if (err) {
         console.error("err : " + err);
         res.send({ data: err });

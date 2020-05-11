@@ -1,10 +1,7 @@
 <template>
   <div>
     <v-app-bar app dense>
-      <v-app-bar-nav-icon
-        class="hidden-md-and-up"
-        @click.stop="drawer = !drawer"
-      ></v-app-bar-nav-icon>
+      <v-app-bar-nav-icon class="hidden-md-and-up" @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
       <div class="pa-1"></div>
       <router-link to="/front/home">
         <v-toolbar-title class="head_moment">{{ title }}</v-toolbar-title>
@@ -17,19 +14,10 @@
           v-model="model"
           class="hidden-sm-and-down"
           @click="homeselect(item.id)"
-          >{{ item.name }}</v-tab
-        >
+        >{{ item.name }}</v-tab>
       </v-tabs>
-      <v-btn
-        v-if="ordBy == 'lk'"
-        text
-        style="margin-left: -320px;"
-        @click="ordnwlk('nw')"
-        >NEW ▼</v-btn
-      >
-      <v-btn v-else text style="margin-left: -320px;" @click="ordnwlk('lk')"
-        >LIKE ▼</v-btn
-      >
+      <v-btn v-if="ordBy == 'lk'" text style="margin-left: -320px;" @click="ordnwlk('nw')">NEW ▼</v-btn>
+      <v-btn v-else text style="margin-left: -320px;" @click="ordnwlk('lk')">LIKE ▼</v-btn>
       <v-text-field
         text
         v-model="searchloc"
@@ -58,11 +46,7 @@
 
       <v-list dense>
         <v-list-item-content>
-          <v-list-item
-            v-for="title in titles"
-            :key="title.id"
-            @click="test(title.id)"
-          >
+          <v-list-item v-for="title in titles" :key="title.id" @click="test(title.id)">
             <v-list-item-icon>
               <v-icon>{{ title.icon }}</v-icon>
             </v-list-item-icon>
@@ -75,11 +59,7 @@
       <v-divider></v-divider>
       <v-list dense>
         <v-list-item-group v-model="model" active-class="border" color="pink">
-          <v-list-item
-            v-for="item in items"
-            :key="item.id"
-            @click="homeselect(item.id)"
-          >
+          <v-list-item v-for="item in items" :key="item.id" @click="homeselect(item.id)">
             <v-list-item-icon>
               <v-icon>{{ item.icon }}</v-icon>
             </v-list-item-icon>
@@ -106,13 +86,11 @@
         </v-list-item-content>
       </v-list>
     </v-navigation-drawer>
-    <!-- <snackbar></snackbar> -->
   </div>
 </template>
 
 <script>
 import { mapGetters, mapActions } from "vuex";
-// import snackbar from "@/components/common/Snackbar.vue";
 export default {
   name: "top",
   created() {},
@@ -126,20 +104,20 @@ export default {
         { name: "ALL", id: "0", icon: "dashboard" },
         { name: "EAT", id: "1", icon: "restaurant_menu" },
         { name: "BUY", id: "2", icon: "money" },
-        { name: "ENJOY", id: "3", icon: "map" },
+        { name: "ENJOY", id: "3", icon: "map" }
       ],
       titles: [
         { name: "PUPP", id: "88", icon: "dashboard" },
-        { name: "MaskTest", id: "77", icon: "dashboard" },
-      ],
+        { name: "MaskTest", id: "77", icon: "dashboard" }
+      ]
     };
   },
   computed: {
     ...mapGetters({
       isLogin: "socialauth/isLogin",
       proFile: "socialauth/profile",
-      ordBy: "local/ordby",
-    }),
+      ordBy: "local/ordby"
+    })
   },
   props: {},
   watch: {},
@@ -149,8 +127,8 @@ export default {
   methods: {
     ...mapActions({
       logout: "socialauth/logout",
-      homeSelect: "local/homeSelect",
-      addSnackAction: "snackbar/addSnackAction",
+      homeSelect: "local/homeSelect"
+      // addSnackAction: "snackbar/addSnackAction",
     }),
     test(id) {
       if (id === "88") {
@@ -163,11 +141,8 @@ export default {
       const path = `/front/login`;
       if (this.isLogin) {
         await this.logout(authFlag);
-        const alertdata = {
-          color: "red",
-          message: "로그아웃 되었습니다.",
-        };
-        await this.addSnackAction(alertdata);
+        // await this.addSnackAction(alertdata);
+        this.$alert("red", "로그아웃 되었습니다.");
         this.$router.push({ path: "/front/login" });
       } else {
         if (this.$route.path !== path) this.$router.push(path);
@@ -183,8 +158,8 @@ export default {
     },
     ordnwlk(param) {
       this.homeSelect({ ord: param });
-    },
-  },
+    }
+  }
 };
 </script>
 

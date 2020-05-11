@@ -1,10 +1,13 @@
-var multer = require("multer");
-var path = require("path");
-var moment = require("moment");
-var commons = require("./common");
-var express = require("express");
-var router = express.Router();
-var pool = require("./mysqlConn");
+const multer = require("multer");
+const path = require("path");
+// const moment = require("moment");
+const commons = require("./common");
+const express = require("express");
+const router = express.Router();
+const pool = require("./mysqlConn");
+const dbConfig = require('./mysqlHelper/dbConfig');
+const connection  = require("./mysqlHelper/connection");
+const query   = require("./mysqlHelper/query");
 
 var fs = require("fs");
 //var upload = multer({ dest: 'uploads/', limits: { fileSize: 5 * 1024 * 1024 } });
@@ -20,18 +23,17 @@ var upload = multer({
   }),
 });
 
-class User {
-  constructor(user_id, user_pwd, user_role) {
-    this.user_id = user_id;
-    this.user_pwd = user_pwd;
-  }
-}
+router.get("/homeSelect/:ord/:kind/:loc", function (req, res, next) {
+  // var kind = req.body.kind.toString();
+  // var ord = req.body.ord;
+  // var loc = req.body.loc.toString();
+  var kind = req.param("kind");
+  var ord = req.param("ord");
+  var loc = req.param("loc");
 
-router.post("/homeSelect", function (req, res, next) {
-  var kind = req.body.kind.toString();
-  var ord = req.body.ord;
-  var loc = req.body.loc.toString();
-
+  console.log(ord)
+  console.log(loc)
+  console.log(kind)
   pool.getConnection(function (err, connection) {
     var param = ["d_regdate desc", "d_like desc"];
     var kinds = [`AND data.d_kind = ${kind}`];
@@ -62,10 +64,16 @@ router.post("/homeSelect", function (req, res, next) {
     });
   });
 });
-router.post("/data_view", function (req, res, next) {
-  var dnum = req.param("dnum");
-  var mnum = req.param("mnum");
+
+router.get("/data_view/:post/:id", function (req, res, next) {
+  var post = req.param("post");
+  var id = req.param("id");
+  console.log("post")
+  console.log(post)
+  console.log("id")
+  console.log(id)
   pool.getConnection(function (err, connection) {
+    if (err) throw err;
     var sql = `SELECT 	data.d_no,
 								data.m_no,
 								data.d_regdate,
@@ -87,19 +95,54 @@ router.post("/data_view", function (req, res, next) {
 									LEFT JOIN
 									TCM_LIKE_MST as likee
 									ON likee.data_no = data.d_no
-									and likee.member_no= ${mnum}
-									Where data.d_no = ${dnum} 
-									order by d_no desc; `;
-    console.log(sql);
+									and likee.member_no= ${id}
+									Where data.d_no = ${post} 
+                  order by d_no desc; `;
+                  // console.log(sql);
     connection.query(sql, function (err, rows) {
-      commons.age(rows);
-      if (err) console.error("err : " + err);
-      res.send(rows);
-      // res.send({data: rows});
       connection.release();
+      // commons.age(rows);
+      if (err) throw err;
+      return res.send(rows);
+      // res.send(JSON.stringify({"status": 200, "error": null, "response": results}));
+      // res.send({data: rows});
     });
   });
 });
+
+// router.post("/data_view", async function (req, res, next) {
+//   var dnum = req.param("dnum");
+//   var mnum = req.param("mnum");
+//   var sql = `SELECT 	data.d_no,
+// 								data.m_no,
+// 								data.d_regdate,
+// 								data.d_kind,
+// 								data.d_location,
+// 								data.d_title,
+// 								data.d_content,
+// 								data.d_path,
+// 								data.d_star,
+// 								data.d_like,
+// 								mem.m_no,
+// 								mem.m_nick,
+// 								mem.m_birth,
+// 								(case when likee.check_flag is null then 0 else likee.check_flag end) as check_flag 
+// 									FROM TCM_DATA_MST as data 
+// 									LEFT JOIN 
+// 									TCM_MEMBER_MST as mem 
+// 									ON data.m_no = mem.m_no
+// 									LEFT JOIN
+// 									TCM_LIKE_MST as likee
+// 									ON likee.data_no = data.d_no
+// 									and likee.member_no= ${mnum}
+// 									Where data.d_no = ${dnum} 
+//                   order by d_no desc; `;
+
+//   const conn = await connection(dbConfig).catch(e => {}) 
+//   console.log(conn)
+//   const results = await query(conn, sql).catch(console.log);
+//   res.json({ results });
+// });
 
 router.get("/home_mypage", function (req, res, next) {
   var dnum = req.param("num");

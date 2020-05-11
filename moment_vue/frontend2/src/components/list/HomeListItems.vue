@@ -5,28 +5,20 @@
         <v-layout row wrap>
           <v-flex v-for="data in homedata" :key="data.d_no" xs6 sm6 md4 lg3>
             <v-card>
-              <v-img
-                :src="data.d_path"
-                height="250px"
-                @click="picview(data.d_no)"
-              >
+              <v-img :src="data.d_path" height="250px" @click="picview(data.d_no)">
                 <input id v-text="data.d_no" type="hidden" />
               </v-img>
               <v-card-title>
                 <v-layout fill-height>
                   <v-flex xs12 align-end flexbox>
-                    <span
-                      id="mynick"
-                      class="mynick"
-                      v-text="data.m_nick"
-                    ></span>
+                    <span id="mynick" class="mynick" v-text="data.m_nick"></span>
                   </v-flex>
                 </v-layout>
                 <v-spacer class="myage">
                   <!-- <v-img
                     class="myageimg"
                     :src="'@/assets/image/age/' + data.m_age + '0s.png'"
-                  /> -->
+                  />-->
                   <v-img
                     class="myageimg"
                     v-if="data.m_age == '1'"
@@ -68,22 +60,15 @@
               </v-card-title>
               <v-card-actions>
                 <v-spacer>
-                  <v-icon
-                    v-for="data in data.d_star"
-                    :key="data.d_no"
-                    color="teal"
-                    >star</v-icon
-                  >
+                  <v-icon v-for="data in data.d_star" :key="data.d_no" color="teal">star</v-icon>
                 </v-spacer>
                 <v-btn icon>
                   <v-icon color="red">favorite</v-icon>
                 </v-btn>
                 <p class v-text="data.d_like"></p>
               </v-card-actions>
-              <div class="">
-                {{ data.d_regdate | moment("LLLL") }}
-              </div>
-              <div class="">
+              <div class="regdate">{{ data.d_regdate | moment("LLLL") }}</div>
+              <div class>
                 <!-- {{ data.m_birth | moment("MM-DD-YYYY") }} -->
                 {{ data.m_birth | moment("from", "now") }}
               </div>
@@ -100,33 +85,33 @@ import { mapGetters, mapActions } from "vuex";
 export default {
   props: {
     homedata: {
-      required: true,
-    },
+      required: true
+    }
   },
   filters: {
     fnName: function(value) {
       return value;
-    },
+    }
   },
   computed: {
     ...mapGetters({
-      profile: "socialauth/profile",
-    }),
+      profile: "socialauth/profile"
+    })
   },
   methods: {
     ...mapActions({
-      dataView: "local/dataView",
+      dataView: "local/dataView"
     }),
     async picview(no) {
       const viewData = {
         dnum: no,
-        mnum: this.profile.m_no,
+        mnum: this.profile.m_no
       };
       // await this.$store.dispatch("dataView", viewData);
       await this.dataView(viewData);
       this.$router.push({ name: "detail", params: { id: no } });
-    },
-  },
+    }
+  }
 };
 </script>
 
@@ -146,6 +131,9 @@ div p.loctxt {
   font-size: 15px;
   margin-bottom: 10px;
 }
+.regdate {
+  font-size: 12px;
+}
 .myageimg {
   width: 50px;
   /* margin-top: 6px; */
@@ -156,7 +144,7 @@ div p.loctxt {
   /* margin-top: 6px; */
 }
 .homelayout {
-  margin-top: 30px;
+  margin-top: 50px;
   margin-bottom: 65px;
 }
 /* .myinputsearch {

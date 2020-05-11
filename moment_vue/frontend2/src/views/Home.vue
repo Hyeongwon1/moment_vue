@@ -9,22 +9,25 @@ export default {
     this.homeSelect();
   },
   watch: {},
+  props: {
+    errorflag: {}
+  },
   computed: {
     ...mapGetters({
-      homedata: "local/homedata",
-    }),
+      homedata: "local/homedata"
+    })
   },
   components: {
-    HomeListItems,
+    HomeListItems
   },
   data() {
     return {};
   },
   methods: {
     ...mapActions({
-      homeSelect: "local/homeSelect",
-    }),
-  },
+      homeSelect: "local/homeSelect"
+    })
+  }
 };
 </script>
 

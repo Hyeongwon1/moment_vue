@@ -1,9 +1,5 @@
 <template>
-  <v-snackbar-queue
-    :timeout="3000"
-    :items="items"
-    @remove="removeItem"
-  ></v-snackbar-queue>
+  <v-snackbar-queue :timeout="3000" :items="items" :top="true" @remove="removeItem"></v-snackbar-queue>
 </template>
 
 <script>
@@ -13,8 +9,8 @@ export default {
   name: "Snackbar",
   computed: {
     ...mapGetters({
-      items: "snackbar/snackItems",
-    }),
+      items: "snackbar/snackItems"
+    })
   },
   components: {
     // VSnackbarQueue,
@@ -24,9 +20,9 @@ export default {
       this.removeSnackAction({ id: id });
     },
     ...mapActions({
-      removeSnackAction: "snackbar/removeSnackAction",
-    }),
-  },
+      removeSnackAction: "snackbar/removeSnackAction"
+    })
+  }
 };
 </script>
 

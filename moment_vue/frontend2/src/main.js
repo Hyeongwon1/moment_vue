@@ -10,10 +10,9 @@ import lodash from "lodash";
 import VueAxios from "vue-axios";
 import axios from "axios";
 import vuetify from "@/plugins/vuetify";
-// import VuetifySnackbarQueue from "vuetify-snackbar-queue";
+import UtilPlugin from './plugins/util';
 import bottom from "@/components/bar/bottom.vue";
 import top from "@/components/bar/top.vue";
-import addimg from "@/components/bar/addimg.vue";
 import snackbar from "@/components/common/Snackbar.vue";
 import vueMoment from "vue-moment";
 
@@ -22,17 +21,16 @@ import "material-design-icons-iconfont/dist/material-design-icons.css";
 Vue.component("navtop", top);
 Vue.component("navbottom", bottom);
 Vue.component("snackbar", snackbar);
-Vue.component("addimg", addimg);
 
 Vue.config.productionTip = false;
 const options = { name: "custom", lodash: lodash }; // customize the way you want to call it
 Vue.use(VueLodash, options);
 Vue.use(vuetify);
 Vue.use(vueMoment);
+Vue.use(UtilPlugin, { store });
 
 Vue.prototype.$axios = axios;
 Vue.use(VueAxios, axios);
-// Vue.use(VuetifySnackbarQueue);
 
 /* eslint-disable no-new */
 new Vue({

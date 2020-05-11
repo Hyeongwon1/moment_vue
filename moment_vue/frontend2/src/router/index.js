@@ -1,6 +1,7 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 import Vuex from "vuex";
+import store from '../store/index';
 
 import vueAuthInstance from "@/plugins/auth.js";
 Vue.use(VueRouter, Vuex);
@@ -83,8 +84,14 @@ router.beforeEach(function(to, from, next) {
       }
     } else {
       if (vueAuthInstance.isAuthenticated()) {
-        router.push({ path: "/front/home" });
-        alert("로그인이 필요합니다.");
+        router.push({ path: "/front/home"});
+        const alertdata = {
+          color: "red",
+          message: "로그인이 필요합니다.",
+        };
+        store.commit("snackbar/addSnackItem", alertdata);
+        // alert("로그인이 필요합니다.");
+        
       } else {
         next();
       }

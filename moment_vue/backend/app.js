@@ -1,8 +1,6 @@
 var createError = require("http-errors");
 var express = require("express");
-var passport = require("passport");
-var session = require("express-session");
-var flash = require("connect-flash");
+const bodyParser = require('body-parser');
 var path = require("path");
 var cookieParser = require("cookie-parser");
 var logger = require("morgan");
@@ -27,6 +25,10 @@ app.use("/font", express.static("public/font"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
+app.use(bodyParser.json());
+
+
+
 app.use("/moment/users", usersRouter);
 app.use("/moment/pupp", puppRouter);
 app.use("/moment", momentRouter);
