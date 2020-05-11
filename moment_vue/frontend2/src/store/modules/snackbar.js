@@ -28,6 +28,7 @@ export default {
     },
     removeSnackItem(state, payload) {
       console.log("mutatin");
+      console.log(payload);
       console.log(payload.id);
       const index = state.snackItems.findIndex(
         (item) => item.id === payload.id
@@ -48,9 +49,8 @@ export default {
       context.commit("addSnackItem", datas);
     },
     removeSnackAction(context, payload) {
-      console.log("payload");
-      console.log(payload);
-      context.commit("removeSnackItem", payload);
+      const data = { id: payload };
+      context.commit("removeSnackItem", data);
     },
   },
 };
