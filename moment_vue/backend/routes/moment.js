@@ -23,28 +23,24 @@ var upload = multer({
   }),
 });
 
-router.get("/homeSelect/:ord/:kind/:loc", function (req, res, next) {
-  // var kind = req.body.kind.toString();
-  // var ord = req.body.ord;
-  // var loc = req.body.loc.toString();
+router.get("/:kind", function (req, res, next) {
   var kind = req.param("kind");
   var ord = req.param("ord");
   var loc = req.param("loc");
-
+  console.log(kind)
   console.log(ord)
   console.log(loc)
-  console.log(kind)
   pool.getConnection(function (err, connection) {
     var param = ["d_regdate desc", "d_like desc"];
     var kinds = [`AND data.d_kind = ${kind}`];
     var locs = `AND data.d_location like '%${loc}%'`;
-    ord = ord.split("nw").join(param[0]);
-    ord = ord.split("lk").join(param[1]);
+    ord = ord.split("NW").join(param[0]);
+    ord = ord.split("LK").join(param[1]);
     kind = kind.split("0").join("");
     kind = kind.split("1").join(kinds[0]);
     kind = kind.split("2").join(kinds[0]);
     kind = kind.split("3").join(kinds[0]);
-    // locs = loc.split(" ").join('');
+    loc = loc.split(" ").join('');
     const sql = `SELECT * 
                       FROM TCM_DATA_MST as data 
                       LEFT OUTER JOIN 
@@ -52,15 +48,16 @@ router.get("/homeSelect/:ord/:kind/:loc", function (req, res, next) {
                       ON data.m_no = mem.m_no
                       WHERE data.d_use ='Y'
                       ${kind}
-                      ${locs} 
+                      ${locs}
                       order by ${ord}`;
     console.log(sql);
-    connection.query(sql, function (err, rows) {
-      // console.log(rows)
-      commons.age(rows);
-      if (err) console.error("err : " + err);
-      res.send({ data: rows });
+    connection.query(sql, function (err, results) {
       connection.release();
+      // console.log(rows)
+      // commons.age(rows);
+      if (err) console.error("err : " + err);
+      return res.send(JSON.stringify({"status": 200, "error": null, "response": results}));
+      // res.send({ data: rows });
     });
   });
 });

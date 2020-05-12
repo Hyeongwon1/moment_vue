@@ -15,7 +15,7 @@ const local = {
     home_data: [],
     detail_data: [],
     kind: "0",
-    ord: "nw",
+    ord: "NW",
     loc: "",
     token: "",
   },
@@ -95,7 +95,7 @@ const local = {
         loc: context.state.loc,
       };
       const { data } = await homeSelect(homeData);
-      context.commit("setHomeData", { home_data: data.data });
+      context.commit("setHomeData", { home_data: data.response });
       return data;
     },
     async LocalLogin(context, payload) {

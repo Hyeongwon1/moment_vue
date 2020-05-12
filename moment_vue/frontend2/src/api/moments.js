@@ -4,7 +4,7 @@ import { posts } from "./index";
 function homeSelect(data) {
   console.log(data);
   data.loc = data.loc || " ";
-  return posts.get(`/homeSelect/${data.ord}/${data.kind}/${data.loc}`);
+  return posts.get(`/${data.kind}?ord=${data.ord}&loc=${data.loc}`);
 }
 
 function dataView(data) {

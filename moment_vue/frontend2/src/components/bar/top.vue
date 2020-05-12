@@ -16,8 +16,8 @@
           @click="homeselect(item.id)"
         >{{ item.name }}</v-tab>
       </v-tabs>
-      <v-btn v-if="ordBy == 'lk'" text style="margin-left: -320px;" @click="ordnwlk('nw')">NEW ▼</v-btn>
-      <v-btn v-else text style="margin-left: -320px;" @click="ordnwlk('lk')">LIKE ▼</v-btn>
+      <v-btn v-if="ordBy == 'LK'" text style="margin-left: -320px;" @click="ordnwlk('NW')">NEW ▼</v-btn>
+      <v-btn v-else text style="margin-left: -320px;" @click="ordnwlk('LK')">LIKE ▼</v-btn>
       <v-text-field
         text
         v-model="searchloc"

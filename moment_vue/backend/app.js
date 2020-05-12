@@ -30,7 +30,7 @@ app.use(bodyParser.json());
 
 
 app.use("/moment/users", usersRouter);
-app.use("/moment/pupp", puppRouter);
+app.use("/pupp", puppRouter);
 app.use("/moment", momentRouter);
 app.use("/", socialRouter);
 
