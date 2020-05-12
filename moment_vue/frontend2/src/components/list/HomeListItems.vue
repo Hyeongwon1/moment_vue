@@ -5,13 +5,21 @@
         <v-layout row wrap>
           <v-flex v-for="data in homedata" :key="data.d_no" xs6 sm6 md4 lg3>
             <v-card>
-              <v-img :src="data.d_path" height="250px" @click="picview(data.d_no)">
+              <v-img
+                :src="data.d_path"
+                height="250px"
+                @click="picview(data.d_no)"
+              >
                 <input id v-text="data.d_no" type="hidden" />
               </v-img>
               <v-card-title>
                 <v-layout fill-height>
                   <v-flex xs12 align-end flexbox>
-                    <span id="mynick" class="mynick" v-text="data.m_nick"></span>
+                    <span
+                      id="mynick"
+                      class="mynick"
+                      v-text="data.m_nick"
+                    ></span>
                   </v-flex>
                 </v-layout>
                 <v-spacer class="myage">
@@ -60,7 +68,12 @@
               </v-card-title>
               <v-card-actions>
                 <v-spacer>
-                  <v-icon v-for="data in data.d_star" :key="data.d_no" color="teal">star</v-icon>
+                  <v-icon
+                    v-for="data in data.d_star"
+                    :key="data.d_no"
+                    color="teal"
+                    >star</v-icon
+                  >
                 </v-spacer>
                 <v-btn icon>
                   <v-icon color="red">favorite</v-icon>
@@ -81,37 +94,23 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from "vuex";
 export default {
   props: {
     homedata: {
-      required: true
-    }
+      required: true,
+    },
   },
   filters: {
     fnName: function(value) {
       return value;
-    }
+    },
   },
-  computed: {
-    ...mapGetters({
-      profile: "socialauth/profile"
-    })
-  },
+  computed: {},
   methods: {
-    ...mapActions({
-      dataView: "local/dataView"
-    }),
-    async picview(no) {
-      const viewData = {
-        dnum: no,
-        mnum: this.profile.m_no
-      };
-      // await this.$store.dispatch("dataView", viewData);
-      await this.dataView(viewData);
+    picview(no) {
       this.$router.push({ name: "detail", params: { id: no } });
-    }
-  }
+    },
+  },
 };
 </script>
 

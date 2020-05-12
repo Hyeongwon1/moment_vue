@@ -14,18 +14,21 @@ const local = {
     host: "http://localhost:3000/moment",
     home_data: [],
     detail_data: [],
-    kind: "0",
+    kind: "ALL",
     ord: "NW",
     loc: "",
     token: "",
   },
   getters: {
-    homedata(state){
+    homedata(state) {
       return state.home_data;
     },
-    ordby(state){
+    detaildata(state) {
+      return state.detail_data;
+    },
+    ordby(state) {
       return state.ord;
-    }
+    },
   },
   mutations: {
     setHomeData(state, payload) {
@@ -78,15 +81,14 @@ const local = {
   },
   actions: {
     async homeSelect(context, payload) {
-      // console.log(payload.kind)
       payload = payload || {};
       if (payload.kind) {
         context.commit("setHomeKind", { kind: payload.kind });
-      } 
-      if(payload.loc) {
+      }
+      if (payload.loc) {
         context.commit("setloc", { loc: payload.loc });
       }
-      if(payload.ord) {
+      if (payload.ord) {
         context.commit("setOrdby", { ord: payload.ord });
       }
       const homeData = {
@@ -96,6 +98,12 @@ const local = {
       };
       const { data } = await homeSelect(homeData);
       context.commit("setHomeData", { home_data: data.response });
+      return data;
+    },
+    async dataView(context, payload) {
+      payload = payload || {};
+      const { data } = await dataView(payload);
+      context.commit("setDetailData", { detail_data: data });
       return data;
     },
     async LocalLogin(context, payload) {
@@ -112,12 +120,6 @@ const local = {
     async localSignUp(context, payload) {
       payload = payload || {};
       const { data } = await localSignUp(payload);
-      return data;
-    },
-    async dataView(context, payload) {
-      payload = payload || {};
-      const { data } = await dataView(payload);
-      context.commit("setDetailData", { detail_data: data });
       return data;
     },
   },

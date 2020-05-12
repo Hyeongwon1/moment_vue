@@ -5,9 +5,9 @@ const commons = require("./common");
 const express = require("express");
 const router = express.Router();
 const pool = require("./mysqlConn");
-const dbConfig = require('./mysqlHelper/dbConfig');
-const connection  = require("./mysqlHelper/connection");
-const query   = require("./mysqlHelper/query");
+const dbConfig = require("./mysqlHelper/dbConfig");
+const connection = require("./mysqlHelper/connection");
+const query = require("./mysqlHelper/query");
 
 var fs = require("fs");
 //var upload = multer({ dest: 'uploads/', limits: { fileSize: 5 * 1024 * 1024 } });
@@ -24,30 +24,32 @@ var upload = multer({
 });
 
 router.get("/:kind", function (req, res, next) {
-  var kind = req.param("kind");
-  var ord = req.param("ord");
-  var loc = req.param("loc");
-  console.log(kind)
-  console.log(ord)
-  console.log(loc)
+  let kind = req.param("kind");
+  let ord = req.param("ord");
+  let loc = req.param("loc");
+
+  kind = kind.split("EAT").join("1");
+  kind = kind.split("BUY").join("2");
+  kind = kind.split("ENJOY").join("3");
   pool.getConnection(function (err, connection) {
-    var param = ["d_regdate desc", "d_like desc"];
-    var kinds = [`AND data.d_kind = ${kind}`];
-    var locs = `AND data.d_location like '%${loc}%'`;
+    let param = ["d_regdate desc", "d_like desc"];
+
+    let kinds = [`AND data.d_kind = ${kind}`];
+    if (kind == "ALL") {
+      kinds = [];
+    }
+
+    let locs = `AND data.d_location like '%${loc}%'`;
     ord = ord.split("NW").join(param[0]);
     ord = ord.split("LK").join(param[1]);
-    kind = kind.split("0").join("");
-    kind = kind.split("1").join(kinds[0]);
-    kind = kind.split("2").join(kinds[0]);
-    kind = kind.split("3").join(kinds[0]);
-    loc = loc.split(" ").join('');
+    loc = loc.split(" ").join("");
     const sql = `SELECT * 
                       FROM TCM_DATA_MST as data 
                       LEFT OUTER JOIN 
                       TCM_MEMBER_MST as mem 
                       ON data.m_no = mem.m_no
                       WHERE data.d_use ='Y'
-                      ${kind}
+                      ${kinds}
                       ${locs}
                       order by ${ord}`;
     console.log(sql);
@@ -56,19 +58,21 @@ router.get("/:kind", function (req, res, next) {
       // console.log(rows)
       // commons.age(rows);
       if (err) console.error("err : " + err);
-      return res.send(JSON.stringify({"status": 200, "error": null, "response": results}));
+      return res.send(
+        JSON.stringify({ status: 200, error: null, response: results })
+      );
       // res.send({ data: rows });
     });
   });
 });
 
-router.get("/data_view/:post/:id", function (req, res, next) {
+router.get("/data-view/:post/:id", function (req, res, next) {
   var post = req.param("post");
   var id = req.param("id");
-  console.log("post")
-  console.log(post)
-  console.log("id")
-  console.log(id)
+  console.log("post");
+  console.log(post);
+  console.log("id");
+  console.log(id);
   pool.getConnection(function (err, connection) {
     if (err) throw err;
     var sql = `SELECT 	data.d_no,
@@ -95,7 +99,7 @@ router.get("/data_view/:post/:id", function (req, res, next) {
 									and likee.member_no= ${id}
 									Where data.d_no = ${post} 
                   order by d_no desc; `;
-                  // console.log(sql);
+    console.log(sql);
     connection.query(sql, function (err, rows) {
       connection.release();
       // commons.age(rows);
@@ -123,19 +127,19 @@ router.get("/data_view/:post/:id", function (req, res, next) {
 // 								mem.m_no,
 // 								mem.m_nick,
 // 								mem.m_birth,
-// 								(case when likee.check_flag is null then 0 else likee.check_flag end) as check_flag 
-// 									FROM TCM_DATA_MST as data 
-// 									LEFT JOIN 
-// 									TCM_MEMBER_MST as mem 
+// 								(case when likee.check_flag is null then 0 else likee.check_flag end) as check_flag
+// 									FROM TCM_DATA_MST as data
+// 									LEFT JOIN
+// 									TCM_MEMBER_MST as mem
 // 									ON data.m_no = mem.m_no
 // 									LEFT JOIN
 // 									TCM_LIKE_MST as likee
 // 									ON likee.data_no = data.d_no
 // 									and likee.member_no= ${mnum}
-// 									Where data.d_no = ${dnum} 
+// 									Where data.d_no = ${dnum}
 //                   order by d_no desc; `;
 
-//   const conn = await connection(dbConfig).catch(e => {}) 
+//   const conn = await connection(dbConfig).catch(e => {})
 //   console.log(conn)
 //   const results = await query(conn, sql).catch(console.log);
 //   res.json({ results });

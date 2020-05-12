@@ -8,7 +8,7 @@ function homeSelect(data) {
 }
 
 function dataView(data) {
-  return posts.get(`/data_view/` + data.dnum + "/" + data.mnum);
+  return posts.get(`/data-view/${data.dnum}/${data.mnum}`);
 }
 
 export { homeSelect, dataView };
