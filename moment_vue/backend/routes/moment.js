@@ -24,10 +24,12 @@ var upload = multer({
 });
 
 router.get("/:kind", function (req, res, next) {
-  let kind = req.param("kind");
-  let ord = req.param("ord");
-  let loc = req.param("loc");
-
+  let kind = req.params.kind;
+  let ord = req.query.ord;
+  let loc = req.query.loc;
+  console.log(kind)
+  console.log(ord)
+  console.log(loc)
   kind = kind.split("EAT").join("1");
   kind = kind.split("BUY").join("2");
   kind = kind.split("ENJOY").join("3");
@@ -67,8 +69,8 @@ router.get("/:kind", function (req, res, next) {
 });
 
 router.get("/data-view/:post/:id", function (req, res, next) {
-  var post = req.param("post");
-  var id = req.param("id");
+  var post = req.params.post;
+  var id = req.params.id;
   console.log("post");
   console.log(post);
   console.log("id");

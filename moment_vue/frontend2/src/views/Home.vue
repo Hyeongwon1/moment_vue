@@ -2,7 +2,7 @@
   <homeListItems :homedata="homedata"></homeListItems>
 </template>
 <script>
-import HomeListItems from "@/components/list/HomeListItems.vue";
+import homeListItems from "@/components/list/homeListItems.vue";
 import { mapGetters, mapActions } from "vuex";
 export default {
   created() {
@@ -12,20 +12,20 @@ export default {
   props: {},
   computed: {
     ...mapGetters({
-      homedata: "local/homedata",
-    }),
+      homedata: "local/homedata"
+    })
   },
   components: {
-    HomeListItems,
+    homeListItems
   },
   data() {
     return {};
   },
   methods: {
     ...mapActions({
-      homeSelect: "local/homeSelect",
-    }),
-  },
+      homeSelect: "local/homeSelect"
+    })
+  }
 };
 </script>
 
