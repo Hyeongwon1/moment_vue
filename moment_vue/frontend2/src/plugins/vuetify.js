@@ -6,6 +6,9 @@ import "vuetify/dist/vuetify.min.css";
 Vue.use(Vuetify);
 Vue.use(VuetifySnackbarQueue);
 
-const opts = {};
+const opts = {theme: {
+    dark: true,
+  },
+};
 
 export default new Vuetify(opts);

@@ -23,6 +23,19 @@
         </v-card>
       </v-flex>
     </v-layout>
+
+    <p
+      class="red white--text"
+    >Eleates de ferox quadra, promissio onus!Cur elevatus studere?Cur abactus tolerare?Cum extum studere, omnes vitaes magicae pius, castus amores.Eheu, luna!</p>
+    <p
+      class="pink lighten-4 red--text text--darken-4"
+    >Audax agripetas ducunt ad poeta.Nunquam imitari fluctui.Cobaltums sunt armariums de placidus poeta.Ubi est pius olla?Lanista experimentums, tanquam lotus hibrida.</p>
+    <h1 class="display-1">Brevis gallus hic imperiums racana est.</h1>
+    <h4 class="display-4">Nunquam attrahendam bulla.Caesium de bi-color lumen, resuscitabo parma!</h4>
+    <p class="headline">Fuga, axona, et mortem.Superbus mensa nunquam tractares tumultumque est.Heu.</p>
+    <p class="subheading font-weight-bold">Sunt plasmatores transferre salvus, emeritis mensaes.</p>
+    <p class="caption">Sunt rectores transferre castus, germanus fermiumes.</p>
+
     <div style="text-align: center">
       <table id="up_tb">
         <tr>
@@ -119,9 +132,6 @@
       :style="{ 'background-image': `url(${imageData})` }"
       @click="chooseImage"
     ></div>
-    <br />
-    <br />
-    <navbottom></navbottom>
 
     <div style="text-align: center; margin-bottom: 155px;">
       <a href="#" @click="sendPost" id="write_bt" class="btn hbtn" style="color: white;">
