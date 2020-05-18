@@ -1,6 +1,6 @@
-const appRoot = require('app-root-path');
-const winston = require('winston');
-const process = require('process');
+const appRoot = require("app-root-path");
+const winston = require("winston");
+const process = require("process");
 
 const { combine, timestamp, label, printf } = winston.format;
 
@@ -25,17 +25,13 @@ const options = {
     ) */
   },
   console: {
-    level: 'debug',
+    level: "debug",
     handleExceptions: true,
     json: false,
     colorize: true,
-    format: combine(
-      label({ label: 'express_server' }),
-      timestamp(),
-      myFormat
-    )
-  }
-}
+    format: combine(label({ label: "express_server" }), timestamp(), myFormat),
+  },
+};
 //파일로 떨굴시
 /* let logger = new winston.createLogger({
   transports: [
@@ -45,19 +41,16 @@ const options = {
 }); */
 
 let logger = new winston.createLogger({
-  transports: [
-    new winston.transports.Console(options.console)
-  ],
+  transports: [new winston.transports.Console(options.console)],
   exitOnError: false, // do not exit on handled exceptions
 });
 
-
-if(process.env.NODE_ENV !== 'production'){
-  logger.add(new winston.transports.Console(options.console)) // 개발 시 console로도 출력
-}
+// if(process.env.NODE_ENV !== 'production'){
+//   logger.add(new winston.transports.Console(options.console)) // 개발 시 console로도 출력
+// }
 
 logger.stream = {
-  write: function(message, encoding) {
+  write: function (message, encoding) {
     logger.info(message); // 단순히 message를 default 포맷으로 출력
   },
 };

@@ -2,6 +2,7 @@ const multer = require("multer");
 const path = require("path");
 // const moment = require("moment");
 const commons = require("../config/common");
+const homequery = require("../config/query/homequery");
 const express = require("express");
 const router = express.Router();
 const pool = require("../config/db/mysqlConn");
@@ -20,37 +21,12 @@ var upload = multer({
   }),
 });
 
-router.get("/:kind", function (req, res, next) {
-  let kind = req.params.kind;
-  let ord = req.query.ord;
-  let loc = req.query.loc;
-  console.log(kind)
-  console.log(ord)
-  console.log(loc)
-  kind = kind.split("EAT").join("1");
-  kind = kind.split("BUY").join("2");
-  kind = kind.split("ENJOY").join("3");
-  pool(function (err, connection) {
-    let param = ["d_regdate desc", "d_like desc"];
-
-    let kinds = [`AND data.d_kind = ${kind}`];
-    if (kind == "ALL") {
-      kinds = [];
-    }
-    let locs = `AND data.d_location like '%${loc}%'`;
-    ord = ord.split("NW").join(param[0]);
-    ord = ord.split("LK").join(param[1]);
-    loc = loc.split(" ").join("");
-    const sql = `SELECT * 
-                      FROM TCM_DATA_MST as data 
-                      LEFT OUTER JOIN 
-                      TCM_MEMBER_MST as mem 
-                      ON data.m_no = mem.m_no
-                      WHERE data.d_use ='Y'
-                      ${kinds}
-                      ${locs}
-                      order by ${ord}`;
-    // console.log(sql);
+router.get("/:kind", async function (req, res, next) {
+  console.log("req.params.kind");
+  console.log(req.params.kind);
+  const sql = await homequery.homeSelectq(req);
+  await pool(function (err, connection) {
+    console.log(sql);
     connection.query(sql, function (err, results) {
       connection.release();
       // console.log(rows)
@@ -64,39 +40,10 @@ router.get("/:kind", function (req, res, next) {
   });
 });
 
-router.get("/data-view/:post/:id", function (req, res, next) {
-  var post = req.params.post;
-  var id = req.params.id;
-  console.log("post");
-  console.log(post);
-  console.log("id");
-  console.log(id);
-  pool(function (err, connection) {
+router.get("/data-view/:post/:id", async function (req, res, next) {
+  const sql = await homequery.dataViewq(req);
+  await pool(function (err, connection) {
     if (err) throw err;
-    var sql = `SELECT 	data.d_no,
-								data.m_no,
-								data.d_regdate,
-								data.d_kind,
-								data.d_location,
-								data.d_title,
-								data.d_content,
-								data.d_path,
-								data.d_star,
-								data.d_like,
-								mem.m_no,
-								mem.m_nick,
-								mem.m_birth,
-								(case when likee.check_flag is null then 0 else likee.check_flag end) as check_flag 
-									FROM TCM_DATA_MST as data 
-									LEFT JOIN 
-									TCM_MEMBER_MST as mem 
-									ON data.m_no = mem.m_no
-									LEFT JOIN
-									TCM_LIKE_MST as likee
-									ON likee.data_no = data.d_no
-									and likee.member_no= ${id}
-									Where data.d_no = ${post} 
-                  order by d_no desc; `;
     console.log(sql);
     connection.query(sql, function (err, rows) {
       connection.release();
@@ -108,40 +55,6 @@ router.get("/data-view/:post/:id", function (req, res, next) {
     });
   });
 });
-
-// router.post("/data_view", async function (req, res, next) {
-//   var dnum = req.param("dnum");
-//   var mnum = req.param("mnum");
-//   var sql = `SELECT 	data.d_no,
-// 								data.m_no,
-// 								data.d_regdate,
-// 								data.d_kind,
-// 								data.d_location,
-// 								data.d_title,
-// 								data.d_content,
-// 								data.d_path,
-// 								data.d_star,
-// 								data.d_like,
-// 								mem.m_no,
-// 								mem.m_nick,
-// 								mem.m_birth,
-// 								(case when likee.check_flag is null then 0 else likee.check_flag end) as check_flag
-// 									FROM TCM_DATA_MST as data
-// 									LEFT JOIN
-// 									TCM_MEMBER_MST as mem
-// 									ON data.m_no = mem.m_no
-// 									LEFT JOIN
-// 									TCM_LIKE_MST as likee
-// 									ON likee.data_no = data.d_no
-// 									and likee.member_no= ${mnum}
-// 									Where data.d_no = ${dnum}
-//                   order by d_no desc; `;
-
-//   const conn = await connection(dbConfig).catch(e => {})
-//   console.log(conn)
-//   const results = await query(conn, sql).catch(console.log);
-//   res.json({ results });
-// });
 
 router.get("/home_mypage", function (req, res, next) {
   var dnum = req.param("num");

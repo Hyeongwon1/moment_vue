@@ -1,9 +1,9 @@
 var createError = require("http-errors");
 var express = require("express");
-const bodyParser = require('body-parser');
+const bodyParser = require("body-parser");
 var path = require("path");
 var logger = require("morgan");
-const winston = require('./config/db/logger')
+const winston = require("./config/db/logger");
 var cors = require("cors");
 var usersRouter = require("./routes/users");
 var puppRouter = require("./routes/pupp");
@@ -25,9 +25,7 @@ app.use("/font", express.static("public/font"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(bodyParser.json());
-app.use(logger('combined', {stream: winston.stream}));
-
-
+app.use(logger("combined", { stream: winston.stream }));
 
 app.use("/moment/users", usersRouter);
 app.use("/pupp", puppRouter);
