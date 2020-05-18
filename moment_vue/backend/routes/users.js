@@ -1,9 +1,9 @@
 var express = require("express");
 var router = express.Router();
-var pool = require("./mysqlConn");
+var pool = require("../config/db/mysqlConn");
 const jwt = require("jsonwebtoken");
 const crypto = require("crypto");
-const config = require("./config");
+const config = require("../config/auth/socialconfig");
 const secret = config.secret; //비빌번호 해쉬키
 
 //로그인 부분

@@ -1,7 +1,7 @@
 var express = require("express");
 var router = express.Router();
 var moment = require("moment");
-var pool = require("./mysqlConn");
+var pool = require("../config/db/mysqlConn");
 const puppeteer = require("puppeteer");
 
 router.post("/pupp2", function(req, res, next) {

@@ -2,8 +2,8 @@ var createError = require("http-errors");
 var express = require("express");
 const bodyParser = require('body-parser');
 var path = require("path");
-var cookieParser = require("cookie-parser");
 var logger = require("morgan");
+const winston = require('./config/db/logger')
 var cors = require("cors");
 var usersRouter = require("./routes/users");
 var puppRouter = require("./routes/pupp");
@@ -24,8 +24,8 @@ app.use("/image", express.static("public/image"));
 app.use("/font", express.static("public/font"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser());
 app.use(bodyParser.json());
+app.use(logger('combined', {stream: winston.stream}));
 
 
 

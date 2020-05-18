@@ -1,13 +1,10 @@
 const multer = require("multer");
 const path = require("path");
 // const moment = require("moment");
-const commons = require("./common");
+const commons = require("../config/common");
 const express = require("express");
 const router = express.Router();
-const pool = require("./mysqlConn");
-const dbConfig = require("./mysqlHelper/dbConfig");
-const connection = require("./mysqlHelper/connection");
-const query = require("./mysqlHelper/query");
+const pool = require("../config/db/mysqlConn");
 
 var fs = require("fs");
 //var upload = multer({ dest: 'uploads/', limits: { fileSize: 5 * 1024 * 1024 } });
@@ -33,14 +30,13 @@ router.get("/:kind", function (req, res, next) {
   kind = kind.split("EAT").join("1");
   kind = kind.split("BUY").join("2");
   kind = kind.split("ENJOY").join("3");
-  pool.getConnection(function (err, connection) {
+  pool(function (err, connection) {
     let param = ["d_regdate desc", "d_like desc"];
 
     let kinds = [`AND data.d_kind = ${kind}`];
     if (kind == "ALL") {
       kinds = [];
     }
-
     let locs = `AND data.d_location like '%${loc}%'`;
     ord = ord.split("NW").join(param[0]);
     ord = ord.split("LK").join(param[1]);
@@ -54,7 +50,7 @@ router.get("/:kind", function (req, res, next) {
                       ${kinds}
                       ${locs}
                       order by ${ord}`;
-    console.log(sql);
+    // console.log(sql);
     connection.query(sql, function (err, results) {
       connection.release();
       // console.log(rows)
@@ -63,7 +59,7 @@ router.get("/:kind", function (req, res, next) {
       return res.send(
         JSON.stringify({ status: 200, error: null, response: results })
       );
-      // res.send({ data: rows });
+      // res.send({ data: results });
     });
   });
 });
@@ -75,7 +71,7 @@ router.get("/data-view/:post/:id", function (req, res, next) {
   console.log(post);
   console.log("id");
   console.log(id);
-  pool.getConnection(function (err, connection) {
+  pool(function (err, connection) {
     if (err) throw err;
     var sql = `SELECT 	data.d_no,
 								data.m_no,
