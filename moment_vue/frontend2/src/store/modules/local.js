@@ -91,11 +91,15 @@ const local = {
       if (payload.ord) {
         context.commit("setOrdby", { ord: payload.ord });
       }
+
+
       const homeData = {
         kind: context.state.kind,
         ord: context.state.ord,
         loc: context.state.loc,
       };
+      console.log("homeData")
+      console.log(homeData)
       const { data } = await homeSelect(homeData);
       context.commit("setHomeData", { home_data: data.response });
       return data;

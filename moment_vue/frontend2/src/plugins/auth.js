@@ -7,7 +7,7 @@ import config from '../authConfig.json'
 Vue.use(VueAxios, axios)
 
 const vueAuthInstance = new VueAuthenticate(Vue.prototype.$http, {
-  baseUrl: process.env.VUE_APP_API_URL,
+  baseUrl: `${process.env.VUE_APP_API_URL}v1`,
   tokenName: 'access_token',
   requestDataKey: 'data',
   responseDataKey: 'data',

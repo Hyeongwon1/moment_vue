@@ -4,11 +4,11 @@ import { posts } from "./index";
 function homeSelect(data) {
   console.log(data);
   data.loc = data.loc || " ";
-  return posts.get(`/${data.kind}?ord=${data.ord}&loc=${data.loc}`);
+  return posts.get(`/moment/${data.kind}?ord=${data.ord}&loc=${data.loc}`);
 }
 
 function dataView(data) {
-  return posts.get(`/data-view/${data.dnum}/${data.mnum}`);
+  return posts.get(`/moment/data-view/${data.dnum}/${data.mnum}`);
 }
 
 export { homeSelect, dataView };

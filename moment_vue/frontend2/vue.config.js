@@ -5,18 +5,18 @@ module.exports = {
   devServer: {
     port: "8000",
     proxy: {
-      "/moment": {
-        target: "http://localhost:3000/moment",
+      "/v1": {
+        target: "http://localhost:3000/v1",
         changeOrigin: true,
         pathRewrite: {
-          "^/moment": "",
+          "^/v1": "",
         },
         // publicPath: {
-        //   '^/moment': '',
+        //   '^/v1': '',
         // }
       },
       "/uploads": {
-        target: "http://localhost:3000",
+        target: "http://localhost:3000/",
         changeOrigin: true,
       },
       // "/image": {
