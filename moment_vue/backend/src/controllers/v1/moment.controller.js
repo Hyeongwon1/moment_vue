@@ -1,5 +1,5 @@
-const pool = require("../../config/db/mysqlConn");
-const homequery = require("../../config/query/homequery");
+const pool = require("../../configs/db/mysqlConn");
+const homequery = require("../../configs/query/homequery");
 
 const kinds = async function (req, res, next) {
     try {
@@ -25,6 +25,27 @@ const kinds = async function (req, res, next) {
     }
   }
 
+const dataview =  async function (req, res, next) {
+  try{
+    const sql = await homequery.dataViewq(req);
+    await pool(function (err, connection) {
+      if (err) throw err;
+      console.log(sql);
+      connection.query(sql, function (err, rows) {
+        connection.release();
+        // commons.age(rows);
+        if (err) throw err;
+        return res.send(rows);
+        // res.send(JSON.stringify({"status": 200, "error": null, "response": results}));
+        // res.send({data: rows});
+      });
+    });
+  }catch(e){
+    next(e)
+  }
+  };
+  
+  
   export {
-    kinds
+    kinds,dataview
   }

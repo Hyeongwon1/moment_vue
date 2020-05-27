@@ -2,9 +2,9 @@ const express = require("express");
 const router = express.Router();
 const multer = require("multer");
 const path = require("path");
-const commons = require("../../config/common");
+const commons = require("../../configs/common");
 // const kinds = require("../../controllers/v1/moment.controller");
-import {kinds} from '../../controllers/v1/moment.controller.js'
+import {kinds,dataview} from '../../controllers/v1/moment.controller.js'
 
 var fs = require("fs");
 //var upload = multer({ dest: 'uploads/', limits: { fileSize: 5 * 1024 * 1024 } });
@@ -20,26 +20,12 @@ var upload = multer({
   }),
 });
 
-router.get("/:kind",kinds);
 // router.route("/:kind")
 //   .get(
 //     kinds
 //   )
-router.get("/data-view/:post/:id", async function (req, res, next) {
-  const sql = await homequery.dataViewq(req);
-  await pool(function (err, connection) {
-    if (err) throw err;
-    console.log(sql);
-    connection.query(sql, function (err, rows) {
-      connection.release();
-      // commons.age(rows);
-      if (err) throw err;
-      return res.send(rows);
-      // res.send(JSON.stringify({"status": 200, "error": null, "response": results}));
-      // res.send({data: rows});
-    });
-  });
-});
+router.get("/:kind",kinds);
+router.get("/data-view/:post/:id", dataview);
 
 router.get("/home_mypage", function (req, res, next) {
   var dnum = req.param("num");
