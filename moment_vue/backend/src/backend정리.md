@@ -65,3 +65,9 @@ toThrow(): 에러를 throw()하는지 확인하는 Matcher이다.
   }).toThrow();
 ~~~
 
+
+
+# sequelize 사용법
+출처 https://victorydntmd.tistory.com/27
+
+
