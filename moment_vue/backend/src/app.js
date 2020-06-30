@@ -5,18 +5,14 @@ var express = require("express");
 var path = require("path");
 var cookieParser = require('cookie-parser');
 var logger = require("morgan");
+
 const bodyParser = require('body-parser');
 const winston = require('./configs/db/logger')
 var cors = require("cors");
-// const router = require("./routes/v1/index")
 const v1Route = require ("./routes/v1")
 
 var app = express();
 app.use(cors());
-// view engine setup
-// app.set("views", path.join(__dirname, "views"));
-// app.set("view engine", "pug");
-
 
 app.use(logger("dev"));
 app.use(express.json());

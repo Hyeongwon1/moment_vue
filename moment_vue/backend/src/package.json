@@ -5,7 +5,9 @@
   "main": "app.js",
   "scripts": {
     "start": "nodemon ./bin/www --exec babel-node --presets @babel/preset-env",
-    "test": "./node_modules/.bin/jest tests --coverage"
+    "test": "cross-env NODE_ENV=test npm run migrate:reset && cross-env NODE_ENV=test npm run migrate && cross-env NODE_ENV=test ./node_modules/.bin/jest tests --coverage",
+    "migrate": "sequelize db:migrate",
+    "migrate:reset": "sequelize db:migrate:undo:all"
   },
   "dependencies": {
     "@babel/polyfill": "^7.8.7",
@@ -21,7 +23,7 @@
     "express": "~4.16.0",
     "express-session": "^1.17.0",
     "http-errors": "~1.6.2",
-    "jest": "^26.0.1",
+    "jest": "^26.1.0",
     "jsonwebtoken": "^8.5.1",
     "moment": "^2.24.0",
     "morgan": "~1.9.0",
@@ -38,6 +40,7 @@
     "passport-naver": "^1.0.6",
     "pug": "2.0.0-beta11",
     "puppeteer": "^1.20.0",
+    "random-string": "^0.2.0",
     "request": "^2.88.2",
     "request-promise-native": "^1.0.8",
     "sequelize": "^5.21.11",
@@ -52,6 +55,8 @@
     "@babel/preset-env": "^7.9.6",
     "babel-core": "^7.0.0-bridge.0",
     "babel-jest": "^26.0.1",
-    "regenerator-runtime": "^0.13.5"
+    "cross-env": "^7.0.2",
+    "regenerator-runtime": "^0.13.5",
+    "supertest": "^4.0.2"
   }
 }

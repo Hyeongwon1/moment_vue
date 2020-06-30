@@ -1,6 +1,6 @@
 var express = require("express");
 var router = express.Router();
-var pool = require("../../configs/db/mysqlConn");
+// var pool = require("../../configs/db/mysqlConn");
 const jwt = require("jsonwebtoken");
 const crypto = require("crypto");
 const config = require("../../configs/auth/socialconfig");
@@ -107,23 +107,23 @@ router.post("/mem_updatedb", function (req, res, next) {
   var m_birth = req.param("m_birth");
   var m_phone = req.param("m_phone");
   var count = "";
-  pool.getConnection(function (err, connection) {
-    var sql = `update TCM_MEMBER_MST 
-															set 
-															m_nick=?,
-															m_pw=?,
-															m_phone=? 
-															where m_no=?`;
-    connection.query(sql, [m_nick, m_pw, m_phone, m_no], function (err, rows) {
-      if (err) {
-        console.error("err : " + err);
-        res.send({ data: err });
-      } else {
-        res.send({ data: "success" });
-      }
-      connection.release();
-    });
-  });
+  // pool.getConnection(function (err, connection) {
+  //   var sql = `update TCM_MEMBER_MST 
+	// 														set 
+	// 														m_nick=?,
+	// 														m_pw=?,
+	// 														m_phone=? 
+	// 														where m_no=?`;
+  //   connection.query(sql, [m_nick, m_pw, m_phone, m_no], function (err, rows) {
+  //     if (err) {
+  //       console.error("err : " + err);
+  //       res.send({ data: err });
+  //     } else {
+  //       res.send({ data: "success" });
+  //     }
+  //     connection.release();
+  //   });
+  // });
 });
 
 router.post("/mem_idcheckdb", function (req, res, next) {
@@ -160,48 +160,48 @@ router.post("/mem_insertdb", function (req, res, next) {
   var m_nick = req.body.i_nick;
   var m_birth = req.body.i_date;
   var m_phone = req.body.i_phone;
-  pool.getConnection(function (err, connection) {
-    var sql = `insert into TCM_MEMBER_MST(m_email,m_pw,m_nick,m_birth,m_phone)values(?,?,?,?,?)`;
-    connection.query(sql, [m_email, m_pw, m_nick, m_birth, m_phone], function (
-      err,
-      rows
-    ) {
-      if (err) {
-        console.error("err : " + err);
-        res.send({ data: err });
-      } else {
-        res.send({ data: "success" });
-      }
-    });
-  });
+  // pool.getConnection(function (err, connection) {
+  //   var sql = `insert into TCM_MEMBER_MST(m_email,m_pw,m_nick,m_birth,m_phone)values(?,?,?,?,?)`;
+  //   connection.query(sql, [m_email, m_pw, m_nick, m_birth, m_phone], function (
+  //     err,
+  //     rows
+  //   ) {
+  //     if (err) {
+  //       console.error("err : " + err);
+  //       res.send({ data: err });
+  //     } else {
+  //       res.send({ data: "success" });
+  //     }
+  //   });
+  // });
 });
 
 router.post("/mem_searchdb", function (req, res, next) {
   var m_no = req.param("num");
-  pool.getConnection(function (err, connection) {
-    var sql = "SELECT * FROM TCM_MEMBER_MST WHERE m_no=?";
+  // pool.getConnection(function (err, connection) {
+  //   var sql = "SELECT * FROM TCM_MEMBER_MST WHERE m_no=?";
 
-    connection.query(sql, [m_no], function (err, rows) {
-      //	    	  console.log(rows)
-      if (err) console.error("err : " + err);
+  //   connection.query(sql, [m_no], function (err, rows) {
+  //     //	    	  console.log(rows)
+  //     if (err) console.error("err : " + err);
 
-      res.send(rows);
-      connection.release();
-    });
-  });
+  //     res.send(rows);
+  //     connection.release();
+  //   });
+  // });
 });
 router.get("/mem_selectdb", function (req, res, next) {
-  pool.getConnection(function (err, connection) {
-    var sql = "SELECT * FROM TCM_MEMBER_MST ";
+  // pool.getConnection(function (err, connection) {
+  //   var sql = "SELECT * FROM TCM_MEMBER_MST ";
 
-    connection.query(sql, function (err, rows) {
-      //	    	  console.log(rows)
-      if (err) console.error("err : " + err);
+  //   connection.query(sql, function (err, rows) {
+  //     //	    	  console.log(rows)
+  //     if (err) console.error("err : " + err);
 
-      res.send(rows);
-      connection.release();
-    });
-  });
+  //     res.send(rows);
+  //     connection.release();
+  //   });
+  // });
 });
 
 module.exports = router;
