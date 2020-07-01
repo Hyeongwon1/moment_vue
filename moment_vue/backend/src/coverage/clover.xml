@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1593520105600" clover="3.2.0">
-  <project timestamp="1593520105600" name="All files">
-    <metrics statements="30" coveredstatements="28" conditionals="9" coveredconditionals="6" methods="8" coveredmethods="7" elements="47" coveredelements="41" complexity="0" loc="30" ncloc="30" packages="3" files="4" classes="4"/>
+<coverage generated="1593598520121" clover="3.2.0">
+  <project timestamp="1593598520121" name="All files">
+    <metrics statements="39" coveredstatements="34" conditionals="11" coveredconditionals="7" methods="10" coveredmethods="9" elements="60" coveredelements="50" complexity="0" loc="39" ncloc="39" packages="3" files="4" classes="4"/>
     <package name="configs">
       <metrics statements="5" coveredstatements="5" conditionals="2" coveredconditionals="1" methods="0" coveredmethods="0"/>
       <file name="sequelize.js" path="C:\Users\User\git\moment_vue\moment_vue\backend\src\configs\sequelize.js">
@@ -14,7 +14,7 @@
       </file>
     </package>
     <package name="models">
-      <metrics statements="22" coveredstatements="20" conditionals="7" coveredconditionals="5" methods="7" coveredmethods="6"/>
+      <metrics statements="31" coveredstatements="26" conditionals="9" coveredconditionals="6" methods="9" coveredmethods="8"/>
       <file name="index.js" path="C:\Users\User\git\moment_vue\moment_vue\backend\src\models\index.js">
         <metrics statements="16" coveredstatements="15" conditionals="7" coveredconditionals="5" methods="3" coveredmethods="3"/>
         <line num="4" count="1" type="stmt"/>
@@ -35,13 +35,22 @@
         <line num="31" count="1" type="stmt"/>
       </file>
       <file name="user.model.js" path="C:\Users\User\git\moment_vue\moment_vue\backend\src\models\user.model.js">
-        <metrics statements="6" coveredstatements="5" conditionals="0" coveredconditionals="0" methods="4" coveredmethods="3"/>
+        <metrics statements="15" coveredstatements="11" conditionals="2" coveredconditionals="1" methods="6" coveredmethods="5"/>
         <line num="5" count="1" type="stmt"/>
         <line num="6" count="1" type="stmt"/>
         <line num="11" count="1" type="stmt"/>
-        <line num="13" count="0" type="stmt"/>
-        <line num="43" count="1" type="stmt"/>
-        <line num="49" count="1" type="stmt"/>
+        <line num="13" count="1" type="stmt"/>
+        <line num="47" count="1" type="stmt"/>
+        <line num="52" count="1" type="stmt"/>
+        <line num="53" count="1" type="cond" truecount="1" falsecount="1"/>
+        <line num="54" count="1" type="stmt"/>
+        <line num="55" count="1" type="stmt"/>
+        <line num="59" count="1" type="stmt"/>
+        <line num="60" count="0" type="stmt"/>
+        <line num="62" count="0" type="stmt"/>
+        <line num="63" count="0" type="stmt"/>
+        <line num="65" count="0" type="stmt"/>
+        <line num="68" count="1" type="stmt"/>
       </file>
     </package>
     <package name="utils">

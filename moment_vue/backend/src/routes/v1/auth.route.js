@@ -1,12 +1,18 @@
-var express = require("express");
-var router = express.Router();
-var Request = require("request-promise-native");
-const axios = require("axios");
-var pool = require("../../configs/db/mysqlConn");
-const jwt = require("jsonwebtoken");
-const crypto = require("crypto");
-const config = require("../../configs/auth/socialconfig");
-const secret = config.secret; //비빌번호 해쉬키
+const  express = require("express");
+import {
+  login,tokenTest
+} from '../../controllers/v1/auth.controller'
+const  router = express.Router();
+
+router.route('/login')
+  .post(
+    login
+  )
+router.route('/tokenTest')
+  .get(
+    tokenTest
+  )
+
 
 router.post("/:provider", function (req, res) {
   console.log(req.params.provider);

@@ -1,9 +1,9 @@
 const express = require("express");
-const router = express.Router();
 const multer = require("multer");
 const path = require("path");
-const commons = require("../../configs/common");
-import {kinds,dataview,get} from '../../controllers/v1/moment.controller.js'
+// const commons = require("../../configs/common");
+import {kinds,dataview} from '../../controllers/v1/moment.controller'
+const router = express.Router();
 
 var fs = require("fs");
 //var upload = multer({ dest: 'uploads/', limits: { fileSize: 5 * 1024 * 1024 } });
@@ -23,7 +23,13 @@ var upload = multer({
 //   .get(
 //     kinds
 //   )
-router.get("/users", get);
+// router.route('/:uuid?')
+//   .get(
+//     get
+//   )
+// router.get("/users", get);
+// router.get("/users/:uuid", get);
+// router.get("", get);
 router.get("/:kind",kinds);
 router.get("/data-view/:post/:id", dataview);
 

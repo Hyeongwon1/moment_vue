@@ -5,10 +5,13 @@ var express = require("express");
 var path = require("path");
 var cookieParser = require('cookie-parser');
 var logger = require("morgan");
+// jwt 토큰 middleware
+import jwtMiddleware from './middlewares/jwt.middleware'
 
 const bodyParser = require('body-parser');
 const winston = require('./configs/db/logger')
 var cors = require("cors");
+import response from './utils/response'
 const v1Route = require ("./routes/v1")
 
 var app = express();
@@ -25,6 +28,7 @@ app.use(bodyParser.json());
 app.use(logger('combined', {stream: winston.stream}));
 
 // app.use(router)
+app.use(jwtMiddleware)
 app.use('/v1', v1Route)
 app.use(require("connect-history-api-fallback")());
 
@@ -53,8 +57,12 @@ app.use(function (err, req, res, next) {
   // res.render("error");
 
   // render the error page
-  return res.status(apiError.status)
-    .json({message: apiError.message})
+  // return res.status(apiError.status)
+  //   .json({message: apiError.message})
+  // render the error page
+  return response(res, {
+    message: apiError.message
+  }, apiError.status)  
 });
 
 module.exports = app;
