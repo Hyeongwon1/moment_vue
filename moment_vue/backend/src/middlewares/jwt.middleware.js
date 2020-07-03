@@ -1,7 +1,6 @@
 import createError from 'http-errors'
 import jwt from 'jsonwebtoken'
-import userRepo from '../repositories/user.repository'
-
+import UserRepo from '../repositories/user.repository'
 export default async (req, res, next) => {
   try {
     req.user = null
@@ -18,7 +17,7 @@ export default async (req, res, next) => {
 
           uuid = payload.uuid
         })
-
+      const userRepo = new UserRepo()
       const user = await userRepo.find(uuid)
 
       if (!user) {

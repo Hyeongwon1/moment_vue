@@ -3,11 +3,14 @@ import randomString from 'random-string'
 import moment from 'moment'
 import jwt from 'jsonwebtoken'
 import models from '../../../models'
-import userRepo from '../../../repositories/user.repository'
+import UserRepo from '../../../repositories/user.repository'
+
+const userRepo = new UserRepo()
 
 const app = require('../../../app')
 
 afterAll(() => models.sequelize.close())
+
 
 describe('로그인 테스트', () => {
 
@@ -24,6 +27,7 @@ describe('로그인 테스트', () => {
     }
 
     // 테스트용 사용자 생성
+   
     await userRepo.store(userData)
   })
 
@@ -57,7 +61,7 @@ describe('로그인 테스트', () => {
 
     expect(response.body.data.email).toBe(userData.email)
 
-    console.log(reponse.body.data)
+    console.log(response.body.data)
   })
 
   test('없는 사용자로 로그인. | 404', async () => {
