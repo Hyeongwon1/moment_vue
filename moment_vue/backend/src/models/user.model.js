@@ -57,23 +57,5 @@ module.exports = (sequelize, DataTypes) => {
     }
   });
 
-  // 생성 후 캐시에 저장
-  // User.afterSave((user, options) => userCache.store(user))
-  User.afterSave(async (user, options) => {
-    const userCache = new UserCache()
-    await userCache.store(user)
-  })
-
-
-  // print
-  User.prototype.toWeb = function () {
-    const values = Object.assign({}, this.get())
-
-    delete values.id
-    delete values.password
-
-    return values
-  }
-
   return User
 }

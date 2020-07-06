@@ -1,8 +1,9 @@
+require('dotenv').config()
 const redis = require('redis')
 const bluebird = require('bluebird')
 import UserRepo from '../repositories/user.repository'
 
-const client = redis.createClient(6379,'34.64.157.217')
+const client = redis.createClient(process.env.REDIS_PORT,process.env.DB_HOST)
 client.on('error', e => {
   console.error(`redis error : ${e}`)
 })

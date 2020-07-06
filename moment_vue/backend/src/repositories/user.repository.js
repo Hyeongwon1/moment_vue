@@ -26,7 +26,7 @@ class UserRepository {
       // Cache 가 존재하지 않으면 DB 에서 받아옴 
       user = await models.User.findOne({
         where: {
-          uuid: Buffer(uuid, 'hex')
+          uuid: Buffer.from(uuid, 'hex')
         }
       })
     }
