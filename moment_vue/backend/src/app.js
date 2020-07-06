@@ -1,34 +1,34 @@
 require('dotenv').config();
 
-var createError = require("http-errors");
-var express = require("express");
-var path = require("path");
-var cookieParser = require('cookie-parser');
-var logger = require("morgan");
+import createError from 'http-errors'
+import express from 'express'
+import cookieParser from 'cookie-parser'
+import path  from 'path';
+import morgan from 'morgan'
+import moment from 'moment'
+import response from './utils/response'
+import v1Route from './routes/v1'
+
 // jwt 토큰 middleware
 import jwtMiddleware from './middlewares/jwt.middleware'
+import { logger, stream } from './configs/winston'
 
-const bodyParser = require('body-parser');
-const winston = require('./configs/db/logger')
-var cors = require("cors");
-import response from './utils/response'
-const v1Route = require ("./routes/v1")
+import cors from 'cors';
 
 var app = express();
 app.use(cors());
 
-app.use(logger("dev"));
+// app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
+app.use(jwtMiddleware)
 app.use(express.static(path.join(__dirname, "public/static")));
 app.use("/front/uploads", express.static("public/uploads"));
-app.use(bodyParser.json());
-app.use(logger('combined', {stream: winston.stream}));
+app.use(morgan('combined', {stream}));
 
 // app.use(router)
-app.use(jwtMiddleware)
 app.use('/v1', v1Route)
 app.use(require("connect-history-api-fallback")());
 
@@ -48,18 +48,32 @@ app.use(function (err, req, res, next) {
     apiError = createError(err)
   }
 
-  // set locals, only providing error in development
-  res.locals.message = err.message;
-  res.locals.error = req.app.get("env") === "development" ? err : {};
+  if (process.env.NODE_ENV === 'test') {
+    const errObj = {
+      req: {
+        headers: req.headers,
+        query: req.query,
+        body: req.body,
+        route: req.route
+      },
+      error: {
+        message: apiError.message,
+        stack: apiError.stack,
+        status: apiError.status
+      },
+      user: req.user
+    }
 
-  // render the error page
-  // res.status(err.status || 500);
-  // res.render("error");
+    logger.error(`${moment().format('YYYY-MM-DD HH:mm:ss')}`, errObj)
+  } else {
+    res.locals.message = apiError.message
+    res.locals.error = apiError
+  }
 
-  // render the error page
-  // return res.status(apiError.status)
-  //   .json({message: apiError.message})
-  // render the error page
+  // // set locals, only providing error in development
+  // res.locals.message = err.message;
+  // res.locals.error = req.app.get("env") === "development" ? err : {};
+
   return response(res, {
     message: apiError.message
   }, apiError.status)  

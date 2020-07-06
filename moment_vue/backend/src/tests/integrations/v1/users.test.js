@@ -1,18 +1,23 @@
 import request from 'supertest'
 import randomString from 'random-string'
 import moment from 'moment'
+import models from '../../../models'
+import UserRepo from '../../../repositories/user.repository'
 import {
   uuid
 } from '../../../utils/uuid'
-import models from '../../../models'
+
 
 const app = require('../../../app')
 
+let userRepo
 let user
 
 beforeAll(async () => {
+
+  userRepo = new UserRepo()
   // 사용자 2명 생성
-  await models.User.create({
+  await userRepo.store({
     email: randomString() + '@test.com',
     nickName: randomString(),
     phoneNumber: '010-1237-4568',
@@ -20,7 +25,7 @@ beforeAll(async () => {
     birthDay: moment("1993-12-25").format('YYYY-MM-DD hh:mm:ss')
   })
 
-  user = await models.User.create({
+  user = await userRepo.store({
     email: randomString() + '@test.com',
     nickName: randomString(),
     phoneNumber: '010-123-456',
