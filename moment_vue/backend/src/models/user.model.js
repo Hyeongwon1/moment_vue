@@ -1,7 +1,6 @@
 'use strict'
 import bcrypt from 'bcrypt'
 import { uuid } from '../utils/uuid'
-import UserCache from '../caches/user.cache'
 
 module.exports = (sequelize, DataTypes) => {
   const User = sequelize.define('User', {
@@ -46,7 +45,7 @@ module.exports = (sequelize, DataTypes) => {
   })
 
   User.associate = function (models) {
-    // associations
+    User.hasMany(models.MomentData);
   }
 
    // hooks
