@@ -9,11 +9,11 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER.UNSIGNED
       },
-      moment_id: {
+      momentId: {
         allowNull: false,
         type: Sequelize.STRING
       },
-      file_id: {
+      fileId: {
         allowNull: false,
         type: Sequelize.STRING
       },

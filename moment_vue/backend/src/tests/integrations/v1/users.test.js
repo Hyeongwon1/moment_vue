@@ -19,6 +19,7 @@ beforeAll(async () => {
   // 사용자 2명 생성
   await userRepo.store({
     email: randomString() + '@test.com',
+    userName: randomString(),
     nickName: randomString(),
     phoneNumber: '010-1237-4568',
     password: randomString(),
@@ -27,6 +28,7 @@ beforeAll(async () => {
 
   user = await userRepo.store({
     email: randomString() + '@test.com',
+    userName: randomString(),
     nickName: randomString(),
     phoneNumber: '010-123-456',
     password: randomString(),

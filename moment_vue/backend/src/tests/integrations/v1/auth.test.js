@@ -20,6 +20,7 @@ describe('로그인 테스트', () => {
   beforeAll(async () => {
     userData = {
       email: randomString() + '@test.com',
+      userName: randomString(),
       nickName: randomString(),
       phoneNumber: '010-123-4526',
       password: randomString(),

@@ -17,11 +17,11 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       type: DataTypes.STRING
     },
-    contentType: {
+    content_type: {
       allowNull: true,
       type: DataTypes.STRING
     },
-    deleteFlag: {
+    delete_flag: {
       allowNull: false,
       type: DataTypes.STRING
     }
@@ -31,9 +31,8 @@ module.exports = (sequelize, DataTypes) => {
   })
 
   MomentFile.associate = function (models) {
-    MomentFile.belongsToMany(models.MomentData,{through: 'UserFile'});
-  }
+    // MomentFile.belongsToMany(models.MomentData,{through: 'momentDisplayInfoS',foreignKey: 'file_Id'}) 
 
- 
+  }
   return MomentFile
 }

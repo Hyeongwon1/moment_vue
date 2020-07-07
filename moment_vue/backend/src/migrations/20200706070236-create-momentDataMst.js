@@ -9,7 +9,7 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER.UNSIGNED,
       },
-      user_id: {
+      userId: {
         allowNull: true,
         type: Sequelize.INTEGER.UNSIGNED,
         references: {
@@ -33,7 +33,7 @@ module.exports = {
         allowNull: false,
         type: Sequelize.STRING,
       },
-      file_id: {
+      fileId: {
         allowNull: false,
         type: Sequelize.STRING,
       },

@@ -9,20 +9,20 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER.UNSIGNED
       },
-      file_name: {
+      fileName: {
         allowNull: false,
         unique: true,
         type: Sequelize.STRING
       },
-      save_file_name: {
+      saveFileMame: {
         allowNull: false,
         type: Sequelize.STRING
       },
-      content_type: {
+      contentYype: {
         allowNull: true,
         type: Sequelize.STRING
       },
-      delete_flag: {
+      deleteFlag: {
         allowNull: false,
         type: Sequelize.STRING
       },

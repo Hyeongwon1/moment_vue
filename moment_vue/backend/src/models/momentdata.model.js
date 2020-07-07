@@ -4,7 +4,7 @@ module.exports = (sequelize, DataTypes) => {
   const MomentData = sequelize.define(
     "momentDataMst",
     {
-      user_id: {
+      userId: {
         allowNull: false,
         type: DataTypes.INTEGER.UNSIGNED,
       },
@@ -24,7 +24,7 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
         type: DataTypes.STRING,
       },
-      file_id: {
+      fileId: {
         allowNull: false,
         type: DataTypes.INTEGER.UNSIGNED,
       },
@@ -44,9 +44,8 @@ module.exports = (sequelize, DataTypes) => {
   );
 
   MomentData.associate = function (models) {
-    MomentData.belongsTo(models.User, {
-      foreignKey: "id",
-    });
+    MomentData.belongsTo(models.User);
+    // MomentData.belongsToMany(models.MomentFile,{through: 'momentDisplayInfo',foreignKey: 'file_Id'});
   };
 
   return MomentData;

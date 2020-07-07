@@ -117,13 +117,25 @@
 <a name='L58'></a><a href='#L58'>58</a>
 <a name='L59'></a><a href='#L59'>59</a>
 <a name='L60'></a><a href='#L60'>60</a>
-<a name='L61'></a><a href='#L61'>61</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L61'></a><a href='#L61'>61</a>
+<a name='L62'></a><a href='#L62'>62</a>
+<a name='L63'></a><a href='#L63'>63</a>
+<a name='L64'></a><a href='#L64'>64</a>
+<a name='L65'></a><a href='#L65'>65</a>
+<a name='L66'></a><a href='#L66'>66</a>
+<a name='L67'></a><a href='#L67'>67</a>
+<a name='L68'></a><a href='#L68'>68</a>
+<a name='L69'></a><a href='#L69'>69</a>
+<a name='L70'></a><a href='#L70'>70</a>
+<a name='L71'></a><a href='#L71'>71</a>
+<a name='L72'></a><a href='#L72'>72</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -164,7 +176,16 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -177,74 +198,86 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">'use strict'
-import bcrypt from 'bcrypt'
-import { uuid } from '../utils/uuid'
-import UserCache from '../caches/user.cache'
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">"use strict";
+import bcrypt from "bcrypt";
+import { uuid } from "../utils/uuid";
 &nbsp;
 module.exports = (sequelize, DataTypes) =&gt; {
-  const User = sequelize.define('User', {
-    uuid: {
-      allowNull: false,
-      unique: true,
-      type: 'BINARY(16)',
-      defaultValue: () =&gt; Buffer.from(uuid(), 'hex'),
-      get: function () {
-        return Buffer.from(this.getDataValue('uuid')).toString('hex')
-      }
-    },
-    email: {
-      allowNull: false,
-      unique: true,
-      type: DataTypes.STRING,
-      validate: {
-        isEmail: true,
+  const User = sequelize.define(
+    "User",
+    {
+      uuid: {
+        allowNull: false,
+        unique: true,
+        type: "BINARY(16)",
+        defaultValue: () =&gt; Buffer.from(uuid(), "hex"),
+        get: function () {
+          return Buffer.from(this.getDataValue("uuid")).toString("hex");
+        },
+      },
+      email: {
+        allowNull: false,
+        unique: true,
+        type: DataTypes.STRING,
+        validate: {
+          isEmail: true,
+        },
+      },
+      userName: {
+        allowNull: false,
+        unique: true,
+        type: DataTypes.STRING,
+      },
+      nickName: {
+        allowNull: false,
+        unique: true,
+        type: DataTypes.STRING,
+      },
+      phoneNumber: {
+        allowNull: false,
+        unique: true,
+        type: DataTypes.STRING,
+      },
+      password: {
+        allowNull: false,
+        type: DataTypes.STRING,
+      },
+      birthDay: {
+        allowNull: false,
+        type: DataTypes.DATE,
       },
     },
-    nickName: {
-      allowNull: false,
-      unique: true,
-      type: DataTypes.STRING
-    },
-    phoneNumber: {
-      allowNull: false,
-      unique: true,
-      type: DataTypes.STRING
-    },
-    password: {
-      allowNull: false,
-      type: DataTypes.STRING,
-    },
-    birthDay: {
-      allowNull: false,
-      type: DataTypes.DATE,
-    },
-  }, {
-    tableName: 'users',
-    timestamps: true,
-  })
+    {
+      tableName: "users",
+      timestamps: true,
+    }
+  );
 &nbsp;
   User.associate = function (models) {
-    // associations
-  }
+    // User.hasMany(models.MomentData, {
+    //   foreignKey: "user_id",
+    // });
+  };
 &nbsp;
-   // hooks
+  // hooks
   User.beforeSave(async (user, options) =&gt; {
-    <span class="missing-if-branch" title="else path not taken" >E</span>if (user.changed('password')) {
+    <span class="missing-if-branch" title="else path not taken" >E</span>if (user.changed("password")) {
       const salt = await bcrypt.genSalt(10);
       user.password = await bcrypt.hash(user.password, salt);
     }
   });
 &nbsp;
-  return User
-}</pre></td></tr></table></pre>
+  return User;
+};
+&nbsp;</pre></td></tr></table></pre>
 
                 <div class='push'></div><!-- for sticky footer -->
             </div><!-- /wrapper -->
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank">istanbul</a>
-                at Mon Jul 06 2020 17:25:05 GMT+0900 (GMT+09:00)
+                at Tue Jul 07 2020 10:34:21 GMT+0900 (GMT+09:00)
             </div>
         </div>
         <script src="../../prettify.js"></script>

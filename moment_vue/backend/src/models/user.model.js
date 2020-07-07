@@ -23,6 +23,11 @@ module.exports = (sequelize, DataTypes) => {
           isEmail: true,
         },
       },
+      userName: {
+        allowNull: false,
+        unique: true,
+        type: DataTypes.STRING,
+      },
       nickName: {
         allowNull: false,
         unique: true,
@@ -49,9 +54,9 @@ module.exports = (sequelize, DataTypes) => {
   );
 
   User.associate = function (models) {
-    User.hasMany(models.MomentData, {
-      foreignKey: "user_id",
-    });
+    // User.hasMany(models.MomentData, {
+    //   foreignKey: "user_id",
+    // });
   };
 
   // hooks
