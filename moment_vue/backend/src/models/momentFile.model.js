@@ -1,7 +1,7 @@
 'use strict'
 
 module.exports = (sequelize, DataTypes) => {
-  const MomentFile = sequelize.define('momentFileMst', {
+  const momentDataFile = sequelize.define('momentDataFile', {
     id: {
       allowNull: false,
       autoIncrement: true,
@@ -17,22 +17,23 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       type: DataTypes.STRING
     },
-    content_type: {
+    contentType: {
       allowNull: true,
       type: DataTypes.STRING
     },
-    delete_flag: {
+    deleteFlag: {
       allowNull: false,
       type: DataTypes.STRING
     }
   }, {
-    tableName: 'momentFileMst',
+    tableName: 'momentDataFile',
     timestamps: true,
   })
 
-  MomentFile.associate = function (models) {
-    // MomentFile.belongsToMany(models.MomentData,{through: 'momentDisplayInfoS',foreignKey: 'file_Id'}) 
+  momentDataFile.associate = function (models) {
+    // MomentFile.belongsToMany(models.MomentData,{through: 'UserFile'});
+  };
 
-  }
-  return MomentFile
+  
+  return momentDataFile
 }

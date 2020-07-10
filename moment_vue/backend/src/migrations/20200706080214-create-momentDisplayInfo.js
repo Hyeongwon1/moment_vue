@@ -2,7 +2,7 @@
 
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.createTable('momentDisplayInfo', {
+    return queryInterface.createTable('momentUserFile', {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -29,6 +29,6 @@ module.exports = {
   },
 
   down: (queryInterface, Sequelize) => {
-    return queryInterface.dropTable('momentDisplayInfo')
+    return queryInterface.dropTable('momentUserFile')
   }
 }

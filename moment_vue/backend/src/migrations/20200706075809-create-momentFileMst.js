@@ -2,23 +2,34 @@
 
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.createTable('momentFileMst', {
-      id: {
+    return queryInterface.createTable('momentDataFile', {
+      attachId: {
         allowNull: false,
-        autoIncrement: true,
+        // autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER.UNSIGNED
       },
+      seq: {
+        allowNull: false,
+        primaryKey: true,
+        type: Sequelize.INTEGER.UNSIGNED
+      },
+      // fileId: {
+      //   allowNull: false,
+      //   // autoIncrement: true,
+      //   // primaryKey: true,
+      //   type: Sequelize.INTEGER.UNSIGNED
+      // },
       fileName: {
         allowNull: false,
-        unique: true,
+        // unique: true,
         type: Sequelize.STRING
       },
-      saveFileMame: {
+      saveFileName: {
         allowNull: false,
         type: Sequelize.STRING
       },
-      contentYype: {
+      contentType: {
         allowNull: true,
         type: Sequelize.STRING
       },
@@ -38,6 +49,6 @@ module.exports = {
   },
 
   down: (queryInterface, Sequelize) => {
-    return queryInterface.dropTable('momentFileMst')
+    return queryInterface.dropTable('momentDataFile')
   }
 }

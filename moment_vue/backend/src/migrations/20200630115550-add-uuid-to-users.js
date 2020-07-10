@@ -4,7 +4,7 @@
 module.exports = {
   up: (queryInterface, Sequelize) => {
     return queryInterface.addColumn(
-      'users',
+      'momentUsers',
       'uuid', {
         allowNull: false,
         unique: true,
@@ -16,7 +16,7 @@ module.exports = {
 
   down: (queryInterface, Sequelize) => {
     return queryInterface.removeColumn(
-      'users',
+      'momentUsers',
       'uuid',
     )
   }

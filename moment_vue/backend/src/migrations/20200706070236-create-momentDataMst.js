@@ -9,14 +9,14 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER.UNSIGNED,
       },
-      userId: {
-        allowNull: true,
-        type: Sequelize.INTEGER.UNSIGNED,
-        references: {
-          model: "users",
-          key: "id",
-        },
-      }, //외래키 처리
+      // userId: {
+      //   allowNull: true,
+      //   type: Sequelize.INTEGER.UNSIGNED,
+      //   references: {
+      //   model: 'momentUsers',
+      //   key: 'id',
+      // },
+      // }, //외래키 처리
       kind: {
         allowNull: false,
         type: Sequelize.STRING,

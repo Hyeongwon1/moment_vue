@@ -3,9 +3,7 @@ import bcrypt from "bcrypt";
 import { uuid } from "../utils/uuid";
 
 module.exports = (sequelize, DataTypes) => {
-  const User = sequelize.define(
-    "User",
-    {
+  const User = sequelize.define('User', {
       uuid: {
         allowNull: false,
         unique: true,
@@ -48,16 +46,19 @@ module.exports = (sequelize, DataTypes) => {
       },
     },
     {
-      tableName: "users",
+      tableName: "momentUsers",
       timestamps: true,
+      classMethods:{
+         associate:function(models){
+           User.hasMany(models.MomentDataMst);
+         }
+       },
     }
   );
 
-  User.associate = function (models) {
-    // User.hasMany(models.MomentData, {
-    //   foreignKey: "user_id",
-    // });
-  };
+  // User.associate = function (models) {
+    
+  // };
 
   // hooks
   User.beforeSave(async (user, options) => {
