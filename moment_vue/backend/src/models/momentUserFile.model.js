@@ -1,7 +1,7 @@
 'use strict'
 
 module.exports = (sequelize, DataTypes) => {
-  const MomentFile = sequelize.define('momentDataFile', {
+  const momentUserFile = sequelize.define('momentUserFile', {
     fileId: {
       allowNull: false,
       // unique: true,
@@ -25,22 +25,11 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING
     }
   }, {
-    tableName: 'momentDataFile',
+    tableName: 'momentUserFile',
     timestamps: true,
   })
 
-  MomentFile.associate = function (models) {
-    // MomentFile.belongsToMany(models.MomentData,{through: 'momentDisplayInfoS',foreignKey: 'file_Id'}) 
-
-    // models.User.hasMany(models.momentData,{
-    //   foreignKey: "userId",
-    //   // allowNull: true,// momentData.user_id
-    //   sourceKey: 'id', // the User.id
-    // });
-    // models.momentDataMst.belongsTo(models.User,{
-    //       foreignKey: 'userId', 
-    //       targetKey: 'id', // the A.id
-    // });
+  momentUserFile.associate = function (models) {
   }
-  return MomentFile
+  return momentUserFile
 }

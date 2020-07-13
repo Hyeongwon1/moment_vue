@@ -31,7 +31,7 @@ module.exports = (sequelize, DataTypes) => {
   })
 
   momentDataFile.associate = function (models) {
-    // MomentFile.belongsToMany(models.MomentData,{through: 'UserFile'});
+    momentDataFile.belongsToMany(models.MomentData,{through: 'momentUserFile'});
   };
 
   

@@ -11,11 +11,21 @@ module.exports = {
       },
       momentId: {
         allowNull: false,
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        primaryKey: true,
+        references: {
+          model: 'momentDataFile',
+          key: 'id',
+        },
       },
       fileId: {
         allowNull: false,
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        primaryKey: true,
+        references: {
+          model: 'momentUserFile',
+          key: 'id',
+        },
       },
       createdAt: {
         allowNull: false,

@@ -1,9 +1,7 @@
 "use strict";
 
 module.exports = (sequelize, DataTypes) => {
-  const MomentDataMst = sequelize.define(
-    "momentDataMst",
-    {
+  const MomentDataMst = sequelize.define("momentDataMst",{
       // userId: {
       //   allowNull: false,
       //   type: DataTypes.INTEGER.UNSIGNED,
@@ -40,17 +38,14 @@ module.exports = (sequelize, DataTypes) => {
     {
       tableName: "momentDataMst",
       timestamps: true,
-      classMethods:{
-         associate:function(models){
-           MomentDataMst.belongsTo(models.User, { foreignKey:'company_id', foreignKeyConstraint:true} );
-         }
-       }
     }
   );
 
-  // MomentDataMst.associate = function (models) {
-  //     MomentDataMst.belongsTo(models.User,{
-  //   });
+  MomentDataMst.associate = function (models) {
+      MomentDataMst.belongsTo(models.User);
+      MomentDataMst.belongsToMany(models.MomentFile,
+        {through: 'momentUserFile',foreignKey: 'file_Id'});
+  }
     // models.User.hasMany(models.momentData,{
     //   foreignKey: "userId",
     //   // allowNull: true,// momentData.user_id
@@ -62,9 +57,7 @@ module.exports = (sequelize, DataTypes) => {
     // });
    
     
-    // models.momentDataMst.belongsToMany(models.MomentFile,
-    //   {through: 'UserFile',foreignKey: 'file_Id'});
-  //};
+ 
 
   return MomentDataMst;
 };

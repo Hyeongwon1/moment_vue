@@ -48,17 +48,12 @@ module.exports = (sequelize, DataTypes) => {
     {
       tableName: "momentUsers",
       timestamps: true,
-      classMethods:{
-         associate:function(models){
-           User.hasMany(models.MomentDataMst);
-         }
-       },
     }
   );
 
-  // User.associate = function (models) {
-    
-  // };
+  User.associate = function (models) {
+    User.hasMany(models.momentDataMst);
+  };
 
   // hooks
   User.beforeSave(async (user, options) => {
