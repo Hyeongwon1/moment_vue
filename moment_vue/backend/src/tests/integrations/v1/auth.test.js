@@ -32,7 +32,29 @@ describe('로그인 테스트', () => {
     await userRepo.store(userData)
   })
 
-  test('실제 로그인 테스트. | 200', async () => {
+
+  test('실제 회원가입 테스트. | 200', async () => {
+    let response = await request(app)
+      .post('/v1/auth/signUp')
+      .send({
+        email: randomString() + '@test.com',
+        userName: randomString(),
+        nickName: randomString(),
+        phoneNumber: '010-123-4526',
+        password: randomString(),
+        birthDay: moment("1993-12-28").format('YYYY-MM-DD hh:mm:ss')
+      })
+
+    expect(response.statusCode).toBe(200)
+    expect(response.body.data).toBeTruthy()
+   
+    console.log(response.body)
+    console.log(response.body.data)
+
+
+  })
+
+/*   test('실제 로그인 테스트. | 200', async () => {
     let response = await request(app)
       .post('/v1/auth/login')
       .send({
@@ -91,5 +113,5 @@ describe('로그인 테스트', () => {
       .toBe(422)
     expect(response.body.data.message)
       .toBe('비밀번호를 확인 해주세요.')
-  })
+  }) */
 })

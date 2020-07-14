@@ -11,20 +11,20 @@ module.exports = {
       },
       momentId: {
         allowNull: false,
-        type: Sequelize.STRING,
+        type: Sequelize.INTEGER.UNSIGNED,
         primaryKey: true,
         references: {
-          model: 'momentDataFile',
+          model: 'momentDataMst',
           key: 'id',
         },
       },
       fileId: {
         allowNull: false,
-        type: Sequelize.STRING,
+        type: Sequelize.INTEGER.UNSIGNED,
         primaryKey: true,
         references: {
-          model: 'momentUserFile',
-          key: 'id',
+          model: 'momentDataFile',
+          key: 'attachId',
         },
       },
       createdAt: {

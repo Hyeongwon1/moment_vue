@@ -1,7 +1,7 @@
 'use strict'
 
 module.exports = (sequelize, DataTypes) => {
-  const momentUserFile = sequelize.define('momentUserFile', {
+  const MomentUserFile = sequelize.define('momentUserFile', {
     fileId: {
       allowNull: false,
       // unique: true,
@@ -29,7 +29,7 @@ module.exports = (sequelize, DataTypes) => {
     timestamps: true,
   })
 
-  momentUserFile.associate = function (models) {
+  MomentUserFile.associate = function (models) {
   }
-  return momentUserFile
+  return MomentUserFile
 }

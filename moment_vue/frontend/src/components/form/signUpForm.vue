@@ -101,6 +101,7 @@
 </template>
 
 <script>
+import { mapActions } from "vuex";
 export default {
   data() {
     return {
@@ -136,6 +137,9 @@ export default {
     }
   },
   methods: {
+    ...mapActions({
+      localSignUp: "local/localSignUp"
+    }),
     async signUp() {
       this.formHasErrors = false;
       console.log(this.form);
@@ -145,13 +149,16 @@ export default {
       });
       if (this.formHasErrors === false) {
         const signData = {
-          i_nick: this.i_nick,
-          i_email: this.i_email,
-          i_pw: this.i_pw,
-          i_date: this.i_date,
-          i_phone: this.i_phone
+          nickName: this.i_nick,
+          userName: this.i_nick,
+          email: this.i_email,
+          password: this.i_pw,
+          birthDay: this.i_date,
+          phoneNumber: this.i_phone
         };
-        const res = await this.$store.dispatch("localSignUp", signData);
+        const res = await this.localSignUp(signData);
+        console.log("res");
+        console.log(res);
         if (res.data === "success") {
           this.errorMessages = [];
           this.formHasErrors = false;

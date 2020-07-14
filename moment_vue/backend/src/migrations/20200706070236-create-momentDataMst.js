@@ -12,6 +12,7 @@ module.exports = {
       userId: {
         allowNull: true,
         type: Sequelize.INTEGER.UNSIGNED,
+        primaryKey: true,
         references: {
         model: 'momentUsers',
         key: 'id',
@@ -35,6 +36,7 @@ module.exports = {
       },
       fileId: {
         allowNull: false,
+        primaryKey: true,
         type: Sequelize.STRING,
       },
       like: {

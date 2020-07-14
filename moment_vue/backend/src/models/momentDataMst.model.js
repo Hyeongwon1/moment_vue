@@ -43,21 +43,8 @@ module.exports = (sequelize, DataTypes) => {
 
   MomentDataMst.associate = function (models) {
       MomentDataMst.belongsTo(models.User);
-      MomentDataMst.belongsToMany(models.MomentFile,
-        {through: 'momentUserFile',foreignKey: 'file_Id'});
-  }
-    // models.User.hasMany(models.momentData,{
-    //   foreignKey: "userId",
-    //   // allowNull: true,// momentData.user_id
-    //   sourceKey: 'id', // the User.id
-    // });
-    // models.momentDataMst.belongsTo(models.User,{
-    //       foreignKey: 'userId', 
-    //       targetKey: 'id', // the A.id
-    // });
-   
-    
- 
-
+      MomentDataMst.belongsToMany(models.momentDataFile,{
+        through: 'momentUserFile',foreignKey: 'momentId'});
+    };
   return MomentDataMst;
 };

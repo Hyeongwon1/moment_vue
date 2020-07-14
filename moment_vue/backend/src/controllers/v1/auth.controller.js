@@ -1,9 +1,38 @@
-import httpStatus from 'http-status'
+import httpStatus, {RESET_CONTENT} from 'http-status'
 import createError from 'http-errors'
 import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
 import UserRepo from '../../repositories/user.repository'
 import response from '../../utils/response'
+
+
+const signUp = async (req, res, next) => {
+  try {
+    const userRepo = new UserRepo();
+    let userData = req.body
+    let signData ;
+    // userData = {
+    //   email: randomString() + '@test.com',
+    //   userName: randomString(),
+    //   nickName: randomString(),
+    //   phoneNumber: '010-123-4526',
+    //   password: randomString(),
+    //   birthDay: moment("1993-12-28").format('YYYY-MM-DD hh:mm:ss')
+    // }
+    // // 테스트용 사용자 생성
+    
+    const user = await userRepo.findByEmail(userData.email)
+    
+    if (user) {
+      return next(createError(404, '이미 등록된 email 입니다.'))
+    }else{
+      signData = await userRepo.store(userData)
+    }
+    return response(res, signData)
+  } catch (e) {
+    next(e)
+  }
+}
 
 const login = async (req, res, next) => {
   try {
@@ -49,5 +78,5 @@ const tokenTest = async (req, res, next) => {
 }
 
 export {
-  login,tokenTest
+  login,tokenTest,signUp
 }

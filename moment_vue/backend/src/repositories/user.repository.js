@@ -19,6 +19,7 @@ class UserRepository {
     return users.map(user => UserWrapper.create(user))
   }
 
+  
   async find(uuid) {
     let user = await this.userCache.find(uuid)
 

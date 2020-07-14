@@ -1,6 +1,6 @@
 const  express = require("express");
 import {
-  login,tokenTest
+  login,tokenTest,signUp
 } from '../../controllers/v1/auth.controller'
 const  router = express.Router();
 
@@ -8,6 +8,10 @@ router.route('/login')
   .post(
     login
   )
+router.route('/signUp')
+  .post(
+    signUp
+  )  
 router.route('/tokenTest')
   .get(
     tokenTest
