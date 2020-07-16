@@ -45,13 +45,9 @@ describe('로그인 테스트', () => {
         birthDay: moment("1993-12-28").format('YYYY-MM-DD hh:mm:ss')
       })
 
-    expect(response.statusCode).toBe(200)
-    expect(response.body.data).toBeTruthy()
-   
-    console.log(response.body)
-    console.log(response.body.data)
-
-
+    // expect(response.statusCode).toBe(200)
+    // expect(response.body.data.success).toBe(true)
+    expect(response.body.success).toBe(false)
   })
 
 /*   test('실제 로그인 테스트. | 200', async () => {
@@ -61,6 +57,7 @@ describe('로그인 테스트', () => {
         email: userData.email,
         password: userData.password
       })
+
 
     expect(response.statusCode).toBe(200)
     expect(response.body.data.token).toBeTruthy()

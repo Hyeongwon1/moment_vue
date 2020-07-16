@@ -1,5 +1,4 @@
 {
-    "svn.ignoreMissingSvnWarning": true,
     "editor.formatOnSave": true,
     "eslint.autoFixOnSave": true,
     "eslint.alwaysShowStatus": true,

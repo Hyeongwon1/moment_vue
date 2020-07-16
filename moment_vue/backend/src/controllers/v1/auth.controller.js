@@ -7,10 +7,13 @@ import response from '../../utils/response'
 
 
 const signUp = async (req, res, next) => {
+  console.log("asdsad")
   try {
     const userRepo = new UserRepo();
     let userData = req.body
-    let signData ;
+    console.log("userData")
+    console.log(req.body)
+    // let signData ;
     // userData = {
     //   email: randomString() + '@test.com',
     //   userName: randomString(),
@@ -26,9 +29,9 @@ const signUp = async (req, res, next) => {
     if (user) {
       return next(createError(404, '이미 등록된 email 입니다.'))
     }else{
-      signData = await userRepo.store(userData)
+      await userRepo.store(userData)
     }
-    return response(res, signData)
+    return response(res,{})
   } catch (e) {
     next(e)
   }

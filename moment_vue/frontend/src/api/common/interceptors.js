@@ -5,7 +5,10 @@ export function setInterceptors(instance) {
   instance.interceptors.request.use(
     function(config) {
       // Do something before request is sent
+      console.log(config);
+      console.log(store.state.local.token);
       const hauth =config.headers.Authorization
+      console.log(hauth)
       if(!hauth){
         config.headers.Authorization = store.state.local.token;
       }
