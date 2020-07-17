@@ -1,7 +1,7 @@
 <template>
   <v-layout column align-center persistent>
-    <v-form ref="form" @submit.prevent="authLogin" style="margin-top: 160px;">
-      <!-- <v-form ref="form" @submit.prevent="loginfn" style="margin-top: 160px;"> -->
+    <!-- <v-form ref="form" @submit.prevent="authLogin" style="margin-top: 160px;"> -->
+    <v-form ref="form" @submit.prevent="loginfn" style="margin-top: 160px;">
       <v-text-field v-model="m_email" :counter="15" label="Email" :append-icon="'mail'" required></v-text-field>
       <v-text-field
         v-model="m_pw"
@@ -49,7 +49,8 @@ export default {
           return false;
         }
         await this.localLogin(loginData);
-        this.$router.push({ path: "home" });
+        this.$alert("info", "로그인 되었습니다.");
+        // this.$router.push({ path: "home" });
       } catch (error) {
         console.log(error);
         this.$alert("red", "비밀번호가 다릅니다.");

@@ -11,26 +11,14 @@ const signUp = async (req, res, next) => {
   try {
     const userRepo = new UserRepo();
     let userData = req.body
-    console.log("userData")
-    console.log(req.body)
-    // let signData ;
-    // userData = {
-    //   email: randomString() + '@test.com',
-    //   userName: randomString(),
-    //   nickName: randomString(),
-    //   phoneNumber: '010-123-4526',
-    //   password: randomString(),
-    //   birthDay: moment("1993-12-28").format('YYYY-MM-DD hh:mm:ss')
-    // }
-    // // 테스트용 사용자 생성
-    
     const user = await userRepo.findByEmail(userData.email)
-    
+
     if (user) {
       return next(createError(404, '이미 등록된 email 입니다.'))
     }else{
       await userRepo.store(userData)
     }
+    
     return response(res,{})
   } catch (e) {
     next(e)

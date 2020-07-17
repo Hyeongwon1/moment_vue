@@ -50,9 +50,9 @@ const local = {
       state.loc = payload.loc;
     },
     setLoginToken: function(state, payload) {
-      state.token = payload;
+      state.token = payload.token;
       // 토큰을 로컬 스토리지에 저장
-      localStorage.access_Token = state.token;
+      localStorage.access_Token = payload.token;
     },
     // logout: function (state) {
     //   if (state.token) {
@@ -114,11 +114,10 @@ const local = {
       payload = payload || {};
       const { data } = await localLoginUser(payload);
       // const { data } 이렇게 활용할시는 꺼내오는 데이터의 이름과 같아야한다.
-      console.log(data);
-      context.commit("setLoginToken", data.access_token);
-      context.commit("setProfile", {
-        profile: { email: data.m_email, m_no: data.m_no },
-      });
+      context.commit("setLoginToken", { token: data.data.token });
+      // context.commit("setProfile", {
+      //   profile: { email: data.m_email, m_no: data.m_no },
+      // });
       return data;
     },
     async localSignUp(context, payload) {

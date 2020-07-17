@@ -50,7 +50,7 @@ describe('로그인 테스트', () => {
     expect(response.body.success).toBe(false)
   })
 
-/*   test('실제 로그인 테스트. | 200', async () => {
+  test('실제 로그인 테스트. | 200', async () => {
     let response = await request(app)
       .post('/v1/auth/login')
       .send({
@@ -110,5 +110,5 @@ describe('로그인 테스트', () => {
       .toBe(422)
     expect(response.body.data.message)
       .toBe('비밀번호를 확인 해주세요.')
-  }) */
+  })
 })
