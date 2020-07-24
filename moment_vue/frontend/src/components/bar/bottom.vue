@@ -1,12 +1,6 @@
 <template>
   <v-bottom-navigation :value="activeBtn" color="pink" fixed grow>
-    <v-btn
-      text
-      v-for="bitem in bitems"
-      :key="bitem.id"
-      @click="nav(bitem.id)"
-      height="55"
-    >
+    <v-btn text v-for="bitem in bitems" :key="bitem.id" @click="nav(bitem.id)" height="55">
       <span>{{ bitem.name }}</span>
       <v-icon>{{ bitem.icon }}</v-icon>
     </v-btn>
@@ -24,8 +18,8 @@ export default {
         { name: "Favorites", id: 1, icon: "favorite" },
         { name: "Image Up", id: 2, icon: "image" },
         { name: "search", id: 3, icon: "search" },
-        { name: "mypage", id: 4, icon: "perm_identity" },
-      ],
+        { name: "mypage", id: 4, icon: "perm_identity" }
+      ]
     };
   },
   components: {},
@@ -42,7 +36,9 @@ export default {
         case 3:
           return "";
         case 4:
-        // return mypage();
+          return this.$router.push({
+            path: "/front/mypage"
+          });
       }
     },
     home: function() {
@@ -60,10 +56,10 @@ export default {
       console.log(sMemail);
       this.$axios
         .post("/moment/myrecord_selectdb", {
-          m_email: sMemail,
+          m_email: sMemail
         })
         .then(
-          (response) => {
+          response => {
             this.datas = response.data;
           },
           function() {
@@ -72,14 +68,12 @@ export default {
         );
     },
     mypage: function() {
-      const sNo = sessionStorage.m_no;
-      const mNo = sessionStorage.m_no;
+      console.log("asdasd");
       this.$router.push({
-        path: "/front/mypage",
-        query: { m_no: mNo, s_no: sNo },
+        path: "/front/mypage"
       });
-    },
-  },
+    }
+  }
 };
 </script>
 <style scoped></style>

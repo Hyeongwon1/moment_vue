@@ -1,4 +1,5 @@
 import createError from 'http-errors'
+
 import jwt from 'jsonwebtoken'
 import UserRepo from '../repositories/user.repository'
 export default async (req, res, next) => {
@@ -23,8 +24,7 @@ export default async (req, res, next) => {
       if (!user) {
         return next(createError(404, '사용자를 찾을 수 없습니다.'))
       }
-
-      req.user = user
+      req.user = user;
     }
 
     next()

@@ -5,9 +5,7 @@ import jwt from 'jsonwebtoken'
 import UserRepo from '../../repositories/user.repository'
 import response from '../../utils/response'
 
-
 const signUp = async (req, res, next) => {
-  console.log("asdsad")
   try {
     const userRepo = new UserRepo();
     let userData = req.body
@@ -62,7 +60,7 @@ const login = async (req, res, next) => {
 const tokenTest = async (req, res, next) => {
   try {
     // return next(createError(500, '테스트 에러'))
-    return response(res, req.user)
+    return response(res, req.user.toWeb())
   } catch (e) {
     next(e)
   }

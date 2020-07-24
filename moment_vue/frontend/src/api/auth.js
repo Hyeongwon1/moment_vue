@@ -1,4 +1,4 @@
-import { instance } from "./index";
+// import { instance } from "./index";
 import { posts } from "./index";
 //로그인
 function localLoginUser(userData) {
@@ -10,7 +10,12 @@ function localLoginUser(userData) {
 
 //로컬 회원가입
 function localSignUp(data) {
-  return instance.post(`/auth/signUp`, data);
+  return posts.post(`/auth/signUp`, data);
 }
 
-export { localLoginUser, localSignUp };
+//로컬 로그인체크
+function loginCheck() {
+  return posts.get(`/auth/loginCheck`);
+}
+
+export { localLoginUser, localSignUp, loginCheck };

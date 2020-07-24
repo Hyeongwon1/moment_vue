@@ -8,10 +8,17 @@ export function setInterceptors(instance) {
       console.log(config);
       console.log(store.state.local.token);
       const hauth =config.headers.Authorization
+      const token = store.state.local.token
+      console.log("hauth")
       console.log(hauth)
       if(!hauth){
-        config.headers.Authorization = store.state.local.token;
+        if (token) {
+          config.headers.Authorization = `Bearer ${token}`;
+        }
+      }else{
+        delete config.headers.Authorization
       }
+
       return config;
     },
     function(error) {
@@ -19,6 +26,7 @@ export function setInterceptors(instance) {
       return Promise.reject(error);
     }
   );
+
 
   // Add a response interceptor
   instance.interceptors.response.use(
@@ -54,3 +62,5 @@ export function setInterceptors(instance) {
   // }
   return instance;
 }
+
+

@@ -3,7 +3,7 @@ import Vuex from "vuex";
 import VueAxios from "vue-axios";
 import axios from "axios";
 import { homeSelect, dataView } from "@/api/moments";
-import { localLoginUser, localSignUp } from "@/api/auth";
+import { localLoginUser, localSignUp, loginCheck } from "@/api/auth";
 // import router from './router';
 Vue.use(Vuex);
 Vue.use(VueAxios, axios);
@@ -11,7 +11,7 @@ Vue.use(VueAxios, axios);
 const local = {
   namespaced: true,
   state: {
-    host: "http://localhost:3000/moment",
+    host: "http://localhost:3000/v1",
     home_data: [],
     detail_data: [],
     kind: "ALL",
@@ -91,15 +91,11 @@ const local = {
       if (payload.ord) {
         context.commit("setOrdby", { ord: payload.ord });
       }
-
-
       const homeData = {
         kind: context.state.kind,
         ord: context.state.ord,
         loc: context.state.loc,
       };
-      console.log("homeData")
-      console.log(homeData)
       const { data } = await homeSelect(homeData);
       context.commit("setHomeData", { home_data: data.response });
       return data;
@@ -110,14 +106,22 @@ const local = {
       context.commit("setDetailData", { detail_data: data });
       return data;
     },
+    async loginCheck(context, payload) {
+      payload = payload || {};
+      const {data}  = await loginCheck(payload);
+      console.log(data)
+      context.commit("setDetailData", { detail_data: data });
+      return data;
+    },
     async LocalLogin(context, payload) {
       payload = payload || {};
       const { data } = await localLoginUser(payload);
       // const { data } 이렇게 활용할시는 꺼내오는 데이터의 이름과 같아야한다.
+      console.log(data)
       context.commit("setLoginToken", { token: data.data.token });
-      // context.commit("setProfile", {
-      //   profile: { email: data.m_email, m_no: data.m_no },
-      // });
+      context.commit("setProfile", {
+        profile: { email: data.m_email, m_no: data.m_no },
+      });
       return data;
     },
     async localSignUp(context, payload) {

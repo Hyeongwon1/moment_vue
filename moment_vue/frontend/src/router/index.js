@@ -3,7 +3,6 @@ import VueRouter from "vue-router";
 import Vuex from "vuex";
 import store from "../store/index";
 
-import vueAuthInstance from "@/plugins/auth.js";
 Vue.use(VueRouter, Vuex);
 const routes = [
   {
@@ -77,7 +76,7 @@ router.beforeEach(function(to, from, next) {
 
   if (to.meta && to.meta.auth !== undefined) {
     if (to.meta.auth) {
-      if (vueAuthInstance.isAuthenticated()) {
+      if (store.state.local.token) {
         next();
       } else {
         const alertdata = {
@@ -88,7 +87,7 @@ router.beforeEach(function(to, from, next) {
         router.push({ path: "/front/login" });
       }
     } else {
-      if (vueAuthInstance.isAuthenticated()) {
+      if (store.state.local.token) {
         router.push({ path: "/front/home" });
         const alertdata = {
           color: "red",

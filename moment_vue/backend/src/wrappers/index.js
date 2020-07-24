@@ -19,8 +19,14 @@ class Wrapper {
     return this
   }
 
+  // toWeb() {
+  //   return this
+  // }
   toWeb() {
-    return this
+    const values = Object.assign({}, this)
+    delete values.password
+
+    return values
   }
 }
 

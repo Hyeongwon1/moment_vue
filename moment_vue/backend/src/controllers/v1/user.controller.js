@@ -27,5 +27,5 @@ const gett = async (req, res, next) => {
   }
   
   export {
-   gett
+    gett
   }

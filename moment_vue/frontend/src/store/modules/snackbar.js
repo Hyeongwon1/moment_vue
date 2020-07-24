@@ -27,9 +27,6 @@ export default {
       });
     },
     removeSnackItem(state, payload) {
-      console.log("mutatin");
-      console.log(payload);
-      console.log(payload.id);
       const index = state.snackItems.findIndex(
         (item) => item.id === payload.id
       );

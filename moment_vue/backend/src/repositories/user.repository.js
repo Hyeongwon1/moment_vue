@@ -1,6 +1,6 @@
 import models from '../models'
 import UserCache from '../caches/user.cache'
-import UserWrapper from '../wrappers/user.wrapper'
+import UserWrapper from '../wrappers/user.wrapper.js'
 
 class UserRepository {
   constructor() {

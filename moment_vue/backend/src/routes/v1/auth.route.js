@@ -12,7 +12,7 @@ router.route('/signUp')
   .post(
     signUp
   )  
-router.route('/tokenTest')
+router.route('/loginCheck')
   .get(
     tokenTest
   )
