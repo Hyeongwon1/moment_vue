@@ -14,7 +14,7 @@
     "build": "node build/build.js"
   },
   "dependencies": {
-    "axios": "^0.18.1",
+    "axios": "^0.21.1",
     "nodemon": "^1.19.2",
     "popper.js": "^1.15.0",
     "vue": "^2.6.10",
